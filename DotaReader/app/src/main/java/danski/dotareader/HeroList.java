@@ -8,9 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +34,7 @@ public class HeroList extends ListActivity {
     final String TAG_NAME = "name";
     final String TAG_ID = "id";
     final String TAG_LOCNAM = "localized_name";
+    final String TAG_IMAGEURL = "hero_image_url";
 
     JSONArray heroes = null;
     ArrayList<HashMap<String, String>> heroList;
@@ -43,6 +49,10 @@ public class HeroList extends ListActivity {
         ListView lv = getListView();
 
         new GetHeroes().execute();
+
+        for(int i = 0; i < heroList.size(); i++){
+            ImageView HeroImage;
+        }
     }
 
     /**
@@ -69,7 +79,7 @@ public class HeroList extends ListActivity {
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
 
-            Log.d("Response: ", "> " + jsonStr);
+            //Log.d("Response: ", "> " + jsonStr);
 
             if (jsonStr != null) {
                 try {
@@ -86,6 +96,9 @@ public class HeroList extends ListActivity {
                         String name = c.getString(TAG_NAME);
                         int id = c.getInt(TAG_ID);
                         String localized_name = c.getString(TAG_LOCNAM);
+                        String baldHero = name.replace("npc_dota_hero_", "");
+                        String HeroImageUrl = "http://cdn.dota2.com/apps/dota2/images/heroes/" + baldHero + "_full.png";    //Hero Image URL
+                        //Log.d("Hero Image Url", HeroImageUrl);
 
                         // tmp hashmap for single contact
                         HashMap<String, String> hero = new HashMap<String, String>();
@@ -94,6 +107,9 @@ public class HeroList extends ListActivity {
                         hero.put(TAG_NAME, name);
                         hero.put(TAG_ID, id + "");
                         hero.put(TAG_LOCNAM, localized_name);
+                        hero.put(TAG_IMAGEURL, HeroImageUrl);
+
+
 
                         // adding contact to contact list
                         heroList.add(hero);
@@ -114,16 +130,44 @@ public class HeroList extends ListActivity {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
             /**
              * Updating parsed JSON data into ListView
              * */
-            ListAdapter adapter = new SimpleAdapter(
-                    HeroList.this, heroList,
-                    R.layout.item_herolist, new String[] { TAG_LOCNAM },
-                        new int[] { R.id.localized_name});
+            SimpleAdapter sa = new SimpleAdapter(
+                    HeroList.this,
+                    heroList,
+                    R.layout.item_herolist,
+                    new String[] { TAG_LOCNAM , TAG_IMAGEURL},
+                    new int[] { R.id.localized_name, R.id.hero_image}
+            );
+            sa.setViewBinder(new HeroViewBinder());
 
+            ListAdapter adapter = sa;
             setListAdapter(adapter);
+
         }
 
+    }
+
+    class HeroViewBinder implements SimpleAdapter.ViewBinder{
+        public boolean setViewValue(View view, Object inputData, String textRepresentation) {
+            int id = view.getId();
+            String data = (String) inputData;
+            switch (id) {
+                case R.id.hero_image:
+                    ImageView img = (ImageView) view.findViewById(R.id.hero_image);
+                    Picasso.with(HeroList.this).load(data).into(img);
+                    break;
+
+                case R.id.localized_name:
+                    TextView txt = (TextView) view.findViewById(R.id.localized_name);
+                    txt.setText(data);
+                    break;
+
+            }
+            return true;
+
+        }
     }
 }

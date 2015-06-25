@@ -12,6 +12,8 @@ import android.widget.Button;
 public class MainActivity extends ActionBarActivity {
 
     Button herolistbtn;
+    Button matchesbtn;
+    Button prefsbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,22 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, HeroList.class));
+            }
+        });
+
+        matchesbtn = (Button) findViewById(R.id.btn_matches);
+        matchesbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        prefsbtn = (Button) findViewById(R.id.btn_prefs);
+        prefsbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Preferences.class));
             }
         });
     }

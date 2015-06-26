@@ -3,6 +3,7 @@ package danski.dotareader;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class Preferences extends ActionBarActivity {
         steamidtext = (TextView) findViewById(R.id.tv_steamid);
 
         //Read settings
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String checkuname = prefs.getString("username", null);
         if(checkuname != null) {
             username = prefs.getString("username", null);
@@ -67,7 +68,7 @@ public class Preferences extends ActionBarActivity {
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(Preferences.this);
-            pDialog.setMessage("Please wait...");
+            pDialog.setMessage("Please wait... Finding SteamID");
             pDialog.setCancelable(false);
             pDialog.show();
 
@@ -93,7 +94,7 @@ public class Preferences extends ActionBarActivity {
                     {
                         Log.d("steamid", response.getString("steamid"));
                         steamid = response.getString("steamid");
-                        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                         editor.putString("steamid", steamid);
                         editor.putString("username", username);
                         editor.apply();

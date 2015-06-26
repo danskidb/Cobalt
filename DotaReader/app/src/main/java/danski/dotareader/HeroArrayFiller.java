@@ -40,7 +40,7 @@ public class HeroArrayFiller extends AsyncTask<Void, Void, Void> {
         super.onPreExecute();
         // Showing progress dialog
         pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Please wait...");
+        pDialog.setMessage("Please wait... Fetching Heroes");
         pDialog.setCancelable(false);
         pDialog.show();
 

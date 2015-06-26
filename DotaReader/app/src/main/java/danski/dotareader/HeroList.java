@@ -41,13 +41,11 @@ public class HeroList extends ListActivity {
     JSONArray heroes = null;
     ArrayList<HashMap<String, String>> heroList;
 
-    Hero[] hero_array;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hero_list);
+        setContentView(R.layout.activity_match_history);
 
         heroList = new ArrayList<HashMap<String, String>>();
         ListView lv = getListView();

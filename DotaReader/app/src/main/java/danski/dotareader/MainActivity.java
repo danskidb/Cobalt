@@ -35,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 /*HeroArrayFiller hl = new HeroArrayFiller(MainActivity.this);
                 Hero[] arrrayyayay = hl.getHeroes();*/
+                startActivity(new Intent(MainActivity.this, MatchHistoryActivity.class));
             }
         });
 
@@ -50,9 +51,9 @@ public class MainActivity extends ActionBarActivity {
         tstmatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MatchActivity.class);
+                /*Intent i = new Intent(MainActivity.this, MatchActivity.class);
                 i.putExtra("matchid", 1579934962);
-                startActivity(i);
+                startActivity(i);*/
             }
         });
     }

@@ -2,6 +2,7 @@ package danski.dotareader;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -40,6 +41,8 @@ public class HeroList extends ListActivity {
     JSONArray heroes = null;
     ArrayList<HashMap<String, String>> heroList;
 
+    Hero[] hero_array;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +53,11 @@ public class HeroList extends ListActivity {
         ListView lv = getListView();
 
         new GetHeroes().execute();
-
-        for(int i = 0; i < heroList.size(); i++){
-            ImageView HeroImage;
-        }
     }
-
 
     /**
      * Async task class to get json by making HTTP call
+     * Used for filling the ListView with Heroes
      * */
     private class GetHeroes extends AsyncTask<Void, Void, Void> {
 
@@ -111,9 +110,7 @@ public class HeroList extends ListActivity {
                         hero.put(TAG_LOCNAM, localized_name);
                         hero.put(TAG_IMAGEURL, HeroImageUrl);
 
-
-
-                        // adding contact to contact list
+                        // adding contact to hero list
                         heroList.add(hero);
                     }
                 } catch (JSONException e) {
@@ -152,6 +149,7 @@ public class HeroList extends ListActivity {
 
     }
 
+    //Extension for custom hero view
     class HeroViewBinder implements SimpleAdapter.ViewBinder{
         public boolean setViewValue(View view, Object inputData, String textRepresentation) {
             int id = view.getId();
@@ -172,4 +170,7 @@ public class HeroList extends ListActivity {
 
         }
     }
+
+
+
 }

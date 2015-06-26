@@ -14,6 +14,7 @@ public class MainActivity extends ActionBarActivity {
     Button herolistbtn;
     Button matchesbtn;
     Button prefsbtn;
+    Button tstmatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class MainActivity extends ActionBarActivity {
         matchesbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*HeroArrayFiller hl = new HeroArrayFiller(MainActivity.this);
+                Hero[] arrrayyayay = hl.getHeroes();*/
             }
         });
 
@@ -41,6 +43,16 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, Preferences.class));
+            }
+        });
+
+        tstmatch = (Button) findViewById(R.id.testmatch);
+        tstmatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, MatchActivity.class);
+                i.putExtra("matchid", 1579934962);
+                startActivity(i);
             }
         });
     }

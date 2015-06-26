@@ -47,13 +47,13 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
+        //Download matches
         tstmatch = (Button) findViewById(R.id.testmatch);
         tstmatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(MainActivity.this, MatchActivity.class);
-                i.putExtra("matchid", 1579934962);
-                startActivity(i);*/
+
             }
         });
     }

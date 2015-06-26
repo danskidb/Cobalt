@@ -43,8 +43,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test match"
+        android:text="DL MATCHES"
         android:id="@+id/testmatch"
-        android:layout_below="@id/ll_header"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

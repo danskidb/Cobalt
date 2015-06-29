@@ -31,6 +31,7 @@ public class Preferences extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
+        Defines.CurrentContext = Preferences.this;
 
         usernamefield = (EditText) findViewById(R.id.field_username);
         steamidtext = (TextView) findViewById(R.id.tv_steamid);

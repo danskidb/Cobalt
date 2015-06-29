@@ -46,6 +46,7 @@ public class HeroList extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_history);
+        Defines.CurrentContext = HeroList.this;
 
         heroList = new ArrayList<HashMap<String, String>>();
         ListView lv = getListView();

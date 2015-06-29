@@ -37,7 +37,7 @@ public class MatchHistoryActivity extends ListActivity {
 
     String steamid;
     String matchesRequested = "&matches_requested=";
-    int matchesRequestedInt = 10;
+    int matchesRequestedInt = 4;
 
     final String TAG_MATCHID = "match_id";              //numeric match id
     final String TAG_STARTTIME = "start_time";          //Date in UTC seconds since jan 1, 1970 (unix time format)
@@ -50,6 +50,7 @@ public class MatchHistoryActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hero_list);
+        Defines.CurrentContext = MatchHistoryActivity.this;
 
         matchList = new ArrayList<HashMap<String, String>>();
         ListView lv = getListView();

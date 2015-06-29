@@ -16,11 +16,14 @@ public class MatchActivity extends ActionBarActivity {
     TextView tv_duration;
     TextView tv_firstblood;
     TextView tv_winners;
+    TextView tv_lobbytype;
+    TextView tv_cluster;
+    TextView tv_gamemode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Defines.CurrentContext = MatchActivity.this;
         setContentView(R.layout.activity_match);
 
         thisMatch = Defines.SelectedMatch;
@@ -41,5 +44,14 @@ public class MatchActivity extends ActionBarActivity {
 
         tv_winners = (TextView) findViewById(R.id.ma_winside);
         tv_winners.setText(thisMatch.winningSide + "");
+
+        tv_lobbytype = (TextView) findViewById(R.id.ma_lobbytype);
+        tv_lobbytype.setText(thisMatch.lobbyType);
+
+        tv_cluster = (TextView) findViewById(R.id.ma_cluster);
+        tv_cluster.setText(thisMatch.ServerRegion);
+
+        tv_gamemode = (TextView) findViewById(R.id.ma_gamemode);
+        tv_gamemode.setText(thisMatch.GameMode);
     }
 }

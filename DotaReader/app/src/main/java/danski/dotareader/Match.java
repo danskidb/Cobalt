@@ -1,5 +1,6 @@
 package danski.dotareader;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +24,9 @@ public class Match {
     public float duration;
     public float firstBloodTime;
     public Sides winningSide;
+    public String lobbyType;
+    public String ServerRegion;
+    public String GameMode;
 
     //Async
     String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&match_id=";
@@ -63,9 +68,65 @@ public class Match {
                         winningSide = Sides.Dire;
                     }
 
-                    Log.d("Match " + matchid, "Duration = " + duration);
+                    //Lobby type from local json
+                    String LobbyJSON = Defines.RawToString(R.raw.lobbies);
+                    if(LobbyJSON != null || LobbyJSON != "ERROR"){
+                        JSONObject lobbyJSONObj = new JSONObject(LobbyJSON);
+                        JSONArray lobbiesArray = lobbyJSONObj.getJSONArray("lobbies");
+
+                        for (int i = 0; i < lobbiesArray.length(); i++){
+                            JSONObject c = lobbiesArray.getJSONObject(i);
+
+                            int id = c.getInt("id");
+                            String name = c.getString("name");
+
+                            if(result.getInt("lobby_type") == id){
+                                lobbyType = name;
+                            }
+                        }
+                    }
+
+                    //Cluster from local json
+                    String ClusterJSON = Defines.RawToString(R.raw.regions);
+                    if(ClusterJSON != null || ClusterJSON != "ERROR"){
+                        JSONObject clusterJSONObj = new JSONObject(ClusterJSON);
+                        JSONArray clusterArray = clusterJSONObj.getJSONArray("regions");
+
+                        for (int i = 0; i < clusterArray.length(); i++){
+                            JSONObject c = clusterArray.getJSONObject(i);
+
+                            int id = c.getInt("id");
+                            String name = c.getString("name");
+
+                            if(result.getInt("cluster") == id){
+                                ServerRegion = name;
+                            }
+                        }
+                    }
+
+                    //Game Mode from local json
+                    String modjson = Defines.RawToString(R.raw.mods);
+                    if(ClusterJSON != null || ClusterJSON != "ERROR"){
+                        JSONObject modJSONObj = new JSONObject(modjson);
+                        JSONArray modArray = modJSONObj.getJSONArray("mods");
+
+                        for (int i = 0; i < modArray.length(); i++){
+                            JSONObject c = modArray.getJSONObject(i);
+
+                            int id = c.getInt("id");
+                            String name = c.getString("name");
+
+                            if(result.getInt("game_mode") == id){
+                                GameMode = name;
+                            }
+                        }
+                    }
+
+
+                    /*Log.d("Match " + matchid, "Duration = " + duration);
                     Log.d("Match " + matchid, "First blood time = " + firstBloodTime);
                     Log.d("Match " + matchid, "Winning Side = " + winningSide);
+                    Log.d("Match " + matchid, "Lobby Type = " + lobbyType);*/
 
 
                     //Player data

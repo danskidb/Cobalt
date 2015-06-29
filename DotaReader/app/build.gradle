@@ -29,4 +29,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile files('libs/gson-2.3.1.jar')
     compile files('libs/picasso-2.5.2.jar')
+    compile files('libs/multiwindow-v1.2.3.jar')
+    compile files('libs/sdk-v1.0.0.jar')
 }

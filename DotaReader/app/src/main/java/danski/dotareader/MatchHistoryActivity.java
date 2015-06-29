@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -32,19 +33,15 @@ import java.util.HashMap;
 
 public class MatchHistoryActivity extends ListActivity {
 
-    private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&account_id=";
     private ProgressDialog pDialog;
 
-    String steamid;
-    String matchesRequested = "&matches_requested=";
-    int matchesRequestedInt = 4;
-
     final String TAG_MATCHID = "match_id";              //numeric match id
-    final String TAG_STARTTIME = "start_time";          //Date in UTC seconds since jan 1, 1970 (unix time format)
 
     JSONArray matches = null;
     ArrayList<HashMap<String, String>> matchList;
 
+    String jsonStr;
+    String MatchDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +58,11 @@ public class MatchHistoryActivity extends ListActivity {
         String checksteamid = prefs.getString("steamid", null);
         if(checksteamid != null){
             Log.d("MHA: ", "Found steamid! Let's load matches...");
-            steamid = prefs.getString("steamid", null);
+            jsonStr = prefs.getString("matchlist", null);
+            MatchDB = prefs.getString("matchdb", null);
             new GetMatches().execute();
         } else {
-            Log.d("MHA: ", "Could not find steamid!");
+            Log.d("MHA: ", "Could not find matches!");
 
         }
 
@@ -90,7 +88,7 @@ public class MatchHistoryActivity extends ListActivity {
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(MatchHistoryActivity.this);
-            pDialog.setMessage("Downloading matches...");
+            pDialog.setMessage("Loading matches...");
             pDialog.setCancelable(false);
             pDialog.show();
 
@@ -98,13 +96,6 @@ public class MatchHistoryActivity extends ListActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
-            ServiceHandler sh = new ServiceHandler();
-
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(url + steamid + matchesRequested + matchesRequestedInt, ServiceHandler.GET);
-
-            //Log.d("Response: ", "> " + jsonStr);
 
             if (jsonStr != null) {
                 try {
@@ -121,19 +112,19 @@ public class MatchHistoryActivity extends ListActivity {
                         JSONObject c = matches.getJSONObject(i);
 
                         int matchid = c.getInt(TAG_MATCHID);
-                        int starttime = c.getInt(TAG_STARTTIME);
-
-                        Defines.CurrentMatches[i] = new Match(matchid, i);
 
                         // tmp hashmap for single match
                         HashMap<String, String> match = new HashMap<String, String>();
 
                         match.put(TAG_MATCHID, matchid + "");
-                        match.put(TAG_STARTTIME, starttime + "");
 
                         // adding contact to match list
                         matchList.add(match);
                     }
+
+                    Gson gson = new Gson();
+                    Defines.CurrentMatches = gson.fromJson(MatchDB, Match[].class);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

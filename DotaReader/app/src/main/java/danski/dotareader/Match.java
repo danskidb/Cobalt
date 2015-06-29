@@ -29,7 +29,11 @@ public class Match {
     public String GameMode;
 
     //Async
-    String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&match_id=";
+    private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&match_id=";
+
+    public Match(){
+
+    }
 
 
     public Match(int _matchid, int _arraypos){
@@ -37,8 +41,90 @@ public class Match {
         matchid = _matchid;
         arraypos = _arraypos;
 
-        //Get data from JSON
-        new FetchData().execute();
+        Log.d("Match " + matchid, "STARTED PROCESSING");
+
+        ServiceHandler sh = new ServiceHandler();
+        String jsonStr = sh.makeServiceCall(url + matchid, ServiceHandler.GET);
+
+        if(jsonStr != null){
+            try{
+                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONObject result = jsonObj.getJSONObject("result");
+
+                //General data
+                duration = (float)result.getInt("duration") / 60;
+                firstBloodTime = (float)result.getInt("first_blood_time") / 60;
+                if(result.getBoolean("radiant_win")){
+                    winningSide = Sides.Radiant;
+                } else {
+                    winningSide = Sides.Dire;
+                }
+
+                //Lobby type from local json
+                String LobbyJSON = Defines.RawToString(R.raw.lobbies);
+                if(LobbyJSON != null || LobbyJSON != "ERROR"){
+                    JSONObject lobbyJSONObj = new JSONObject(LobbyJSON);
+                    JSONArray lobbiesArray = lobbyJSONObj.getJSONArray("lobbies");
+
+                    for (int i = 0; i < lobbiesArray.length(); i++){
+                        JSONObject c = lobbiesArray.getJSONObject(i);
+
+                        int id = c.getInt("id");
+                        String name = c.getString("name");
+
+                        if(result.getInt("lobby_type") == id){
+                            lobbyType = name;
+                        }
+                    }
+                }
+
+                //Cluster from local json
+                String ClusterJSON = Defines.RawToString(R.raw.regions);
+                if(ClusterJSON != null || ClusterJSON != "ERROR"){
+                    JSONObject clusterJSONObj = new JSONObject(ClusterJSON);
+                    JSONArray clusterArray = clusterJSONObj.getJSONArray("regions");
+
+                    for (int i = 0; i < clusterArray.length(); i++){
+                        JSONObject c = clusterArray.getJSONObject(i);
+
+                        int id = c.getInt("id");
+                        String name = c.getString("name");
+
+                        if(result.getInt("cluster") == id){
+                            ServerRegion = name;
+                        }
+                    }
+                }
+
+                //Game Mode from local json
+                String modjson = Defines.RawToString(R.raw.mods);
+                if(ClusterJSON != null || ClusterJSON != "ERROR"){
+                    JSONObject modJSONObj = new JSONObject(modjson);
+                    JSONArray modArray = modJSONObj.getJSONArray("mods");
+
+                    for (int i = 0; i < modArray.length(); i++){
+                        JSONObject c = modArray.getJSONObject(i);
+
+                        int id = c.getInt("id");
+                        String name = c.getString("name");
+
+                        if(result.getInt("game_mode") == id){
+                            GameMode = name;
+                        }
+                    }
+                }
+
+
+                Log.d("Match " + matchid, "IS PROCESSED");
+
+
+                //Player data
+
+
+            } catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -121,12 +207,6 @@ public class Match {
                             }
                         }
                     }
-
-
-                    /*Log.d("Match " + matchid, "Duration = " + duration);
-                    Log.d("Match " + matchid, "First blood time = " + firstBloodTime);
-                    Log.d("Match " + matchid, "Winning Side = " + winningSide);
-                    Log.d("Match " + matchid, "Lobby Type = " + lobbyType);*/
 
 
                     //Player data

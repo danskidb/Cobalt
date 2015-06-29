@@ -21,7 +21,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Defines.CurrentContext = MainActivity.this;
 
         herolistbtn = (Button) findViewById(R.id.btn_herolist);
         herolistbtn.setOnClickListener(new View.OnClickListener() {
@@ -55,9 +54,13 @@ public class MainActivity extends ActionBarActivity {
         tstmatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MatchUpdater ma = new MatchUpdater();
+                ma.UpdateLocal();
             }
         });
+
+        Defines.CurrentContext = MainActivity.this;
+
     }
 
 
@@ -77,6 +80,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Defines.CurrentContext = MainActivity.this;
+
             return true;
         }
 

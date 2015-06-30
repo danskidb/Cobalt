@@ -29,7 +29,7 @@ public class MatchUpdater{
 
     String steamid;
     String matchesRequested = "&matches_requested=";
-    int matchesRequestedInt = 50;
+    int matchesRequestedInt = 5;
 
     String jsonStr;
     String MatchDB;

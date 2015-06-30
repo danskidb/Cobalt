@@ -27,6 +27,7 @@ public class Match {
     public String lobbyType;
     public String ServerRegion;
     public String GameMode;
+    public Player[] Players;
 
     //Async
     private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&match_id=";
@@ -115,10 +116,18 @@ public class Match {
                 }
 
 
-                Log.d("Match " + matchid, "IS PROCESSED");
-
-
                 //Player data
+                JSONArray playerJSONArr;
+                playerJSONArr = result.getJSONArray("players");
+                Players = new Player[playerJSONArr.length()];
+
+                for(int i = 0; i < playerJSONArr.length(); i++)
+                {
+                    JSONObject c = playerJSONArr.getJSONObject(i);
+                    Players[i] = new Player(c);
+                }
+
+                Log.d("Match " + matchid, "IS PROCESSED");
 
 
             } catch(JSONException e){

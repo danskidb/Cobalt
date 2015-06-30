@@ -14,6 +14,7 @@ public class Player {
     public String player_name;
     public int player_slot;
     public int hero_id;
+    public String hero_name;
     public int item_0;
     public int item_1;
     public int item_2;
@@ -84,6 +85,25 @@ public class Player {
             } else {
                 player_name = "Not so Anonymous";
             }
+
+            //Hero Name from local JSON
+            String herojson = Defines.RawToString(R.raw.heroes);
+            if(herojson != null || herojson != "ERROR"){
+                JSONObject heroobj = new JSONObject(herojson);
+                JSONArray heroArray = heroobj.getJSONArray("heroes");
+
+                for (int i = 0; i < heroArray.length(); i++){
+                    JSONObject c = heroArray.getJSONObject(i);
+
+                    int id = c.getInt("id");
+                    String name = c.getString("localized_name");
+
+                    if(hero_id == id){
+                        hero_name = name;
+                    }
+                }
+            }
+
 
             Log.d("Player " + account_id, "Is processed");
         } catch(JSONException e){

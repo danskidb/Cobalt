@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -20,11 +21,11 @@ public class MatchActivity extends ActionBarActivity {
     TextView tv_lobbytype;
     TextView tv_cluster;
     TextView tv_gamemode;
+    ListView lv_playerlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Defines.CurrentContext = MatchActivity.this;
         setContentView(R.layout.activity_match);
 
         thisMatch = Defines.SelectedMatch;
@@ -54,5 +55,19 @@ public class MatchActivity extends ActionBarActivity {
 
         tv_gamemode = (TextView) findViewById(R.id.ma_gamemode);
         tv_gamemode.setText(thisMatch.GameMode);
+
+        lv_playerlist = (ListView) findViewById(R.id.ma_playerlist);
+        String[] player = new String[thisMatch.Players.length];
+        String[] hero = new String[thisMatch.Players.length];
+
+        for(int i = 0; i < thisMatch.Players.length; i++){
+            player[i] = thisMatch.Players[i].player_name;
+            hero[i] = thisMatch.Players[i].hero_name + "";
+        }
+
+        lv_playerlist.setAdapter(new PlayerListAdapter(MatchActivity.this, player, hero));
+
+        Defines.CurrentContext = MatchActivity.this;
+
     }
 }

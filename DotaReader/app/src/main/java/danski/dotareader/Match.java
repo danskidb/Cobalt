@@ -99,7 +99,7 @@ public class Match {
 
                 //Game Mode from local json
                 String modjson = Defines.RawToString(R.raw.mods);
-                if(ClusterJSON != null || ClusterJSON != "ERROR"){
+                if(modjson != null || modjson != "ERROR"){
                     JSONObject modJSONObj = new JSONObject(modjson);
                     JSONArray modArray = modJSONObj.getJSONArray("mods");
 

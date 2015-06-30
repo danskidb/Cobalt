@@ -27,6 +27,7 @@ public class MatchActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
+        Defines.CurrentContext = MatchActivity.this;
 
         thisMatch = Defines.SelectedMatch;
 
@@ -59,13 +60,15 @@ public class MatchActivity extends ActionBarActivity {
         lv_playerlist = (ListView) findViewById(R.id.ma_playerlist);
         String[] player = new String[thisMatch.Players.length];
         String[] hero = new String[thisMatch.Players.length];
+        String[] kda = new String[thisMatch.Players.length];
 
         for(int i = 0; i < thisMatch.Players.length; i++){
             player[i] = thisMatch.Players[i].player_name;
-            hero[i] = thisMatch.Players[i].hero_name + "";
+            hero[i] = thisMatch.Players[i].hero_image_url + "";
+            kda[i] = thisMatch.Players[i].kills + ", " + thisMatch.Players[i].deaths + ", " + thisMatch.Players[i].assists;
         }
 
-        lv_playerlist.setAdapter(new PlayerListAdapter(MatchActivity.this, player, hero));
+        lv_playerlist.setAdapter(new PlayerListAdapter(MatchActivity.this, player, hero, kda));
 
         Defines.CurrentContext = MatchActivity.this;
 

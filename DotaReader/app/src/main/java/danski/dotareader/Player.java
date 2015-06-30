@@ -15,6 +15,7 @@ public class Player {
     public int player_slot;
     public int hero_id;
     public String hero_name;
+    public String hero_image_url;
     public int item_0;
     public int item_1;
     public int item_2;
@@ -96,10 +97,15 @@ public class Player {
                     JSONObject c = heroArray.getJSONObject(i);
 
                     int id = c.getInt("id");
-                    String name = c.getString("localized_name");
+                    String locname = c.getString("localized_name");
+                    String name = c.getString("name");
+
+                    String baldhero = name.replace("npc_dota_hero_", "");
+                    String imgurl = "http://cdn.dota2.com/apps/dota2/images/heroes/" + baldhero + "_full.png";    //Hero Image URL
 
                     if(hero_id == id){
-                        hero_name = name;
+                        hero_name = locname;
+                        hero_image_url = imgurl;
                     }
                 }
             }

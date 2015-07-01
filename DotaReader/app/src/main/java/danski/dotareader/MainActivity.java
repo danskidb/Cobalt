@@ -21,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Defines.CurrentContext = MainActivity.this;
+
 
         herolistbtn = (Button) findViewById(R.id.btn_herolist);
         herolistbtn.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
+
         //Download matches
         tstmatch = (Button) findViewById(R.id.testmatch);
         tstmatch.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +66,13 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        Defines.CurrentContext = MainActivity.this;
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

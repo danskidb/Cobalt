@@ -73,7 +73,8 @@ public class MatchHistoryActivity extends ListActivity {
         Log.d("POS", position + "");
         Defines.SelectedMatch = Defines.CurrentMatches[position];
 
-        Intent i = new Intent(MatchHistoryActivity.this, MatchActivity.class);
+        //Intent i = new Intent(MatchHistoryActivity.this, MatchActivity.class);
+        Intent i = new Intent(MatchHistoryActivity.this, TabbedMatchActivity.class);
         startActivity(i);
     }
 

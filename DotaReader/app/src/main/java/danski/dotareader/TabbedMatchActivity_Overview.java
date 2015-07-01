@@ -90,7 +90,7 @@ public class TabbedMatchActivity_Overview extends Fragment {
         for(int i = 0; i < thisMatch.Players.length; i++){
             player[i] = thisMatch.Players[i].player_name;
             hero[i] = thisMatch.Players[i].hero_image_url + "";
-            kda[i] = thisMatch.Players[i].kills + ", " + thisMatch.Players[i].deaths + ", " + thisMatch.Players[i].assists;
+            kda[i] = thisMatch.Players[i].kills + "/" + thisMatch.Players[i].deaths + "/" + thisMatch.Players[i].assists;
         }
 
         lv_playerlist.setAdapter(new PlayerListAdapter(Defines.CurrentContext, player, hero, kda));

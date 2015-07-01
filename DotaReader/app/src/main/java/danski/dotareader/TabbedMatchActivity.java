@@ -71,7 +71,17 @@ public class TabbedMatchActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
             //return SuperAwesomeCardFragment.newInstance(position);
-            return TabbedMatchActivity_Overview.newInstance(position);
+
+            switch(position){
+                case 0:
+                    return TabbedMatchActivity_Overview.newInstance(position);
+                case 1:
+                    return TabbedMatchActivity_Details.newInstance(position);
+                case 2:
+                    return TabbedMatchActivity_Overview.newInstance(position);
+                default:
+                    return TabbedMatchActivity_Overview.newInstance(position);
+            }
         }
 
     }

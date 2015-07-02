@@ -40,8 +40,13 @@ public class MatchHistoryActivity extends ListActivity {
     JSONArray matches = null;
     ArrayList<HashMap<String, String>> matchList;
 
+    Match tempmatch;
+    Player tempPlayer;
+
     String jsonStr;
     String MatchDB;
+    Long steamid64;
+    Long steamid32;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,8 @@ public class MatchHistoryActivity extends ListActivity {
             Log.d("MHA: ", "Found steamid! Let's load matches...");
             jsonStr = prefs.getString("matchlist", null);
             MatchDB = prefs.getString("matchdb", null);
+            steamid64 = Long.parseLong(prefs.getString("steamid", null));
+            steamid32 = Defines.idTo32(steamid64);
             new GetMatches().execute();
         } else {
             Log.d("MHA: ", "Could not find matches!");
@@ -107,6 +114,8 @@ public class MatchHistoryActivity extends ListActivity {
                     matches = result.getJSONArray("matches");
 
                     Defines.CurrentMatches = new Match[matches.length()];
+                    Gson gson = new Gson();
+                    Defines.CurrentMatches = gson.fromJson(MatchDB, Match[].class);
 
                     // looping through All matches
                     for (int i = 0; i < matches.length(); i++) {
@@ -117,14 +126,47 @@ public class MatchHistoryActivity extends ListActivity {
                         // tmp hashmap for single match
                         HashMap<String, String> match = new HashMap<String, String>();
 
+                        tempmatch = Defines.CurrentMatches[i];
+                        for (int j = 0; j < tempmatch.Players.length; j++) {
+                            if (tempmatch.Players[j].account_id == steamid32) {
+                                //Log.e("HISTORY " + tempmatch.matchid, "WE FOUND YOU PLAYIN AS " + tempmatch.Players[j].hero_name);
+
+                                match.put("heroimgurl", tempmatch.Players[j].hero_image_url);
+                                match.put("heroname", tempmatch.Players[j].hero_name);
+                                match.put("kda", tempmatch.Players[j].kills + "/" + tempmatch.Players[j].deaths + "/" + tempmatch.Players[j].assists + " :KDA");
+
+                                String conditionstring;
+                                switch(tempmatch.winningSide){
+                                    case Radiant:
+                                        if(tempmatch.Players[j].player_slot <= 4){
+                                            conditionstring = "WON";
+                                        } else {
+                                            conditionstring = "LOST";
+                                        }
+                                        break;
+                                    case Dire:
+                                        if(tempmatch.Players[j].player_slot <= 4){
+                                            conditionstring = "LOST";
+                                        } else {
+                                            conditionstring = "WON";
+                                        }
+                                        break;
+                                    default:
+                                        conditionstring = "";
+                                        break;
+
+                                }
+                                match.put("condition", conditionstring);
+
+                            }
+                        }
+
+
                         match.put(TAG_MATCHID, matchid + "");
 
                         // adding contact to match list
                         matchList.add(match);
                     }
-
-                    Gson gson = new Gson();
-                    Defines.CurrentMatches = gson.fromJson(MatchDB, Match[].class);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,8 +192,8 @@ public class MatchHistoryActivity extends ListActivity {
                     MatchHistoryActivity.this,
                     matchList,
                     R.layout.item_matchlist,
-                    new String[] { TAG_MATCHID}, //, TAG_IMAGEURL},
-                    new int[] { R.id.matchlist_id} //, R.id.hero_image}
+                    new String[] {"heroimgurl", "heroname", "kda", "condition"}, //, TAG_IMAGEURL},
+                    new int[] { R.id.matchlist_heroimg, R.id.matchlist_heroname, R.id.matchlist_kda, R.id.matchlist_result} //, R.id.hero_image}
             );
             sa.setViewBinder(new MatchHistoryListItemBinder());
 
@@ -168,14 +210,24 @@ public class MatchHistoryActivity extends ListActivity {
             int id = view.getId();
             String data = (String) inputData;
             switch (id) {
-                /*case R.id.hero_image:
-                    ImageView img = (ImageView) view.findViewById(R.id.hero_image);
+                case R.id.matchlist_heroimg:
+                    ImageView img = (ImageView) view.findViewById(R.id.matchlist_heroimg);
                     Picasso.with(MatchHistoryActivity.this).load(data).into(img);
                     break;
-                */
-                case R.id.matchlist_id:
-                    TextView txt = (TextView) view.findViewById(R.id.matchlist_id);
+
+                case R.id.matchlist_heroname:
+                    TextView txt = (TextView) view.findViewById(R.id.matchlist_heroname);
                     txt.setText(data);
+                    break;
+
+                case R.id.matchlist_kda:
+                    TextView kda = (TextView) view.findViewById(R.id.matchlist_kda);
+                    kda.setText(data);
+                    break;
+
+                case R.id.matchlist_result:
+                    TextView res = (TextView) view.findViewById(R.id.matchlist_result);
+                    res.setText(data);
                     break;
             }
             return true;

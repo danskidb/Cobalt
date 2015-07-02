@@ -30,6 +30,7 @@ public class MatchUpdater{
     String steamid;
     String matchesRequested = "&matches_requested=";
     int matchesRequestedInt = 5;
+    float progress;
 
     String jsonStr;
     String MatchDB;
@@ -58,6 +59,9 @@ public class MatchUpdater{
             pDialog = new ProgressDialog(Defines.CurrentContext);
             pDialog.setMessage("Downloading/Processing Matches");
             pDialog.setCancelable(false);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pDialog.setProgress(0);
+            pDialog.setMax(matchesRequestedInt);
             pDialog.show();
 
         }
@@ -90,6 +94,8 @@ public class MatchUpdater{
                         int matchid = c.getInt("match_id");
 
                         Defines.CurrentMatches[i] = new Match(matchid, i);
+                        pDialog.incrementProgressBy(1);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

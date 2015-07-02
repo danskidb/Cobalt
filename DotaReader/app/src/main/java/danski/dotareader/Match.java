@@ -21,8 +21,9 @@ public class Match {
     //Usable data
     public int arraypos;
     public int matchid;
-    public float duration;
-    public float firstBloodTime;
+    public String duration;
+    public String firstBloodTime;
+    public long start_time;
     public Sides winningSide;
     public String lobbyType;
     public String ServerRegion;
@@ -53,8 +54,13 @@ public class Match {
                 JSONObject result = jsonObj.getJSONObject("result");
 
                 //General data
-                duration = (float)result.getInt("duration") / 60;
-                firstBloodTime = (float)result.getInt("first_blood_time") / 60;
+                int[] time = Defines.splitToComponentTimes(result.getInt("duration"));
+                duration = time[1] + ":" + time[2];
+
+                time = Defines.splitToComponentTimes(result.getInt("first_blood_time"));
+                firstBloodTime = time[1] + ":" + time[2];
+
+                start_time = result.getLong("start_time");
                 if(result.getBoolean("radiant_win")){
                     winningSide = Sides.Radiant;
                 } else {
@@ -154,9 +160,13 @@ public class Match {
                     JSONObject jsonObj = new JSONObject(jsonStr);
                     JSONObject result = jsonObj.getJSONObject("result");
 
-                    //General data
-                    duration = (float)result.getInt("duration") / 60;
-                    firstBloodTime = (float)result.getInt("first_blood_time") / 60;
+
+                    int[] time = Defines.splitToComponentTimes(result.getInt("duration"));
+                    duration = time[1] + ":" + time[2];
+
+                    time = Defines.splitToComponentTimes(result.getInt("first_blood_time"));
+                    firstBloodTime = time[1] + ":" + time[2];
+
                     if(result.getBoolean("radiant_win")){
                         winningSide = Sides.Radiant;
                     } else {

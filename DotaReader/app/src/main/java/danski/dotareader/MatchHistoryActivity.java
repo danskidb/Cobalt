@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -27,7 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -158,6 +162,10 @@ public class MatchHistoryActivity extends ListActivity {
                                 }
                                 match.put("condition", conditionstring);
 
+                                Date origDate = new Date(tempmatch.start_time * 1000);
+                                String date = new SimpleDateFormat("dd-MM / HH:mm").format(origDate) + " / " + tempmatch.duration;
+                                match.put("time", date);
+
                             }
                         }
 
@@ -192,8 +200,8 @@ public class MatchHistoryActivity extends ListActivity {
                     MatchHistoryActivity.this,
                     matchList,
                     R.layout.item_matchlist,
-                    new String[] {"heroimgurl", "heroname", "kda", "condition"}, //, TAG_IMAGEURL},
-                    new int[] { R.id.matchlist_heroimg, R.id.matchlist_heroname, R.id.matchlist_kda, R.id.matchlist_result} //, R.id.hero_image}
+                    new String[] {"heroimgurl", "heroname", "kda", "condition", "time"}, //, TAG_IMAGEURL},
+                    new int[] { R.id.matchlist_heroimg, R.id.matchlist_heroname, R.id.matchlist_kda, R.id.matchlist_result, R.id.matchlist_time} //, R.id.hero_image}
             );
             sa.setViewBinder(new MatchHistoryListItemBinder());
 
@@ -228,7 +236,16 @@ public class MatchHistoryActivity extends ListActivity {
                 case R.id.matchlist_result:
                     TextView res = (TextView) view.findViewById(R.id.matchlist_result);
                     res.setText(data);
+                    if(data == "WON"){
+                        res.setTextColor(Color.rgb(0,127,0));
+                    } else {
+                        res.setTextColor(Color.RED);
+                    }
                     break;
+
+                case R.id.matchlist_time:
+                    TextView tme = (TextView) view.findViewById(R.id.matchlist_time);
+                    tme.setText(data);
             }
             return true;
 

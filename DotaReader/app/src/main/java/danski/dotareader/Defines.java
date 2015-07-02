@@ -47,4 +47,15 @@ public class Defines {
         return id32 + convertor;
     }
 
+    public static int[] splitToComponentTimes(long seconds){
+        long longVal = seconds;
+        int hours = (int) longVal / 3600;
+        int remainder = (int) longVal - hours * 3600;
+        int mins = remainder / 60;
+        remainder = remainder - mins * 60;
+        int secs = remainder;
+
+        int[] ints = {hours , mins , secs};
+        return ints;
+    }
 }

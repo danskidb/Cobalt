@@ -66,8 +66,7 @@ public class TabbedMatchActivity_Overview extends Fragment {
 
         //TODO: Decimal in time
         tv_firstblood = (TextView) root.findViewById(R.id.ma_firstblood);
-        float rounded = Math.round(thisMatch.firstBloodTime * 100.0f)/100.0f;
-        tv_firstblood.setText(rounded + "");
+        tv_firstblood.setText(thisMatch.firstBloodTime + "");
 
 
         tv_winners = (TextView) root.findViewById(R.id.ma_winside);

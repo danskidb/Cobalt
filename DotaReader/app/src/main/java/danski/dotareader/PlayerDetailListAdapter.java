@@ -22,14 +22,17 @@ public class PlayerDetailListAdapter extends BaseAdapter {
     String[] player;
     String[] url;
     String[] kda;
+    String[][] itemimg;
     private static LayoutInflater inflater = null;
 
-    public PlayerDetailListAdapter(Context context, String[] player, String[] url, String [] kda) {
+    public PlayerDetailListAdapter(Context context, String[] player, String[] url, String [] kda, String[][] itemimg) {
         // TODO Auto-generated constructor stub
         this.context = context;
         this.player = player;
         this.url = url;
         this.kda = kda;
+        this.itemimg = itemimg;
+
         inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -81,6 +84,22 @@ public class PlayerDetailListAdapter extends BaseAdapter {
         //KDA
         //TextView tv_kda = (TextView) vi.findViewById(R.id.playerdetaillist_kda);
         //tv_kda.setText(kda[position]);
+
+        ImageView[] iv_items;
+        iv_items = new ImageView[6];
+        iv_items[0] = (ImageView) vi.findViewById(R.id.playerdetaillist_item0);
+        iv_items[1] = (ImageView) vi.findViewById(R.id.playerdetaillist_item1);
+        iv_items[2] = (ImageView) vi.findViewById(R.id.playerdetaillist_item2);
+        iv_items[3] = (ImageView) vi.findViewById(R.id.playerdetaillist_item3);
+        iv_items[4] = (ImageView) vi.findViewById(R.id.playerdetaillist_item4);
+        iv_items[5] = (ImageView) vi.findViewById(R.id.playerdetaillist_item5);
+
+        for (int a = 0; a < 6; a++){
+            String curr;
+            curr = itemimg[position][a];
+
+            Picasso.with(Defines.CurrentContext).load(curr).into(iv_items[a]);
+        }
 
 
         return vi;

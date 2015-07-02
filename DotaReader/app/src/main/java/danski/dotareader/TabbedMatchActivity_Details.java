@@ -42,16 +42,20 @@ public class TabbedMatchActivity_Details extends Fragment {
 
         lv_playerlist = (ListView) root.findViewById(R.id.det_playerlist);
         String[] player = new String[thisMatch.Players.length];
-        String[] hero = new String[thisMatch.Players.length];
+        String[] heroimg = new String[thisMatch.Players.length];
         String[] kda = new String[thisMatch.Players.length];
+        String[][] itemimg = new String[thisMatch.Players.length][6];
 
         for(int i = 0; i < thisMatch.Players.length; i++){
             player[i] = thisMatch.Players[i].player_name;
-            hero[i] = thisMatch.Players[i].hero_image_url + "";
+            heroimg[i] = thisMatch.Players[i].hero_image_url + "";
             kda[i] = thisMatch.Players[i].kills + "/" + thisMatch.Players[i].deaths + "/" + thisMatch.Players[i].assists;
+            for (int a = 0; a < 6; a++){
+                itemimg[i][a] = thisMatch.Players[i].item_image_url[a];
+            }
         }
 
-        lv_playerlist.setAdapter(new PlayerDetailListAdapter(Defines.CurrentContext, player, hero, kda));
+        lv_playerlist.setAdapter(new PlayerDetailListAdapter(Defines.CurrentContext, player, heroimg, kda, itemimg));
 
 
 

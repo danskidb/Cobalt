@@ -16,12 +16,9 @@ public class Player {
     public int hero_id;
     public String hero_name;
     public String hero_image_url;
-    public int item_0;
-    public int item_1;
-    public int item_2;
-    public int item_3;
-    public int item_4;
-    public int item_5;
+    public int item[];
+    public String item_name[];
+    public String item_image_url[];
     public int kills;
     public int deaths;
     public int assists;
@@ -44,12 +41,6 @@ public class Player {
             account_id = input.getInt("account_id");
             player_slot = input.getInt("player_slot");
             hero_id = input.getInt("hero_id");
-            item_0 = input.getInt("item_0");
-            item_1 = input.getInt("item_1");
-            item_2 = input.getInt("item_2");
-            item_3 = input.getInt("item_3");
-            item_4 = input.getInt("item_4");
-            item_5 = input.getInt("item_5");
             kills = input.getInt("kills");
             deaths = input.getInt("deaths");
             assists = input.getInt("assists");
@@ -87,6 +78,45 @@ public class Player {
                 player_name = "Not so Anonymous";
             }
 
+            //Parse items
+            item = new int[6];
+            item_name = new String[6];
+            item_image_url = new String[6];
+            for (int i = 0; i < 6; i++){
+                item[i] = input.getInt("item_" + i);
+            }
+
+            //Item name from local JSON
+            String itemjson = Defines.RawToString(R.raw.items);
+            if(itemjson != null || itemjson != "ERROR"){
+                JSONObject itemobj = new JSONObject(itemjson);
+                JSONObject result = itemobj.getJSONObject("result");
+                JSONArray itemArray = result.getJSONArray("items");
+
+                for (int i = 0; i < itemArray.length(); i++){
+                    JSONObject c = itemArray.getJSONObject(i);
+
+                    int id = c.getInt("id");
+                    String name = c.getString("name");
+                    int cost = c.getInt("cost");
+                    String localized_name = c.getString("localized_name");
+
+                    String balditem = name.replace("item_", "");
+
+                    for (int a = 0; a < 6; a++){
+                        if(id == item[a]){
+                            item_name[a] = localized_name;
+                            item_image_url[a] = "http://cdn.dota2.com/apps/dota2/images/items/" + balditem + "_lg.png";
+                        }
+                    }
+
+
+
+
+                }
+
+            }
+
             //Hero Name from local JSON
             String herojson = Defines.RawToString(R.raw.heroes);
             if(herojson != null || herojson != "ERROR"){
@@ -101,11 +131,10 @@ public class Player {
                     String name = c.getString("name");
 
                     String baldhero = name.replace("npc_dota_hero_", "");
-                    String imgurl = "http://cdn.dota2.com/apps/dota2/images/heroes/" + baldhero + "_full.png";    //Hero Image URL
 
                     if(hero_id == id){
                         hero_name = locname;
-                        hero_image_url = imgurl;
+                        hero_image_url = "http://cdn.dota2.com/apps/dota2/images/heroes/" + baldhero + "_full.png";    //Hero Image URL
                     }
                 }
             }

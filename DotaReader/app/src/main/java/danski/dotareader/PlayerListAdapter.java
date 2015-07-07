@@ -23,7 +23,6 @@ public class PlayerListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
 
     public PlayerListAdapter(Context context, String[] player, String[] url, String [] kda) {
-        // TODO Auto-generated constructor stub
         this.context = context;
         this.player = player;
         this.url = url;
@@ -34,25 +33,21 @@ public class PlayerListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return player.length;
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return player[position];
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.item_playerlist, null);

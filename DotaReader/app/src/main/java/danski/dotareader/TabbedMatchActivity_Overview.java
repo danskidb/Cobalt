@@ -60,11 +60,9 @@ public class TabbedMatchActivity_Overview extends Fragment {
         tv_id = (TextView)root.findViewById(R.id.ma_matchid);
         tv_id.setText(thisMatch.matchid + "");
 
-        //TODO: Decimal in time
         tv_duration = (TextView) root.findViewById(R.id.ma_duration);
         tv_duration.setText(thisMatch.duration + "");
 
-        //TODO: Decimal in time
         tv_firstblood = (TextView) root.findViewById(R.id.ma_firstblood);
         tv_firstblood.setText(thisMatch.firstBloodTime + "");
 

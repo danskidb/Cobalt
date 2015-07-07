@@ -31,7 +31,8 @@ public class Match {
     public Player[] Players;
 
     //Async
-    private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&match_id=";
+    private String key = "7B5DF1FD8BA33927FAC62EF3D1DB37FB";
+    private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=" + key + "&match_id=";
 
     public Match(){
 
@@ -133,118 +134,66 @@ public class Match {
                     Players[i] = new Player(c);
                 }
 
-                Log.d("Match " + matchid, "IS PROCESSED");
 
 
             } catch(JSONException e){
                 e.printStackTrace();
             }
         }
-    }
 
+        /*
 
-    class FetchData extends AsyncTask<Void, Void, Void> {
+            Acquire steam usernames!
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+         */
+
+        StringBuilder userurl = new StringBuilder();
+        userurl.append("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=");
+        userurl.append(key);
+        userurl.append("&steamids=");
+        for (int i = 0; i < Players.length; i++){
+            userurl.append(Players[i].steamid64);
+            userurl.append(",");
         }
+        String usernameurl = userurl.toString();
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.makeServiceCall(url + matchid, ServiceHandler.GET);
+        Log.e("USERNAME", "URL: " + usernameurl);
 
-            if(jsonStr != null){
-                try{
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONObject result = jsonObj.getJSONObject("result");
+        jsonStr = sh.makeServiceCall(usernameurl, ServiceHandler.GET);
 
+        if(jsonStr != null) {
+            try {
+                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONObject response = jsonObj.getJSONObject("response");
 
-                    int[] time = Defines.splitToComponentTimes(result.getInt("duration"));
-                    duration = time[1] + ":" + time[2];
+                JSONArray players = response.getJSONArray("players");
 
-                    time = Defines.splitToComponentTimes(result.getInt("first_blood_time"));
-                    firstBloodTime = time[1] + ":" + time[2];
+                for (int i = 0; i < players.length(); i++){
+                    JSONObject c = players.getJSONObject(i);
+                    String steamid = c.getString("steamid");
+                    String personaname = c.getString("personaname");
 
-                    if(result.getBoolean("radiant_win")){
-                        winningSide = Sides.Radiant;
-                    } else {
-                        winningSide = Sides.Dire;
-                    }
+                    Log.e("USERNAME", "Parsing steamid " + steamid);
 
-                    //Lobby type from local json
-                    String LobbyJSON = Defines.RawToString(R.raw.lobbies);
-                    if(LobbyJSON != null || LobbyJSON != "ERROR"){
-                        JSONObject lobbyJSONObj = new JSONObject(LobbyJSON);
-                        JSONArray lobbiesArray = lobbyJSONObj.getJSONArray("lobbies");
+                    for(int j = 0; j < Players.length; j++){
 
-                        for (int i = 0; i < lobbiesArray.length(); i++){
-                            JSONObject c = lobbiesArray.getJSONObject(i);
-
-                            int id = c.getInt("id");
-                            String name = c.getString("name");
-
-                            if(result.getInt("lobby_type") == id){
-                                lobbyType = name;
-                            }
+                        if(steamid.equals(Players[j].steamid64 + "")){
+                            Players[j].player_name = personaname;
+                            Log.e("USERNAME", "Equals " + personaname);
                         }
                     }
-
-                    //Cluster from local json
-                    String ClusterJSON = Defines.RawToString(R.raw.regions);
-                    if(ClusterJSON != null || ClusterJSON != "ERROR"){
-                        JSONObject clusterJSONObj = new JSONObject(ClusterJSON);
-                        JSONArray clusterArray = clusterJSONObj.getJSONArray("regions");
-
-                        for (int i = 0; i < clusterArray.length(); i++){
-                            JSONObject c = clusterArray.getJSONObject(i);
-
-                            int id = c.getInt("id");
-                            String name = c.getString("name");
-
-                            if(result.getInt("cluster") == id){
-                                ServerRegion = name;
-                            }
-                        }
-                    }
-
-                    //Game Mode from local json
-                    String modjson = Defines.RawToString(R.raw.mods);
-                    if(ClusterJSON != null || ClusterJSON != "ERROR"){
-                        JSONObject modJSONObj = new JSONObject(modjson);
-                        JSONArray modArray = modJSONObj.getJSONArray("mods");
-
-                        for (int i = 0; i < modArray.length(); i++){
-                            JSONObject c = modArray.getJSONObject(i);
-
-                            int id = c.getInt("id");
-                            String name = c.getString("name");
-
-                            if(result.getInt("game_mode") == id){
-                                GameMode = name;
-                            }
-                        }
-                    }
-
-
-                    //Player data
-
-
-                } catch(JSONException e){
-                    e.printStackTrace();
                 }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-        }
+
+
+        Log.d("Match " + matchid, "IS PROCESSED");
+
     }
-
 
 }

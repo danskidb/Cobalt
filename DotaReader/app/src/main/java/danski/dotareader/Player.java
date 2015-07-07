@@ -2,6 +2,8 @@ package danski.dotareader;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +13,7 @@ import org.json.JSONObject;
  */
 public class Player {
     public int account_id;
+    public Long steamid64;
     public String player_name;
     public int player_slot;
     public int hero_id;
@@ -70,6 +73,8 @@ public class Player {
                         c.getInt("level")
                 );
             }
+
+            steamid64 = Defines.idTo64(account_id);
 
             //Make data to human format
             if(account_id == -1){
@@ -144,6 +149,7 @@ public class Player {
         } catch(JSONException e){
             e.printStackTrace();
         }
+
 
     }
 

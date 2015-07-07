@@ -26,7 +26,6 @@ public class PlayerDetailListAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
 
     public PlayerDetailListAdapter(Context context, Match match) {
-        // TODO Auto-generated constructor stub
         this.context = context;
         this.match = match;
 
@@ -38,25 +37,21 @@ public class PlayerDetailListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return match.Players.length;
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return match.Players[position];
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
         View vi = convertView;
         if (vi == null)
             vi = inflater.inflate(R.layout.item_playerdetaillist, null);

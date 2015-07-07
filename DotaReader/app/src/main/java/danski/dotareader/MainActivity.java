@@ -16,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
     Button matchesbtn;
     Button prefsbtn;
     Button tstmatch;
+    Button upd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,16 @@ public class MainActivity extends ActionBarActivity {
         //Download matches
         tstmatch = (Button) findViewById(R.id.testmatch);
         tstmatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MatchUpdater mu = new MatchUpdater();
+                mu.FreshMatches();
+            }
+        });
+
+
+        upd = (Button) findViewById(R.id.main_update);
+        upd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MatchUpdater ma = new MatchUpdater();

@@ -31,8 +31,7 @@ public class Match {
     public Player[] Players;
 
     //Async
-    private String key = "7B5DF1FD8BA33927FAC62EF3D1DB37FB";
-    private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=" + key + "&match_id=";
+    private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=" + Defines.key + "&match_id=";
 
     public Match(){
 
@@ -149,15 +148,13 @@ public class Match {
 
         StringBuilder userurl = new StringBuilder();
         userurl.append("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=");
-        userurl.append(key);
+        userurl.append(Defines.key);
         userurl.append("&steamids=");
         for (int i = 0; i < Players.length; i++){
             userurl.append(Players[i].steamid64);
             userurl.append(",");
         }
         String usernameurl = userurl.toString();
-
-        Log.e("USERNAME", "URL: " + usernameurl);
 
         jsonStr = sh.makeServiceCall(usernameurl, ServiceHandler.GET);
 
@@ -173,13 +170,11 @@ public class Match {
                     String steamid = c.getString("steamid");
                     String personaname = c.getString("personaname");
 
-                    Log.e("USERNAME", "Parsing steamid " + steamid);
 
                     for(int j = 0; j < Players.length; j++){
 
                         if(steamid.equals(Players[j].steamid64 + "")){
                             Players[j].player_name = personaname;
-                            Log.e("USERNAME", "Equals " + personaname);
                         }
                     }
                 }

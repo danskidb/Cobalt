@@ -39,15 +39,11 @@ public class MatchHistoryActivity extends ListActivity {
 
     private ProgressDialog pDialog;
 
-    final String TAG_MATCHID = "match_id";              //numeric match id
-
     JSONArray matches = null;
     ArrayList<HashMap<String, String>> matchList;
 
     Match tempmatch;
-    Player tempPlayer;
 
-    String jsonStr;
     String MatchDB;
     Long steamid64;
     Long steamid32;
@@ -67,7 +63,6 @@ public class MatchHistoryActivity extends ListActivity {
         String checksteamid = prefs.getString("steamid", null);
         if(checksteamid != null){
             Log.d("MHA: ", "Found steamid! Let's load matches...");
-            jsonStr = prefs.getString("matchlist", null);
             MatchDB = prefs.getString("matchdb", null);
             steamid64 = Long.parseLong(prefs.getString("steamid", null));
             steamid32 = Defines.idTo32(steamid64);
@@ -109,13 +104,10 @@ public class MatchHistoryActivity extends ListActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            if (jsonStr != null) {
+            if (MatchDB != null) {
                 try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONObject result = jsonObj.getJSONObject("result");
-
                     // Getting JSON Array node
-                    matches = result.getJSONArray("matches");
+                    matches = new JSONArray(MatchDB);
 
                     Defines.CurrentMatches = new Match[matches.length()];
                     Gson gson = new Gson();
@@ -125,7 +117,7 @@ public class MatchHistoryActivity extends ListActivity {
                     for (int i = 0; i < matches.length(); i++) {
                         JSONObject c = matches.getJSONObject(i);
 
-                        int matchid = c.getInt(TAG_MATCHID);
+                        int matchid = c.getInt("matchid");
 
                         // tmp hashmap for single match
                         HashMap<String, String> match = new HashMap<String, String>();
@@ -170,7 +162,7 @@ public class MatchHistoryActivity extends ListActivity {
                         }
 
 
-                        match.put(TAG_MATCHID, matchid + "");
+                        match.put("matchid", matchid + "");
 
                         // adding contact to match list
                         matchList.add(match);

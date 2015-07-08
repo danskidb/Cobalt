@@ -50,10 +50,6 @@
                 android:value="danski.dotareader.MainActivity" />
         </activity>
         <activity
-            android:name=".MatchActivity"
-            android:label="@string/title_activity_match" >
-        </activity>
-        <activity
             android:name=".TabbedMatchActivity"
             android:label="@string/title_activity_tabbed_match" >
         </activity>

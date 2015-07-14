@@ -52,7 +52,7 @@ public class TabbedMatchActivity extends ActionBarActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Overview", "Player Details", "Skill Builds", "Structures"};
+        private final String[] TITLES = { "Overview", "Player Details", "Structures"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -78,9 +78,7 @@ public class TabbedMatchActivity extends ActionBarActivity {
                 case 1:
                     return TabbedMatchActivity_Details.newInstance(position);
                 case 2:
-                    return TabbedMatchActivity_Overview.newInstance(position);
-                case 3:
-                    return TabbedMatchActivity_Overview.newInstance(position);
+                    return TabbedMatchActivity_Structures.newInstance(position);
                 default:
                     return TabbedMatchActivity_Overview.newInstance(position);
             }

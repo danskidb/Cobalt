@@ -201,7 +201,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     void find(){
-        herolistbtn = (Button) findViewById(R.id.btn_herolist);
+        //herolistbtn = (Button) findViewById(R.id.btn_herolist);
         matchesbtn = (Button) findViewById(R.id.btn_matches);
         tstmatch = (Button) findViewById(R.id.testmatch);
 
@@ -230,12 +230,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     void clickListeners(){
-        herolistbtn.setOnClickListener(new View.OnClickListener() {
+        /*herolistbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, HeroList.class));
             }
-        });
+        });*/
 
         matchesbtn.setOnClickListener(new View.OnClickListener() {
             @Override

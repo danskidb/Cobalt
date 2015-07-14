@@ -73,7 +73,7 @@ public class PlayerListAdapter extends BaseAdapter {
 
         //KDA
         TextView tv_kda = (TextView) vi.findViewById(R.id.playerlist_kda);
-        tv_kda.setText("KDA: " + kda[position]);
+        tv_kda.setText(kda[position]);
 
 
         return vi;

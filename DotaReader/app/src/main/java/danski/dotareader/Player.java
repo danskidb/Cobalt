@@ -26,6 +26,7 @@ public class Player {
     public int deaths;
     public int assists;
     public int leaver_status;
+    public String leaver_text;
     public int gold;
     public int last_hits;
     public int denies;
@@ -140,6 +141,19 @@ public class Player {
                     if(hero_id == id){
                         hero_name = locname;
                         hero_image_url = "http://cdn.dota2.com/apps/dota2/images/heroes/" + baldhero + "_full.png";    //Hero Image URL
+                    }
+                }
+            }
+
+            String leaverjson = Defines.RawToString(R.raw.leaverstatus);
+            if(leaverjson != null || leaverjson != "ERROR"){
+                JSONArray leaverarray = new JSONArray(leaverjson);
+
+                for (int i = 0; i < leaverarray.length(); i++){
+                    JSONObject c = leaverarray.getJSONObject(i);
+
+                    if(c.getInt("id") == leaver_status){
+                        leaver_text = c.getString("description");
                     }
                 }
             }

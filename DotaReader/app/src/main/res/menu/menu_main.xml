@@ -2,6 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
+    <item android:id="@+id/action_login" android:title="DEBUG: LOGIN"
+        android:orderInCategory="80" app:showAsAction="never" />
     <item android:id="@+id/action_update" android:title="Update"
         android:orderInCategory="90" app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"

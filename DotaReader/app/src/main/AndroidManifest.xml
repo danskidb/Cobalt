@@ -53,6 +53,14 @@
             android:name=".TabbedMatchActivity"
             android:label="@string/title_activity_tabbed_match" >
         </activity>
+        <activity
+            android:name=".SetupWizard"
+            android:label="@string/title_activity_setup_wizard" >
+        </activity>
+        <activity
+            android:name=".OAuth.PrepareRequestTokenActivity"
+            android:label="@string/title_activity_prepare_request_token" >
+        </activity>
     </application>
 
 </manifest>

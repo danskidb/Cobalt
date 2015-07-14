@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class Preferences extends ActionBarActivity {
 
     EditText usernamefield;
     TextView steamidtext;
+    Button redownload;
 
     private ProgressDialog pDialog;
 
@@ -35,6 +37,7 @@ public class Preferences extends ActionBarActivity {
 
         usernamefield = (EditText) findViewById(R.id.field_username);
         steamidtext = (TextView) findViewById(R.id.tv_steamid);
+        redownload = (Button) findViewById(R.id.pref_redownload);
 
         //Read settings
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -59,6 +62,15 @@ public class Preferences extends ActionBarActivity {
                     usernamefield.setText(username);
                     new GetSteamID().execute();
                 }
+            }
+        });
+
+        //What to do when redownload is pressed
+        redownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MatchUpdater mu = new MatchUpdater();
+                mu.FreshMatches();
             }
         });
     }

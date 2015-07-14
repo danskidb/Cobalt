@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -27,10 +28,7 @@ import java.util.Date;
 public class MainActivity extends ActionBarActivity {
 
     //Buttons
-    Button herolistbtn;
-    Button itemlistbtn;
     Button matchesbtn;
-    Button tstmatch;
 
     //Last match view
     RelativeLayout layout;
@@ -68,6 +66,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CookieSyncManager.createInstance(getApplicationContext());
+
 
         Defines.CurrentContext = MainActivity.this;
 
@@ -136,7 +136,6 @@ public class MainActivity extends ActionBarActivity {
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: load match view
                 Defines.SelectedMatch = Defines.CurrentMatches[0];
                 Intent i = new Intent(Defines.CurrentContext, TabbedMatchActivity.class);
                 startActivity(i);
@@ -203,7 +202,7 @@ public class MainActivity extends ActionBarActivity {
     void find(){
         //herolistbtn = (Button) findViewById(R.id.btn_herolist);
         matchesbtn = (Button) findViewById(R.id.btn_matches);
-        tstmatch = (Button) findViewById(R.id.testmatch);
+        //tstmatch = (Button) findViewById(R.id.testmatch);
 
         layout = (RelativeLayout) findViewById(R.id.lastmatch_layout);
 
@@ -230,28 +229,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     void clickListeners(){
-        /*herolistbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, HeroList.class));
-            }
-        });*/
 
         matchesbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MatchHistoryActivity.class));
-            }
-        });
-
-
-        //Download matches
-        tstmatch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MatchUpdater mu = new MatchUpdater();
-                mu.FreshMatches();
-                reloadMatchHistory();
             }
         });
     }
@@ -279,6 +261,11 @@ public class MainActivity extends ActionBarActivity {
         }
         if (id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, Preferences.class));
+            return true;
+        }
+
+        if(id == R.id.action_login){
+            startActivity(new Intent(MainActivity.this, SetupWizard.class));
             return true;
         }
 

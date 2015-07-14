@@ -17,5 +17,9 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <string name="title_activity_setup_wizard">SetupWizard</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="title_activity_prepare_request_token">PrepareRequestTokenActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

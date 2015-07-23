@@ -22,6 +22,7 @@ public class Preferences extends ActionBarActivity {
     TextView steamidtext;
     Button redownload;
 
+
     private ProgressDialog pDialog;
 
     String username;
@@ -114,9 +115,11 @@ public class Preferences extends ActionBarActivity {
                     }
                     else if (success == 42)
                     {
-                        //Throw error couldnt find user
+                        //TODO: Throw error couldnt find user
                         steamid = "Unknown!";
                     } else {
+                        //TODO: Throw error internet/blah blah
+
                         steamid = "ERROR!";
                     }
 

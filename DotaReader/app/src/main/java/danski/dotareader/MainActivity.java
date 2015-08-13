@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
     //Other data
     boolean steamid = false;
     Match lastmatch;
+    boolean didsetup;
     Player lastplayer;
     Long steamid64;
     Long steamid32;
@@ -77,8 +78,10 @@ public class MainActivity extends ActionBarActivity {
         Defines.CurrentContext = MainActivity.this;
 
         reloadMatchHistory();
-        if(!steamid){
+        if(!didsetup){
             //TODO: load setup wizard.
+            Intent i = new Intent(Defines.CurrentContext, SetupWizard.class);
+            startActivity(i);
         }
 
         Defines.CurrentContext = MainActivity.this;
@@ -99,6 +102,7 @@ public class MainActivity extends ActionBarActivity {
     void reloadMatchHistory() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
         String checksteamid = prefs.getString("steamid", null);
+        didsetup = prefs.getBoolean("didSetup", false);
 
         if (checksteamid != null) {
             Log.d("MHA: ", "Found steamid! Let's load matches...");
@@ -193,6 +197,8 @@ public class MainActivity extends ActionBarActivity {
                 gpm.setText(lastplayer.gold_per_min + "");
             }
         }
+
+
     }
 
 
@@ -257,6 +263,9 @@ public class MainActivity extends ActionBarActivity {
             MatchUpdater ma = new MatchUpdater();
             ma.UpdateLocal();
             reloadMatchHistory();
+            setLastMatchData();
+            recreate();
+
             return true;
         }
         if (id == R.id.action_settings) {

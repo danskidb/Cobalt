@@ -55,11 +55,8 @@
         </activity>
         <activity
             android:name=".SetupWizard"
-            android:label="@string/title_activity_setup_wizard" >
-        </activity>
-        <activity
-            android:name=".OAuth.PrepareRequestTokenActivity"
-            android:label="@string/title_activity_prepare_request_token" >
+            android:label="@string/title_activity_setup_wizard"
+            android:noHistory="true">
         </activity>
     </application>
 

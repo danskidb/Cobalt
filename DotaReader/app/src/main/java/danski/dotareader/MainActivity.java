@@ -273,11 +273,6 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
-        if(id == R.id.action_login){
-            startActivity(new Intent(MainActivity.this, SetupWizard.class));
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

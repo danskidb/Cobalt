@@ -43,10 +43,14 @@ public class MatchUpdater{
     Match[] tempMatchArray;
     Match[] mergedTempMatchArray;
 
+    MainActivity act;
+
     //TODO: Internet connection checks
     //TODO: Failsafe things
 
-    public void UpdateLocal() {
+    public void UpdateLocal(MainActivity _act) {
+        act = _act;
+
         //Read settings
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
         String checksteamid = prefs.getString("steamid", null);
@@ -188,6 +192,9 @@ public class MatchUpdater{
 
             SaveToSharedPreferences();
 
+            act.reloadMatchHistory();
+            //act.recreate();
+
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
@@ -284,6 +291,10 @@ public class MatchUpdater{
             super.onPostExecute(result);
 
             SaveToSharedPreferences();
+
+            act = MainActivity.main;
+            act.reloadMatchHistory();
+
 
             // Dismiss the progress dialog
             if (pDialog.isShowing())

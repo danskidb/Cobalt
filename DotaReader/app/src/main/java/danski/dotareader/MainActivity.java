@@ -63,12 +63,15 @@ public class MainActivity extends ActionBarActivity {
     Long steamid64;
     Long steamid32;
 
+    public static MainActivity main;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         CookieSyncManager.createInstance(getApplicationContext());
 
+        main = this;
 
         Defines.CurrentContext = MainActivity.this;
 
@@ -99,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    void reloadMatchHistory() {
+    public void reloadMatchHistory() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
         String checksteamid = prefs.getString("steamid", null);
         didsetup = prefs.getBoolean("didSetup", false);
@@ -261,10 +264,9 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_update) {
             MatchUpdater ma = new MatchUpdater();
-            ma.UpdateLocal();
-            reloadMatchHistory();
-            setLastMatchData();
-            recreate();
+            ma.UpdateLocal(this);
+            //reloadMatchHistory();
+            //recreate();
 
             return true;
         }
@@ -275,4 +277,6 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

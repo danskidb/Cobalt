@@ -4,10 +4,15 @@
 
     <item android:id="@+id/action_update"
         android:title="Update"
-        android:orderInCategory="90"
+        android:orderInCategory="80"
         app:showAsAction="ifRoom"
         android:icon="@drawable/reload"
         />
+   <!-- <item android:id="@+id/action_import"
+        android:title="Import database"
+        android:orderInCategory="90"
+        app:showAsAction="never"
+        />-->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

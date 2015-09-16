@@ -21,10 +21,19 @@
         android:text="My matches"
         android:id="@+id/btn_matches"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/lastmatch_layout"
-        android:layout_alignStart="@+id/lastmatch_layout"
-        android:layout_alignRight="@+id/lastmatch_layout"
-        android:layout_alignEnd="@+id/lastmatch_layout" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/btn_stats"
+        android:layout_toStartOf="@+id/btn_stats" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My stats"
+        android:id="@+id/btn_stats"
+        android:layout_alignTop="@+id/ll_header"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -36,9 +45,9 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_below="@+id/btn_matches"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true">
 
         <GridLayout
             android:layout_width="wrap_content"
@@ -325,5 +334,7 @@
                 android:layout_marginRight="5dp" />
         </GridLayout>
     </RelativeLayout>
+
+
 
 </RelativeLayout>

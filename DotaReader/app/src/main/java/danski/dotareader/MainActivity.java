@@ -275,6 +275,12 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
+       /* if (id == R.id.action_import) {
+            MatchUpdater ma = new MatchUpdater();
+            ma.LoadFromFile(true, this);
+            return true;
+        }*/
+
         return super.onOptionsItemSelected(item);
     }
 

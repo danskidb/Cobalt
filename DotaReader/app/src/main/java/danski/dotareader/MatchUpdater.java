@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ListAdapter;
@@ -17,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -217,7 +220,7 @@ public class MatchUpdater{
 
     private class GetMatches extends AsyncTask<Void, Void, Void> {
 
-        int matchesRequestedInt = 5;
+        int matchesRequestedInt = 20;
 
         @Override
         protected void onPreExecute() {
@@ -307,17 +310,49 @@ public class MatchUpdater{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String pretty = gson.toJson(Defines.CurrentMatches);
 
-        File file = new File(Defines.CurrentContext.getExternalFilesDir(null).getAbsolutePath(), "matchdb.json");
+        //File file = new File(Defines.CurrentContext.getExternalFilesDir(null).getAbsolutePath(), "matchdb.json");
+        File storage = Environment.getExternalStorageDirectory();
+        File dir = new File(storage.getAbsolutePath() + "/Cobalt");
+        dir.mkdirs();
+        File file = new File(dir, "matchdb.json");
         FileOutputStream ops;
 
         try{
             ops = new FileOutputStream(file);
             ops.write(pretty.getBytes());
             ops.close();
-            Log.e("SAVER" , "Saved to: " + Defines.CurrentContext.getExternalFilesDir(null).getAbsolutePath() + "matchdb.json");
+            Log.e("SAVER" , "Saved to: " + file.getAbsolutePath());
         }catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+
+    public String LoadFromFile(Boolean saveToSharedPrefs, MainActivity act){
+        //File file = new File(Defines.CurrentContext.getExternalFilesDir(null).getAbsolutePath(), "matchdb.json");
+        File storage = Environment.getExternalStorageDirectory();
+        File file = new File(storage.getAbsolutePath() + "/Cobalt", "matchdb.json");
+
+        FileInputStream ips;
+        String content = "";
+
+        try{
+            ips = new FileInputStream(file);
+            byte[] input = new byte[ips.available()];
+            while(ips.read(input) != -1){}
+            content += new String(input);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(saveToSharedPrefs){
+            SaveToSharedPreferences(content);
+        }
+
+        UpdateLocal(act);
+
+        return content;
     }
 
     public void SaveToSharedPreferences(){
@@ -326,5 +361,13 @@ public class MatchUpdater{
         editor.putString("matchdb", MatchDB);
         editor.apply();
     }
+
+    public void SaveToSharedPreferences(String jsonString){
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext()).edit();
+        editor.remove("matchdb");
+        editor.putString("matchdb", jsonString);
+        editor.apply();
+    }
+
 
 }

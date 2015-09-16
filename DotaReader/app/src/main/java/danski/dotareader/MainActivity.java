@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
 
     //Buttons
     Button matchesbtn;
+    Button statsbtn;
 
     //Last match view
     RelativeLayout layout;
@@ -209,9 +210,8 @@ public class MainActivity extends ActionBarActivity {
 
 
     void find(){
-        //herolistbtn = (Button) findViewById(R.id.btn_herolist);
         matchesbtn = (Button) findViewById(R.id.btn_matches);
-        //tstmatch = (Button) findViewById(R.id.testmatch);
+        statsbtn = (Button) findViewById(R.id.btn_stats);
 
         layout = (RelativeLayout) findViewById(R.id.lastmatch_layout);
 
@@ -243,6 +243,14 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MatchHistoryActivity.class));
+            }
+        });
+
+        statsbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, TabbedStatsActivity.class));
+
             }
         });
     }

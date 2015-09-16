@@ -56,7 +56,15 @@
         <activity
             android:name=".SetupWizard"
             android:label="@string/title_activity_setup_wizard"
-            android:noHistory="true">
+            android:noHistory="true" >
+        </activity>
+        <activity
+            android:name=".TabbedStatsActivity"
+            android:label="@string/title_activity_tabbed_stats"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="danski.dotareader.MainActivity" />
         </activity>
     </application>
 

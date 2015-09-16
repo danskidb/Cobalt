@@ -21,5 +21,6 @@
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="title_activity_prepare_request_token">PrepareRequestTokenActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_tabbed_stats">TabbedStatsActivity</string>
 
 </resources>

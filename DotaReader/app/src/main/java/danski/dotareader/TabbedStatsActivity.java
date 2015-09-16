@@ -71,7 +71,7 @@ public class TabbedStatsActivity extends ActionBarActivity {
                 case 1:
                     return TabbedStatsActivity_WinRate.newInstance(position);
                 case 2:
-                    return TabbedStatsActivity_WinRate.newInstance(position);
+                    return TabbedStatsActivity_PerMinute.newInstance(position);
                 case 3:
                     return TabbedStatsActivity_WinRate.newInstance(position);
                 case 4:

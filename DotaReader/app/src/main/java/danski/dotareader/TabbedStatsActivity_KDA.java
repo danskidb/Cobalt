@@ -71,7 +71,7 @@ public class TabbedStatsActivity_KDA extends Fragment {
         }
 
         LineGraphSeries<DataPoint> kdalgs = new LineGraphSeries<DataPoint>(kdap);
-        kdalgs.setColor(Color.YELLOW);
+        kdalgs.setColor(Color.GREEN);
         kdalgs.setTitle("KDA Ratio");
 
         kdagraph.getLegendRenderer().setVisible(true);

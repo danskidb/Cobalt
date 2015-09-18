@@ -66,6 +66,12 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
     int denymatch;
     int highestkdamatch;
     int goldmatch;
+    int goldspentmatch;
+    int gpmmatch;
+    int xpmmatch;
+    int herodmgmatch;
+    int towerdmgmatch;
+    int herohealedmatch;
 
     SharedPreferences prefs;
     long steamid32;
@@ -80,6 +86,12 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         int denies = 0;
         float highestkda = 0;
         int gold = 0;
+        int goldspent = 0;
+        int goldperminute = 0;
+        int xpperminute = 0;
+        int herodmg = 0;
+        int towerdmg = 0;
+        int herohealed = 0;
 
         for (int i = 0; i < Defines.CurrentMatches.length; i++) {                   //Go trough matches
             for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {    //Go trough players in match
@@ -101,18 +113,39 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
                         denies = Defines.CurrentMatches[i].Players[j].denies;
                         denymatch = Defines.CurrentMatches[i].matchid;
                     }
-
                     float kda = (Defines.CurrentMatches[i].Players[j].kills + Defines.CurrentMatches[i].Players[j].assists)/(Defines.CurrentMatches[i].Players[j].deaths + 1);
                     if(highestkda < kda) {
                         highestkda = kda;
                         highestkdamatch = Defines.CurrentMatches[i].matchid;
                     }
-
                     if(gold < Defines.CurrentMatches[i].Players[j].gold) {
                         gold = Defines.CurrentMatches[i].Players[j].gold;
                         goldmatch = Defines.CurrentMatches[i].matchid;
                     }
-
+                    if(goldspent < Defines.CurrentMatches[i].Players[j].gold_spent) {
+                        goldspent = Defines.CurrentMatches[i].Players[j].gold_spent;
+                        goldspentmatch = Defines.CurrentMatches[i].matchid;
+                    }
+                    if(goldperminute < Defines.CurrentMatches[i].Players[j].gold_per_min) {
+                        goldperminute = Defines.CurrentMatches[i].Players[j].gold_per_min;
+                        gpmmatch = Defines.CurrentMatches[i].matchid;
+                    }
+                    if(xpperminute < Defines.CurrentMatches[i].Players[j].xp_per_min) {
+                        xpperminute = Defines.CurrentMatches[i].Players[j].xp_per_min;
+                        xpmmatch = Defines.CurrentMatches[i].matchid;
+                    }
+                    if(herodmg < Defines.CurrentMatches[i].Players[j].hero_damage) {
+                        herodmg = Defines.CurrentMatches[i].Players[j].hero_damage;
+                        herodmgmatch = Defines.CurrentMatches[i].matchid;
+                    }
+                    if(towerdmg < Defines.CurrentMatches[i].Players[j].tower_damage) {
+                        towerdmg = Defines.CurrentMatches[i].Players[j].tower_damage;
+                        towerdmgmatch = Defines.CurrentMatches[i].matchid;
+                    }
+                    if(herohealed < Defines.CurrentMatches[i].Players[j].hero_healing) {
+                        herohealed = Defines.CurrentMatches[i].Players[j].hero_healing;
+                        herohealedmatch = Defines.CurrentMatches[i].matchid;
+                    }
                 }
             }
         }
@@ -125,7 +158,8 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         currentmatch = killmatch;
         cards.add(new ScoreCard("Most kills",
                 Match.getPlayerKills(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
                 Match.getMatchArrayPos(currentmatch)
         ));
@@ -133,7 +167,8 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         currentmatch = assistmatch;
         cards.add(new ScoreCard("Most assists",
                 Match.getPlayerAssist(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
                 Match.getMatchArrayPos(currentmatch)
         ));
@@ -141,7 +176,8 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         currentmatch = lasthitmatch;
         cards.add(new ScoreCard("Most last hits",
                 Match.getPlayerLastHits(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
                 Match.getMatchArrayPos(currentmatch)
         ));
@@ -149,7 +185,8 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         currentmatch = denymatch;
         cards.add(new ScoreCard("Most denies",
                 Match.getPlayerDenies(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
                 Match.getMatchArrayPos(currentmatch)
         ));
@@ -157,15 +194,71 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         currentmatch = highestkdamatch;
         cards.add(new ScoreCard("Highest KDA",
                 Match.getPlayerKDA(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
                 Match.getMatchArrayPos(currentmatch)
         ));
 
         currentmatch = goldmatch;
-        cards.add(new ScoreCard("Most Gold",
+        cards.add(new ScoreCard("Most gold",
                 Match.getPlayerGold(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = goldspentmatch;
+        cards.add(new ScoreCard("Most gold spent",
+                Match.getPlayerGoldSpent(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = gpmmatch;
+        cards.add(new ScoreCard("Most gold per minute",
+                Match.getPlayerGPM(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = xpmmatch;
+        cards.add(new ScoreCard("Most xp per minute",
+                Match.getPlayerXPM(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = herodmgmatch;
+        cards.add(new ScoreCard("Highest hero damage",
+                Match.getPlayerHeroDamage(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = herohealedmatch;
+        cards.add(new ScoreCard("Highest hero healing",
+                Match.getPlayerHeroHealing(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = towerdmgmatch;
+        cards.add(new ScoreCard("Highest tower damage",
+                Match.getPlayerTowerDamage(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) + ",",
+                Match.getMatchDateAndTime(currentmatch),
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
                 Match.getMatchArrayPos(currentmatch)
         ));

@@ -277,6 +277,60 @@ public class Match {
         return toReturn;
     }
 
+    public static int getPlayerGoldSpent(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].gold_spent;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static int getPlayerGPM(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].gold_per_min;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static int getPlayerXPM(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].xp_per_min;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
     public static float getPlayerKDA(int match, long steamid32){
         int toReturn = 0;
 
@@ -287,6 +341,60 @@ public class Match {
                     if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
                         toReturn = (Defines.CurrentMatches[i].Players[j].kills + Defines.CurrentMatches[i].Players[j].assists)/ (Defines.CurrentMatches[i].Players[j].deaths + 1);
 
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static int getPlayerHeroDamage(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].hero_damage;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static int getPlayerTowerDamage(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].gold;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static int getPlayerHeroHealing(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].gold;
                         break gettingplayerloop;
                     }
                 }
@@ -341,6 +449,25 @@ public class Match {
                 long start_time = Defines.CurrentMatches[i].start_time;
                 Date origDate = new Date(start_time * 1000);
                 toReturn = new SimpleDateFormat("dd-MM-yyyy").format(origDate);
+
+                break gettingplayerloop;
+            }
+        }
+
+
+        return toReturn;
+
+    }
+
+    public static String getMatchDateAndTime(int match){
+        String toReturn = "";
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                long start_time = Defines.CurrentMatches[i].start_time;
+                Date origDate = new Date(start_time * 1000);
+                toReturn = new SimpleDateFormat("dd-MM-yyyy, kk:mm").format(origDate);
 
                 break gettingplayerloop;
             }

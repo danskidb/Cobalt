@@ -20,14 +20,16 @@ class ScoreCard{
     String statdefinition;
     String actualstat;
     String statdetail;
+    String date;
     String heroimgurl;
     int arraypos;
 
 
-    ScoreCard(String _statdefinition, String _actualstat, String _statdetail, String _heroimgurl, int _arraypos){
+    ScoreCard(String _statdefinition, String _actualstat, String _statdetail, String _date, String _heroimgurl, int _arraypos){
         statdefinition = _statdefinition;
         actualstat = _actualstat;
         statdetail = _statdetail;
+        date = _date;
         heroimgurl = _heroimgurl;
         arraypos = _arraypos;
     }
@@ -56,6 +58,7 @@ public class TabbedStatsActivity_Scoreboard_rvadapter extends RecyclerView.Adapt
         cardViewHolder.vactualstat.setText(sc.actualstat);
         cardViewHolder.vstatdetail.setText(sc.statdetail);
         cardViewHolder.varraypos = sc.arraypos;
+        cardViewHolder.vdate.setText(sc.date);
     }
 
     @Override
@@ -68,6 +71,7 @@ public class TabbedStatsActivity_Scoreboard_rvadapter extends RecyclerView.Adapt
         protected TextView vstatdefinition;
         protected TextView vactualstat;
         protected TextView vstatdetail;
+        protected TextView vdate;
         protected int varraypos;
         protected ImageView vheroimg;
 
@@ -81,6 +85,7 @@ public class TabbedStatsActivity_Scoreboard_rvadapter extends RecyclerView.Adapt
             vstatdefinition = (TextView) v.findViewById(R.id.statdefinition);
             vactualstat = (TextView) v.findViewById(R.id.actualstat);
             vstatdetail = (TextView) v.findViewById(R.id.statdetail);
+            vdate = (TextView) v.findViewById(R.id.statdetail2);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

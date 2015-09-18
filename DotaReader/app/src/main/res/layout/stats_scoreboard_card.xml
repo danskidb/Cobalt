@@ -50,7 +50,16 @@
                 android:id="@+id/statdetail"
                 android:layout_below="@+id/actualstat"
                 android:textSize="14sp"
-                android:text="Luna, 22-05-2015"
+                android:text="Legion Commander,"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/statdetail2"
+                android:layout_below="@+id/statdetail"
+                android:textSize="14sp"
+                android:text="13-09-2015, 20:30"
                 />
         </RelativeLayout>
 

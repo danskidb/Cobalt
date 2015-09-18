@@ -45,7 +45,7 @@ public class TabbedStatsActivity extends ActionBarActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Winrate", "KDA", "Per Minute", "Per Match", "Scoreboard"};
+        private final String[] TITLES = { "Winrate", "KDA", "Per Minute", "Per Match", "Hall of Fame"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

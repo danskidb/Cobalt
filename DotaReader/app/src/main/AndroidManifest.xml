@@ -60,7 +60,7 @@
         </activity>
         <activity
             android:name=".TabbedStatsActivity"
-            android:label="@string/title_activity_tabbed_stats"
+            android:label="My Statistics"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

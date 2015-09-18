@@ -52,6 +52,9 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         findGreatest();
         fillCardArray();
 
+        TabbedStatsActivity_Scoreboard_rvadapter adapter = new TabbedStatsActivity_Scoreboard_rvadapter(cards);
+        rv.setAdapter(adapter);
+
         return root;
 
     }
@@ -62,6 +65,7 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
     int lasthitmatch;
     int denymatch;
     int highestkdamatch;
+    int goldmatch;
 
     SharedPreferences prefs;
     long steamid32;
@@ -75,6 +79,7 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         int lasthit = 0;
         int denies = 0;
         float highestkda = 0;
+        int gold = 0;
 
         for (int i = 0; i < Defines.CurrentMatches.length; i++) {                   //Go trough matches
             for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {    //Go trough players in match
@@ -97,17 +102,20 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
                         denymatch = Defines.CurrentMatches[i].matchid;
                     }
 
-                    float kda = (Defines.CurrentMatches[i].Players[j].kills + Defines.CurrentMatches[i].Players[j].assists)/Defines.CurrentMatches[i].Players[j].deaths;
+                    float kda = (Defines.CurrentMatches[i].Players[j].kills + Defines.CurrentMatches[i].Players[j].assists)/(Defines.CurrentMatches[i].Players[j].deaths + 1);
                     if(highestkda < kda) {
                         highestkda = kda;
                         highestkdamatch = Defines.CurrentMatches[i].matchid;
                     }
+
+                    if(gold < Defines.CurrentMatches[i].Players[j].gold) {
+                        gold = Defines.CurrentMatches[i].Players[j].gold;
+                        goldmatch = Defines.CurrentMatches[i].matchid;
+                    }
+
                 }
             }
         }
-        Log.i("Stats-Scoreboard", "> Found greatest kill: " + kill);
-        Log.i("Stats-Scoreboard", "> Found greatest assist: " + assist);
-
     }
 
     void fillCardArray(){
@@ -115,35 +123,55 @@ public class TabbedStatsActivity_Scoreboard extends Fragment {
         int currentmatch;
 
         currentmatch = killmatch;
-        cards.add(new ScoreCard("Most Kills",
+        cards.add(new ScoreCard("Most kills",
                 Match.getPlayerKills(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) + ", " + Match.getMatchDate(currentmatch, steamid32),
+                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
-                currentmatch));
+                Match.getMatchArrayPos(currentmatch)
+        ));
 
         currentmatch = assistmatch;
-        cards.add(new ScoreCard("Most Assists",
+        cards.add(new ScoreCard("Most assists",
                 Match.getPlayerAssist(currentmatch, steamid32) + "",
-                Match.getPlayerHeroName(currentmatch, steamid32) + ", " + Match.getMatchDate(currentmatch, steamid32),
+                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
                 Match.getPlayerHeroImageUrl(currentmatch, steamid32),
-                currentmatch));
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = lasthitmatch;
+        cards.add(new ScoreCard("Most last hits",
+                Match.getPlayerLastHits(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = denymatch;
+        cards.add(new ScoreCard("Most denies",
+                Match.getPlayerDenies(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = highestkdamatch;
+        cards.add(new ScoreCard("Highest KDA",
+                Match.getPlayerKDA(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
+
+        currentmatch = goldmatch;
+        cards.add(new ScoreCard("Most Gold",
+                Match.getPlayerGold(currentmatch, steamid32) + "",
+                Match.getPlayerHeroName(currentmatch, steamid32) /*+ ", " + Match.getMatchDate(currentmatch, steamid32)*/,
+                Match.getPlayerHeroImageUrl(currentmatch, steamid32),
+                Match.getMatchArrayPos(currentmatch)
+        ));
     }
 
-    class ScoreCard{
-        String statdefinition;
-        String actualstat;
-        String statdetail;
-        String heroimgurl;
-        int matchid;
 
-
-        ScoreCard(String _statdefinition, String _actualstat, String _statdetail, String _heroimgurl, int _matchid){
-            statdefinition = _statdefinition;
-            actualstat = _actualstat;
-            statdetail = _statdetail;
-            heroimgurl = _heroimgurl;
-            matchid = _matchid;
-        }
-    }
 
 }
+

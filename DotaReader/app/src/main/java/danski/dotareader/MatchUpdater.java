@@ -221,7 +221,7 @@ public class MatchUpdater{
 
     private class GetMatches extends AsyncTask<Void, Void, Void> {
 
-        int matchesRequestedInt = 10;
+        int matchesRequestedInt = 20;
 
         @Override
         protected void onPreExecute() {

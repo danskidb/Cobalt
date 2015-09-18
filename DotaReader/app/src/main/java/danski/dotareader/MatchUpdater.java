@@ -37,7 +37,6 @@ public class MatchUpdater{
 
     String steamid;
     String matchesRequested = "&matches_requested=";
-    float progress;
 
     String jsonStr;
     String MatchDB;
@@ -51,6 +50,7 @@ public class MatchUpdater{
     //TODO: Internet connection checks
     //TODO: Failsafe things
 
+    //UPDATES THE CURRENT DATABASE.
     public void UpdateLocal(MainActivity _act) {
         act = _act;
 
@@ -205,6 +205,7 @@ public class MatchUpdater{
         }
     }
 
+    //CALLING THIS WILL REMOVE ALL THE OTHER MATCHES AND GET THE 10 LATEST.
     public void FreshMatches(){
         //Read settings
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
@@ -220,7 +221,7 @@ public class MatchUpdater{
 
     private class GetMatches extends AsyncTask<Void, Void, Void> {
 
-        int matchesRequestedInt = 20;
+        int matchesRequestedInt = 10;
 
         @Override
         protected void onPreExecute() {
@@ -310,7 +311,6 @@ public class MatchUpdater{
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String pretty = gson.toJson(Defines.CurrentMatches);
 
-        //File file = new File(Defines.CurrentContext.getExternalFilesDir(null).getAbsolutePath(), "matchdb.json");
         File storage = Environment.getExternalStorageDirectory();
         File dir = new File(storage.getAbsolutePath() + "/Cobalt");
         dir.mkdirs();
@@ -327,8 +327,8 @@ public class MatchUpdater{
         }
     }
 
+    //RETURNS THE DATABASE AS A STRING, SAVES TO SHARED PREFS AND UPDATES THE MAIN VIEW.
     public String LoadFromFile(Boolean saveToSharedPrefs, MainActivity act){
-        //File file = new File(Defines.CurrentContext.getExternalFilesDir(null).getAbsolutePath(), "matchdb.json");
         File storage = Environment.getExternalStorageDirectory();
         File file = new File(storage.getAbsolutePath() + "/Cobalt", "matchdb.json");
 
@@ -354,6 +354,29 @@ public class MatchUpdater{
 
         return content;
     }
+
+    //RETURNS THE DATABASE AS A STRING.
+    public String LoadFromFile(){
+        File storage = Environment.getExternalStorageDirectory();
+        File file = new File(storage.getAbsolutePath() + "/Cobalt", "matchdb.json");
+
+        FileInputStream ips;
+        String content = "";
+
+        try{
+            ips = new FileInputStream(file);
+            byte[] input = new byte[ips.available()];
+            while(ips.read(input) != -1){}
+            content += new String(input);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return content;
+    }
+
 
     public void SaveToSharedPreferences(){
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext()).edit();

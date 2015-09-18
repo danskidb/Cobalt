@@ -45,11 +45,10 @@ public class TabbedStatsActivity_WinRate extends Fragment {
 
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
-        String MatchDB = prefs.getString("matchdb", null);
         String checksteamid = prefs.getString("steamid", null);
         long steamid64 = Long.parseLong(checksteamid);
         long steamid32 = Defines.idTo32(steamid64);
-        GraphView winrategraph = (GraphView) getView().findViewById(R.id.winrategraph);
+        //GraphView winrategraph = (GraphView) getView().findViewById(R.id.winrategraph);
 
         /*DataPoint[] points = new DataPoint[Defines.CurrentMatches.length];
 

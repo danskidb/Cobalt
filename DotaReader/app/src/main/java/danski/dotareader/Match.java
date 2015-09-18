@@ -1,17 +1,14 @@
 package danski.dotareader;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Danny on 26/06/2015.
@@ -36,7 +33,6 @@ public class Match {
     public Match(){
 
     }
-
 
     public Match(int _matchid, int _arraypos){
         //Get input data
@@ -191,4 +187,94 @@ public class Match {
 
     }
 
+    public static int getPlayerKills(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {                       //Go trough the matches
+            if(Defines.CurrentMatches[i].matchid == match) {                            //if we found the correct match
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {    //Then go trough the players
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){   //If we find the correct player
+                        toReturn = Defines.CurrentMatches[i].Players[j].kills;          //return its value.
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static int getPlayerAssist(int match, long steamid32){
+        int toReturn = 0;
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].assists;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static String getPlayerHeroName(int match, long steamid32){
+        String toReturn = "";
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].hero_name;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static String getPlayerHeroImageUrl(int match, long steamid32){
+        String toReturn = "";
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
+                    if(Defines.CurrentMatches[i].Players[j].account_id == steamid32){
+                        toReturn = Defines.CurrentMatches[i].Players[j].hero_image_url;
+                        break gettingplayerloop;
+                    }
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static String getMatchDate(int match, long steamid32){
+        String toReturn = "";
+
+        gettingplayerloop:
+        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
+            if(Defines.CurrentMatches[i].matchid == match) {
+                long start_time = Defines.CurrentMatches[i].start_time;
+                Date origDate = new Date(start_time * 1000);
+                toReturn = new SimpleDateFormat("dd-MM-yyyy").format(origDate);
+
+                break gettingplayerloop;
+            }
+        }
+
+
+        return toReturn;
+
+    }
 }

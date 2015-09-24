@@ -1,4 +1,4 @@
-package danski.dotareader;
+package danski.dotareader.Data;
 
 /**
  * Created by Danny on 26/06/2015.

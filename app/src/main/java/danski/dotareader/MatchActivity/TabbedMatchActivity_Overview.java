@@ -1,20 +1,17 @@
-package danski.dotareader;
+package danski.dotareader.MatchActivity;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
+import danski.dotareader.Data.Match;
+import danski.dotareader.Defines;
+import danski.dotareader.Adaptor.PlayerListAdapter;
+import danski.dotareader.R;
 
 
 public class TabbedMatchActivity_Overview extends Fragment {

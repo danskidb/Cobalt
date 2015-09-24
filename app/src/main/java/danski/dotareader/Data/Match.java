@@ -1,7 +1,5 @@
-package danski.dotareader;
+package danski.dotareader.Data;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +7,10 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import danski.dotareader.Defines;
+import danski.dotareader.R;
+import danski.dotareader.ServiceHandler;
 
 /**
  * Created by Danny on 26/06/2015.

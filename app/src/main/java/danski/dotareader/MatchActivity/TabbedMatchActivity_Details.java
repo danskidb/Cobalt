@@ -1,4 +1,4 @@
-package danski.dotareader;
+package danski.dotareader.MatchActivity;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import danski.dotareader.Data.Match;
+import danski.dotareader.Defines;
+import danski.dotareader.Adaptor.PlayerDetailListAdapter;
+import danski.dotareader.R;
 
 
 public class TabbedMatchActivity_Details extends Fragment {

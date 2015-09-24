@@ -1,4 +1,4 @@
-package danski.dotareader;
+package danski.dotareader.Data;
 
 import android.util.Log;
 
@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import danski.dotareader.Defines;
+import danski.dotareader.R;
 
 /**
  * Created by Danny on 29-6-2015.

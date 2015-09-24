@@ -7,17 +7,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
 
-    <meta-data
-        android:name="com.samsung.android.sdk.multiwindow.enable"
-        android:value="true" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/cobaltlogo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity_v2"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,31 +22,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HeroList"
-            android:label="@string/title_activity_hero_list"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity" />
-        </activity>
-        <activity
             android:name=".Preferences"
             android:label="@string/title_activity_preferences"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity" />
+                android:value="danski.dotareader.MainActivity_v2" />
         </activity>
         <activity
             android:name=".MatchHistoryActivity"
             android:label="@string/title_activity_match_history"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity" />
+                android:value="danski.dotareader.MainActivity_v2" />
         </activity>
         <activity
-            android:name=".TabbedMatchActivity"
+            android:name=".MatchActivity.TabbedMatchActivity"
             android:label="@string/title_activity_tabbed_match" >
         </activity>
         <activity
@@ -59,12 +47,12 @@
             android:noHistory="true" >
         </activity>
         <activity
-            android:name=".TabbedStatsActivity"
+            android:name=".StatsActivity.TabbedStatsActivity"
             android:label="My Statistics"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity" />
+                android:value="danski.dotareader.MainActivity_v2" />
         </activity>
     </application>
 

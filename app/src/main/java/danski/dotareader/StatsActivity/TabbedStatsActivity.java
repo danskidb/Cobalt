@@ -1,27 +1,20 @@
-package danski.dotareader;
+package danski.dotareader.StatsActivity;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import danski.dotareader.R;
 
-public class TabbedMatchActivity extends ActionBarActivity {
+public class TabbedStatsActivity extends ActionBarActivity {
 
     private final Handler handler = new Handler();
 
@@ -52,7 +45,7 @@ public class TabbedMatchActivity extends ActionBarActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Overview", "Player Details", "Structures"};
+        private final String[] TITLES = { "Winrate", "KDA", "Per Minute", "Per Match", "Hall of Fame"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -74,13 +67,17 @@ public class TabbedMatchActivity extends ActionBarActivity {
 
             switch(position){
                 case 0:
-                    return TabbedMatchActivity_Overview.newInstance(position);
+                    return TabbedStatsActivity_WinRate.newInstance(position);
                 case 1:
-                    return TabbedMatchActivity_Details.newInstance(position);
+                    return TabbedStatsActivity_KDA.newInstance(position);
                 case 2:
-                    return TabbedMatchActivity_Structures.newInstance(position);
+                    return TabbedStatsActivity_PerMinute.newInstance(position);
+                case 3:
+                    return TabbedStatsActivity_PerMatch.newInstance(position);
+                case 4:
+                    return TabbedStatsActivity_Scoreboard.newInstance(position);
                 default:
-                    return TabbedMatchActivity_Overview.newInstance(position);
+                    return TabbedStatsActivity_WinRate.newInstance(position);
             }
         }
 

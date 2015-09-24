@@ -1,14 +1,11 @@
 package danski.dotareader;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,10 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import danski.dotareader.Data.Match;
 
 /**
  * Created by Danny on 29-6-2015.
@@ -45,13 +40,13 @@ public class MatchUpdater{
     Match[] tempMatchArray;
     Match[] mergedTempMatchArray;
 
-    MainActivity act;
+    MainActivity_v2 act;
 
     //TODO: Internet connection checks
     //TODO: Failsafe things
 
     //UPDATES THE CURRENT DATABASE.
-    public void UpdateLocal(MainActivity _act) {
+    public void UpdateLocal(MainActivity_v2 _act) {
         act = _act;
 
         //Read settings
@@ -296,7 +291,7 @@ public class MatchUpdater{
 
             SaveToSharedPreferences();
 
-            act = MainActivity.main;
+            act = MainActivity_v2.thisActivity;
             act.reloadMatchHistory();
 
 
@@ -328,7 +323,7 @@ public class MatchUpdater{
     }
 
     //RETURNS THE DATABASE AS A STRING, SAVES TO SHARED PREFS AND UPDATES THE MAIN VIEW.
-    public String LoadFromFile(Boolean saveToSharedPrefs, MainActivity act){
+    public String LoadFromFile(Boolean saveToSharedPrefs, MainActivity_v2 act){
         File storage = Environment.getExternalStorageDirectory();
         File file = new File(storage.getAbsolutePath() + "/Cobalt", "matchdb.json");
 

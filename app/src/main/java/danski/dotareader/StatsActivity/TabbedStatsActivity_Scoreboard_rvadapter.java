@@ -1,8 +1,7 @@
-package danski.dotareader;
+package danski.dotareader.StatsActivity;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import danski.dotareader.Defines;
+import danski.dotareader.R;
 
 /**
  * Created by danny on 18/09/2015.
@@ -91,7 +93,7 @@ public class TabbedStatsActivity_Scoreboard_rvadapter extends RecyclerView.Adapt
                 @Override
                 public void onClick(View v) {
                     Defines.SelectedMatch = Defines.CurrentMatches[varraypos];
-                    Intent i = new Intent(v.getContext(), TabbedMatchActivity.class);
+                    Intent i = new Intent(v.getContext(), danski.dotareader.MatchActivity.TabbedMatchActivity.class);
                     v.getContext().startActivity(i);
                 }
             });

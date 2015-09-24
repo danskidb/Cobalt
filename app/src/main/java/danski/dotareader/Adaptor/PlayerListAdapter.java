@@ -1,4 +1,4 @@
-package danski.dotareader;
+package danski.dotareader.Adaptor;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import danski.dotareader.Defines;
+import danski.dotareader.R;
 
 /**
  * Created by Danny on 30-6-2015.

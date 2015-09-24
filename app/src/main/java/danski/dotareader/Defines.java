@@ -1,19 +1,17 @@
 package danski.dotareader;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import danski.dotareader.Data.Match;
 
 /**
  * Created by Danny on 26/06/2015.
  */
 
 public class Defines {
-    public static Hero[] heroes;
     public static Match[] CurrentMatches;
     public static Match SelectedMatch;
     public static Context CurrentContext;

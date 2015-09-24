@@ -63,23 +63,16 @@ public class TabbedStatsActivity_KDA extends Fragment {
                     float kda = (kill + assist)/(death +1);
 
                     kdap[i] = new DataPoint(i, kda);
-                    if(kda > ysize){    //calc highest kda so we can scale.
-                        ysize = kda;
-                    }
                 }
             }
         }
 
         LineGraphSeries<DataPoint> kdalgs = new LineGraphSeries<DataPoint>(kdap);
-        kdalgs.setColor(Color.GREEN);
+        kdalgs.setColor(Color.BLACK);
         kdalgs.setTitle("KDA Ratio");
 
         kdagraph.getLegendRenderer().setVisible(true);
         kdagraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-
-        ysize *= 1.5;
-        kdagraph.getViewport().setYAxisBoundsManual(true);
-        kdagraph.getViewport().setMaxY(ysize);
 
         kdagraph.addSeries(kdalgs);
 

@@ -5,3 +5,8 @@ android:
    - build-tools-21.1.2
    - platform-tools
    - tools
+  before_install:
+   - chmod +x gradlew
+  jdk:
+   - oraclejdk7
+   - openjdk7

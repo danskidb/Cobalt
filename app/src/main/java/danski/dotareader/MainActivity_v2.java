@@ -105,7 +105,8 @@ public class MainActivity_v2 extends ActionBarActivity{
         llm = new LinearLayoutManager(Defines.CurrentContext);
         rv.setLayoutManager(llm);
 
-        Adapter_MainActivity ad = new Adapter_MainActivity(Defines.CurrentMatches[0]);
+        Adapter_MainActivity ad = new Adapter_MainActivity();
+
         rv.setAdapter(ad);
 
         matchesbtn.setOnClickListener(new View.OnClickListener() {

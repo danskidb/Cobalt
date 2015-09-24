@@ -54,8 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/mainact_recyclerview"
-        android:paddingTop="16dp"
-        android:layout_below="@+id/btn_stats" />
+        android:layout_below="@+id/btn_stats"
+        android:layout_marginTop="16dp" />
 
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -15,14 +16,13 @@ import com.astuetz.PagerSlidingTabStrip;
 import danski.dotareader.R;
 
 
-public class TabbedMatchActivity extends ActionBarActivity {
+public class TabbedMatchActivity extends AppCompatActivity {
 
     private final Handler handler = new Handler();
 
     private PagerSlidingTabStrip tabs;
     private ViewPager pager;
     private MyPagerAdapter adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class TabbedMatchActivity extends ActionBarActivity {
 
         tabs.setViewPager(pager);
 
+        //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

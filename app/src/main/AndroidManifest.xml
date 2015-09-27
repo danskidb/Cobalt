@@ -22,16 +22,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MatchActivity.TabbedMatchActivity"
+            android:label="@string/title_activity_tabbed_match" >
+        </activity>
+        <activity
             android:name=".MatchHistoryActivity"
-            android:label="@string/title_activity_match_history"
-            android:parentActivityName=".MainActivity_v2" >
+            android:label="Match History"
+            android:parentActivityName=".MainActivity_v2">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="danski.dotareader.MainActivity_v2" />
-        </activity>
-        <activity
-            android:name=".MatchActivity.TabbedMatchActivity"
-            android:label="@string/title_activity_tabbed_match" >
         </activity>
         <activity
             android:name=".SetupWizard"

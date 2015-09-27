@@ -317,8 +317,6 @@ public class MatchUpdater{
                 wiz.finish();
             }
 
-
-
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();

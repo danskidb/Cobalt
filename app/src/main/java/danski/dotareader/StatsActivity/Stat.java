@@ -2,10 +2,12 @@ package danski.dotareader.StatsActivity;
 
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.io.Serializable;
+
 /**
  * Created by danny on 27-9-15.
  */
-public class Stat {
+public class Stat implements Serializable{
     public StatTypes type;
     public int color;
     public String title;
@@ -18,6 +20,4 @@ public class Stat {
 
         datapoints = sg.generate(_type);
     }
-
-    public Stat(){}
 }

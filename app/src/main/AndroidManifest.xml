@@ -22,14 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Preferences"
-            android:label="@string/title_activity_preferences"
-            android:parentActivityName=".MainActivity_v2" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity_v2" />
-        </activity>
-        <activity
             android:name=".MatchHistoryActivity"
             android:label="@string/title_activity_match_history"
             android:parentActivityName=".MainActivity_v2" >
@@ -49,6 +41,14 @@
         <activity
             android:name=".StatsActivity.TabbedStatsActivity"
             android:label="My Statistics"
+            android:parentActivityName=".MainActivity_v2" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="danski.dotareader.MainActivity_v2" />
+        </activity>
+        <activity
+            android:name=".PreferencesActivity.PreferencesActivity"
+            android:label="Settings"
             android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

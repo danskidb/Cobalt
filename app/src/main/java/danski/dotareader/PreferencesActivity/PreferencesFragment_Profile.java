@@ -1,23 +1,38 @@
-package danski.dotareader;
+package danski.dotareader.PreferencesActivity;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import danski.dotareader.Adaptor.PlayerDetailListAdapter;
+import danski.dotareader.Data.Match;
+import danski.dotareader.Defines;
+import danski.dotareader.MatchUpdater;
+import danski.dotareader.R;
+import danski.dotareader.ServiceHandler;
 
-public class Preferences extends ActionBarActivity {
+/**
+ * Created by danny on 27-9-15.
+ */
+public class PreferencesFragment_Profile extends Fragment {
 
+
+    private static final String ARG_POSITION = "position";
+    private int position;
     EditText usernamefield;
     TextView steamidtext;
     Button redownload;
@@ -30,18 +45,32 @@ public class Preferences extends ActionBarActivity {
 
     String url = "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&vanityurl=";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences);
-        Defines.CurrentContext = Preferences.this;
+    public static PreferencesFragment_Profile newInstance(int position) {
+        PreferencesFragment_Profile f = new PreferencesFragment_Profile();
+        Bundle b = new Bundle();
+        b.putInt(ARG_POSITION, position);
+        f.setArguments(b);
+        return f;
+    }
 
-        usernamefield = (EditText) findViewById(R.id.field_username);
-        steamidtext = (TextView) findViewById(R.id.tv_steamid);
-        redownload = (Button) findViewById(R.id.pref_redownload);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        position = getArguments().getInt(ARG_POSITION);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        View root = inflater.inflate(R.layout.activity_preferences, container, false);
+
+        usernamefield = (EditText) root.findViewById(R.id.field_username);
+        steamidtext = (TextView) root.findViewById(R.id.tv_steamid);
+        redownload = (Button) root.findViewById(R.id.pref_redownload);
 
         //Read settings
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
         String checkuname = prefs.getString("username", null);
         if(checkuname != null) {
             username = prefs.getString("username", null);
@@ -74,14 +103,18 @@ public class Preferences extends ActionBarActivity {
                 mu.FreshMatches();
             }
         });
+
+
+        return root;
+
     }
 
-    private class GetSteamID extends AsyncTask<Void, Void, Void>{
+    private class GetSteamID extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(Preferences.this);
+            pDialog = new ProgressDialog(Defines.CurrentContext);
             pDialog.setMessage("Please wait... Finding SteamID");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -108,7 +141,7 @@ public class Preferences extends ActionBarActivity {
                     {
                         Log.d("steamid", response.getString("steamid"));
                         steamid = response.getString("steamid");
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext()).edit();
                         editor.putString("steamid", steamid);
                         editor.putString("username", username);
                         editor.apply();
@@ -146,4 +179,3 @@ public class Preferences extends ActionBarActivity {
 
     }
 }
-

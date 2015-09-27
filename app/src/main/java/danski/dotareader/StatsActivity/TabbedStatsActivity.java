@@ -1,5 +1,6 @@
 package danski.dotareader.StatsActivity;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.util.TypedValue;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import danski.dotareader.Defines;
 import danski.dotareader.R;
 
 public class TabbedStatsActivity extends ActionBarActivity {
@@ -40,6 +42,8 @@ public class TabbedStatsActivity extends ActionBarActivity {
 
         tabs.setViewPager(pager);
 
+        Defines.CurrentContext = this;
+
     }
 
 
@@ -65,15 +69,29 @@ public class TabbedStatsActivity extends ActionBarActivity {
         public Fragment getItem(int position) {
             //return SuperAwesomeCardFragment.newInstance(position);
 
+            StatsGenerator sg = new StatsGenerator(Defines.CurrentContext);
+            Stat[] stat;
+
             switch(position){
                 case 0:
                     return TabbedStatsActivity_WinRate.newInstance(position);
                 case 1:
-                    return TabbedStatsActivity_KDA.newInstance(position);
+                    //kda
+                    stat = new Stat[1];
+                    stat[0] = new Stat(StatTypes.kda, Color.BLACK, "KDA Ratio", sg);
+                    return StatFragment.newInstance(position, stat);
                 case 2:
-                    return TabbedStatsActivity_PerMinute.newInstance(position);
+                    //Per minute
+                    stat = new Stat[2];
+                    stat[0] = new Stat(StatTypes.xpm, Color.BLUE, "XPM", sg);
+                    stat[1] = new Stat(StatTypes.gpm, Color.RED, "GPM", sg);
+                    return StatFragment.newInstance(position, stat);
                 case 3:
-                    return TabbedStatsActivity_PerMatch.newInstance(position);
+                    //Per match
+                    stat = new Stat[2];
+                    stat[0] = new Stat(StatTypes.lasthits, Color.BLUE, "Last Hits", sg);
+                    stat[1] = new Stat(StatTypes.denies, Color.RED, "Denies", sg);
+                    return StatFragment.newInstance(position, stat);
                 case 4:
                     return TabbedStatsActivity_Scoreboard.newInstance(position);
                 default:

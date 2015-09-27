@@ -1,6 +1,7 @@
 package danski.dotareader;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -41,6 +42,8 @@ public class MatchUpdater{
     Match[] mergedTempMatchArray;
 
     MainActivity_v2 act;
+    Boolean setup = false;
+    SetupWizard wiz;
 
     //TODO: Internet connection checks
     //TODO: Failsafe things
@@ -203,6 +206,21 @@ public class MatchUpdater{
     //CALLING THIS WILL REMOVE ALL THE OTHER MATCHES AND GET THE 10 LATEST.
     public void FreshMatches(){
         //Read settings
+        setup = false;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
+        String checksteamid = prefs.getString("steamid", null);
+        if(checksteamid != null){
+            Log.d("MHA: ", "Found steamid! Let's load matches...");
+            steamid = prefs.getString("steamid", null);
+            new GetMatches().execute();
+        } else {
+            Log.d("MHA: ", "Could not find steamid!");
+        }
+    }
+    public void FreshMatches(SetupWizard _wiz){
+        //Read settings
+        wiz = _wiz;
+        setup = true;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
         String checksteamid = prefs.getString("steamid", null);
         if(checksteamid != null){
@@ -290,9 +308,15 @@ public class MatchUpdater{
             super.onPostExecute(result);
 
             SaveToSharedPreferences();
+            if(!setup){
+                act = MainActivity_v2.thisActivity;
+                act.reloadMatchHistory();
+            } else {
+                Intent i = new Intent(wiz, MainActivity_v2.class);
+                wiz.startActivity(i);
+                wiz.finish();
+            }
 
-            act = MainActivity_v2.thisActivity;
-            act.reloadMatchHistory();
 
 
             // Dismiss the progress dialog

@@ -19,9 +19,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import danski.dotareader.Data.Match;
 
 
 public class SetupWizard extends ActionBarActivity {
@@ -39,7 +43,8 @@ public class SetupWizard extends ActionBarActivity {
     String username;
     String persona;
     String steamid;
-
+    MatchUpdater mu;
+    SetupWizard wiz;
     String url = "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&vanityurl=";
 
 
@@ -49,6 +54,8 @@ public class SetupWizard extends ActionBarActivity {
         setContentView(R.layout.activity_setup_wizard);
 
         allowContinue = false;
+        Defines.CurrentContext = this;
+        wiz = this;
 
         confirmbtn = (Button) findViewById(R.id.setup_confirm);
         continuebtn = (Button) findViewById(R.id.setup_continue);
@@ -74,14 +81,14 @@ public class SetupWizard extends ActionBarActivity {
             public void onClick(View view) {
                 if(allowContinue){
                     //TODO: Catch when an error happens
-                    MatchUpdater mu = new MatchUpdater();
-                    mu.FreshMatches();
+                    mu = new MatchUpdater();
+                    mu.FreshMatches(wiz);
 
                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                     editor.putBoolean("didSetup", true);
                     editor.apply();
 
-                    finish();
+                    //new GetMatches().execute();
                 } else{
                     //TODO: Popup for user to enter correct steam creds
                 }
@@ -221,4 +228,5 @@ public class SetupWizard extends ActionBarActivity {
         }
 
     }
+
 }

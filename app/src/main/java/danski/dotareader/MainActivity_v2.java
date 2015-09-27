@@ -43,7 +43,6 @@ public class MainActivity_v2 extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_v2);
         Defines.CurrentContext = this;
         thisActivity = this;
 
@@ -53,9 +52,13 @@ public class MainActivity_v2 extends ActionBarActivity{
             //TODO: load setup wizard.
             Intent i = new Intent(Defines.CurrentContext, SetupWizard.class);
             startActivity(i);
+            finish();
+        } else {
+            setContentView(R.layout.activity_main_v2);
+            reloadMatchHistory();
         }
 
-        reloadMatchHistory();
+
 
 
     }

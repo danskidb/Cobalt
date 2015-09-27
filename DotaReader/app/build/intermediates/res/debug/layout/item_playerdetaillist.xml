@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/playerdetaillist_layout"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#ffff4c62">
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:id="@+id/playerdetaillist_heroimg"
+        android:src="@drawable/luna_full"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/gridLayout2"
+        android:layout_alignEnd="@+id/gridLayout2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player"
+        android:id="@+id/playerdetaillist_player"
+        android:gravity="center_vertical"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp" />
+
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridLayout"
+        android:layout_below="@+id/playerdetaillist_player"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:id="@+id/playerdetaillist_item0"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:src="@drawable/vanguard_lg" />
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:id="@+id/playerdetaillist_item1"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:src="@drawable/vanguard_lg" />
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:id="@+id/playerdetaillist_item2"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:src="@drawable/vanguard_lg" />
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:id="@+id/playerdetaillist_item3"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:src="@drawable/vanguard_lg"
+            android:layout_below="@+id/gridLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:id="@+id/playerdetaillist_item4"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:src="@drawable/vanguard_lg" />
+
+        <ImageView
+            android:layout_width="53dp"
+            android:layout_height="40dp"
+            android:id="@+id/playerdetaillist_item5"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:src="@drawable/vanguard_lg" />
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/gridLayout"
+        android:layout_toRightOf="@+id/gridLayout"
+        android:layout_toEndOf="@+id/gridLayout"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/gridLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kills"
+            android:id="@+id/textView8"
+            android:layout_row="0"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Death"
+            android:id="@+id/textView9"
+            android:layout_row="1"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:id="@+id/pd_death"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPM:"
+            android:id="@+id/textView21"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:id="@+id/pd_gpm"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assist"
+            android:id="@+id/textView10"
+            android:layout_row="2"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:id="@+id/pd_assist"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="APM:"
+            android:id="@+id/textView22"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unavailable"
+            android:id="@+id/pd_apm"
+            android:layout_row="2"
+            android:layout_column="3"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gold sp."
+            android:id="@+id/textView11"
+            android:layout_row="3"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00.0k"
+            android:id="@+id/pd_gold"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="H. Dmg:"
+            android:id="@+id/textView23"
+            android:layout_row="3"
+            android:layout_column="2"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00.0k"
+            android:id="@+id/pd_herodmg"
+            android:layout_row="3"
+            android:layout_column="3"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="L. Hits"
+            android:id="@+id/textView12"
+            android:layout_row="4"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:id="@+id/pd_lasthit"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="H. Heal:"
+            android:id="@+id/textView24"
+            android:layout_row="4"
+            android:layout_column="2"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00.0k"
+            android:id="@+id/pd_heroheal"
+            android:layout_row="4"
+            android:layout_column="3"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Denies"
+            android:id="@+id/textView13"
+            android:layout_row="5"
+            android:layout_column="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:id="@+id/pd_kills"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:id="@+id/pd_deny"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XPM:"
+            android:id="@+id/textView20"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="T. Dmg:"
+            android:id="@+id/textView25"
+            android:layout_row="5"
+            android:layout_column="2"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:id="@+id/pd_xpm"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00.0k"
+            android:id="@+id/pd_towerdmg"
+            android:layout_row="5"
+            android:layout_column="3"
+            android:layout_marginLeft="5dp" />
+
+    </GridLayout>
+
+
+</RelativeLayout><!-- From: file:/E:/Danny/DotaReader/DotaReader/app/src/main/res/layout/item_playerdetaillist.xml -->

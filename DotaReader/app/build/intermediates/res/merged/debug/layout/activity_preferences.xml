@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    tools:context="danski.dotareader.Preferences"
+    android:id="@+id/a">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Steam Username:"
+        android:id="@+id/tv_title_username"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/field_username"
+        android:layout_below="@+id/tv_title_username"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="SteamUsername"
+        android:imeOptions="actionDone"
+        android:maxLength="32"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Steam ID: 0000000000"
+        android:id="@+id/tv_steamid"
+        android:layout_alignBottom="@+id/field_username"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/field_username"
+        android:gravity="center_vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Re-download"
+        android:id="@+id/pref_redownload"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Use this after changing your username.\nor when your matches are corrupted."
+        android:id="@+id/textView15"
+        android:layout_above="@+id/pref_redownload"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Click the blank space\n to verify/store your Steam ID."
+        android:id="@+id/textView17"
+        android:layout_below="@+id/field_username"
+        android:layout_alignRight="@+id/tv_steamid"
+        android:layout_alignEnd="@+id/tv_steamid"
+        android:gravity="right" />
+
+
+</RelativeLayout>
+<!-- From: file:/media/danny/Storage/Danny/DotaReader/DotaReader/app/src/main/res/layout/activity_preferences.xml -->

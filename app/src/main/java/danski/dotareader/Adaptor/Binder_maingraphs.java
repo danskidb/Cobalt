@@ -20,6 +20,9 @@ import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder;
 
 import danski.dotareader.Defines;
 import danski.dotareader.R;
+import danski.dotareader.StatsActivity.Stat;
+import danski.dotareader.StatsActivity.StatTypes;
+import danski.dotareader.StatsActivity.StatsGenerator;
 
 /**
  * Created by danny on 24/09/2015.
@@ -39,34 +42,16 @@ public class Binder_maingraphs extends DataBinder<Binder_maingraphs.ViewHolder> 
 
     @Override
     public void bindViewHolder(ViewHolder holder, int position) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
-        String checksteamid = prefs.getString("steamid", null);
-        long steamid64 = Long.parseLong(checksteamid);
-        long steamid32 = Defines.idTo32(steamid64);
+        Stat stat = new Stat(StatTypes.kda, Color.BLACK, "KDA Ratio", new StatsGenerator(Defines.CurrentContext));
 
-        DataPoint[] kdap = new DataPoint[Defines.CurrentMatches.length];
-        for (int i = 0; i < Defines.CurrentMatches.length; i++) {
-            for (int j = 0; j < Defines.CurrentMatches[i].Players.length; j++) {
-                int invert = Defines.CurrentMatches.length - i - 1;
-                if(Defines.CurrentMatches[i].Players[j].account_id == steamid32) {
-                    int kill = Defines.CurrentMatches[invert].Players[j].kills;
-                    int death = Defines.CurrentMatches[invert].Players[j].deaths;
-                    int assist = Defines.CurrentMatches[invert].Players[j].assists;
-                    float kda = (kill + assist)/(death +1);
+        LineGraphSeries<DataPoint> kdalgs = new LineGraphSeries<DataPoint>(stat.datapoints);
+        kdalgs.setColor(stat.color);
+        kdalgs.setTitle(stat.title);
 
-                    kdap[i] = new DataPoint(i, kda);
-                }
-            }
-        }
+        holder.graph.getLegendRenderer().setVisible(true);
+        holder.graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
-        LineGraphSeries<DataPoint> kdalgs = new LineGraphSeries<DataPoint>(kdap);
-        kdalgs.setColor(Color.BLACK);
-        kdalgs.setTitle("KDA Ratio");
-
-        holder.kdagraph.getLegendRenderer().setVisible(true);
-        holder.kdagraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-
-        holder.kdagraph.addSeries(kdalgs);
+        holder.graph.addSeries(kdalgs);
     }
 
     @Override
@@ -76,11 +61,11 @@ public class Binder_maingraphs extends DataBinder<Binder_maingraphs.ViewHolder> 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        GraphView kdagraph;
+        GraphView graph;
 
         public ViewHolder(View view) {
             super(view);
-            kdagraph = (GraphView) view.findViewById(R.id.maingraph);
+            graph = (GraphView) view.findViewById(R.id.maingraph);
         }
     }
 }

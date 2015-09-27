@@ -1,0 +1,10 @@
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\classes\debug
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\sdk-v1.0.0-8041467fa7348fc6ec30082c29695809dd37b0c0.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-593de70c61cdaada7042054c9a78f64e21c4ccad.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\classes-830f6b69e17736c9ab4b02ea05ebfe979022d9b1.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\multiwindow-v1.2.3-97c57fd7289267818c7050e8469ae67e5ae8bd80.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\picasso-2.5.2-0bf264d79094cfb6d3515a8f68c6e99d24c30c81.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\gson-2.3.1-7fce31bfee54144518181f09c1682a70a9e7994b.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-649211a11005ae1e88b684ef552f20a60f75a6f0.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\classes-dcaded9d3789a23bb4b583902d699749b5020ed6.jar
+E:\Danny\DotaReader\DotaReader\app\build\intermediates\pre-dexed\debug\classes-c88e1029cb20ad53ce8d740d8254359cf6de476c.jar

@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".MatchHistoryActivity"
-            android:label="Match History"
+            android:label="My Matches"
             android:parentActivityName=".MainActivity_v2">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -194,6 +194,7 @@ public class MatchUpdater{
             SaveToSharedPreferences();
 
             act.reloadMatchHistory();
+            act.setupUI();
             //act.recreate();
 
             // Dismiss the progress dialog

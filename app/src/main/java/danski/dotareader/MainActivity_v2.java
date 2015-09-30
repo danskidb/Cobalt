@@ -38,6 +38,7 @@ public class MainActivity_v2 extends ActionBarActivity{
     Long steamid32;
     Boolean didsetup;
     SharedPreferences prefs;
+    Boolean release;
 
     public static MainActivity_v2 thisActivity;
 
@@ -58,10 +59,14 @@ public class MainActivity_v2 extends ActionBarActivity{
             setContentView(R.layout.activity_main_v2);
             reloadMatchHistory();
         }
+    }
 
-
-
-
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Defines.CurrentContext = this;
+        thisActivity = this;
+        if(release) setupUI();
     }
 
     public void reloadMatchHistory() {
@@ -83,7 +88,8 @@ public class MainActivity_v2 extends ActionBarActivity{
                     Gson gson = new Gson();
                     Defines.CurrentMatches = gson.fromJson(MatchDB, Match[].class);
 
-                    setupUI();
+                    //setupUI();
+                    release = true;
 
                 } catch (JSONException e) {
                     e.printStackTrace();

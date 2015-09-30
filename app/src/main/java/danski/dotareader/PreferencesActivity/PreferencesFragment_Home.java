@@ -1,15 +1,18 @@
 package danski.dotareader.PreferencesActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import danski.dotareader.Adaptor.Adapter_Preferences_Graphs;
+import danski.dotareader.Defines;
 import danski.dotareader.R;
+import danski.dotareader.StatsActivity.Stat;
 import danski.dotareader.StatsActivity.StatTypes;
 
 /**
@@ -19,9 +22,10 @@ public class PreferencesFragment_Home extends Fragment {
 
     private static final String ARG_POSITION = "position";
     private int position;
-    stat_enabled[] enabledstats;
-    String[] graphtypes;
+    Stat[] enabledstats;
     ListView graphlist;
+    SharedPreferences prefs;
+
 
     public static PreferencesFragment_Home newInstance(int position) {
         PreferencesFragment_Home f = new PreferencesFragment_Home();
@@ -45,30 +49,19 @@ public class PreferencesFragment_Home extends Fragment {
         graphlist = (ListView) root.findViewById(R.id.pref_home_graphlist);
 
         StatTypes[] st = StatTypes.values();
-        enabledstats = new stat_enabled[st.length];
-        graphtypes = new String[st.length];
+        enabledstats = new Stat[st.length];
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
 
         for(int i = 0; i < enabledstats.length; i++){
-            enabledstats[i] = new stat_enabled(st[i], false);
-            graphtypes[i] = st[i].toString();
+            enabledstats[i] = new Stat(st[i]);
+            if(st[i] != StatTypes.kda) enabledstats[i].enabled = prefs.getBoolean(enabledstats[i].title, false);
+            else enabledstats[i].enabled = prefs.getBoolean(enabledstats[i].title, true);
         }
 
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(root.getContext(),
-                android.R.layout.simple_list_item_1, graphtypes);
-
-        graphlist.setAdapter(adapter);
+        graphlist.setAdapter(new Adapter_Preferences_Graphs(Defines.CurrentContext, enabledstats));
 
         return root;
     }
 
-    class stat_enabled{
-        StatTypes stat;
-        Boolean enabled;
-
-        stat_enabled(StatTypes _stat, Boolean _enabled){
-            stat = _stat;
-            enabled = _enabled;
-        }
-    }
 }

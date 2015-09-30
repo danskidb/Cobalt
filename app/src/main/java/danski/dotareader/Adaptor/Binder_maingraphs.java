@@ -1,20 +1,16 @@
 package danski.dotareader.Adaptor;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.squareup.picasso.Picasso;
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBindAdapter;
 import com.yqritc.recyclerviewmultipleviewtypesadapter.DataBinder;
 
@@ -29,6 +25,8 @@ import danski.dotareader.StatsActivity.StatsGenerator;
  */
 public class Binder_maingraphs extends DataBinder<Binder_maingraphs.ViewHolder> {
 
+    SharedPreferences prefs;
+
     public Binder_maingraphs(DataBindAdapter dataBindAdapter) {
         super(dataBindAdapter);
     }
@@ -42,16 +40,32 @@ public class Binder_maingraphs extends DataBinder<Binder_maingraphs.ViewHolder> 
 
     @Override
     public void bindViewHolder(ViewHolder holder, int position) {
-        Stat stat = new Stat(StatTypes.kda, Color.BLACK, "KDA Ratio", new StatsGenerator(Defines.CurrentContext));
+        StatTypes[] st = StatTypes.values();
+        Stat[] enabledstats = new Stat[st.length];
 
-        LineGraphSeries<DataPoint> kdalgs = new LineGraphSeries<DataPoint>(stat.datapoints);
-        kdalgs.setColor(stat.color);
-        kdalgs.setTitle(stat.title);
+        prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
 
-        holder.graph.getLegendRenderer().setVisible(true);
-        holder.graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        for(int i = 0; i < enabledstats.length; i++){
+            enabledstats[i] = new Stat(st[i]);
+            if(st[i] != StatTypes.kda) enabledstats[i].enabled = prefs.getBoolean(enabledstats[i].title, false);    //TODO: Fix winrate!
+            else enabledstats[i].enabled = prefs.getBoolean(enabledstats[i].title, true);
 
-        holder.graph.addSeries(kdalgs);
+            if(enabledstats[i].enabled && enabledstats[i].type != StatTypes.winrate) {
+                enabledstats[i].generateDataPoints(new StatsGenerator(Defines.CurrentContext));
+
+                LineGraphSeries<DataPoint> lgs = new LineGraphSeries<DataPoint>(enabledstats[i].datapoints);
+                lgs.setColor(enabledstats[i].color);
+                lgs.setTitle(enabledstats[i].title);
+
+                holder.graph.getLegendRenderer().setVisible(true);
+                holder.graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
+                holder.graph.addSeries(lgs);
+            }
+        }
+
+
+
     }
 
     @Override

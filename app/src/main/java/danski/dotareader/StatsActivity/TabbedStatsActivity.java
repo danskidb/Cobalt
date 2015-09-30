@@ -78,19 +78,19 @@ public class TabbedStatsActivity extends ActionBarActivity {
                 case 1:
                     //kda
                     stat = new Stat[1];
-                    stat[0] = new Stat(StatTypes.kda, Color.BLACK, "KDA Ratio", sg);
+                    stat[0] = new Stat(StatTypes.kda, sg);
                     return StatFragment.newInstance(position, stat);
                 case 2:
                     //Per minute
                     stat = new Stat[2];
-                    stat[0] = new Stat(StatTypes.xpm, Color.BLUE, "XPM", sg);
-                    stat[1] = new Stat(StatTypes.gpm, Color.RED, "GPM", sg);
+                    stat[0] = new Stat(StatTypes.xpm, sg);
+                    stat[1] = new Stat(StatTypes.gpm, sg);
                     return StatFragment.newInstance(position, stat);
                 case 3:
                     //Per match
                     stat = new Stat[2];
-                    stat[0] = new Stat(StatTypes.lasthits, Color.BLUE, "Last Hits", sg);
-                    stat[1] = new Stat(StatTypes.denies, Color.RED, "Denies", sg);
+                    stat[0] = new Stat(StatTypes.lasthits, sg);
+                    stat[1] = new Stat(StatTypes.denies, sg);
                     return StatFragment.newInstance(position, stat);
                 case 4:
                     return TabbedStatsActivity_Scoreboard.newInstance(position);

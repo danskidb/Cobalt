@@ -28,7 +28,7 @@
         <activity
             android:name=".MatchHistoryActivity"
             android:label="My Matches"
-            android:parentActivityName=".MainActivity_v2">
+            android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="danski.dotareader.MainActivity_v2" />
@@ -53,6 +53,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="danski.dotareader.MainActivity_v2" />
+        </activity>
+        <activity
+            android:name=".PreferencesActivity.LoginActivity"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <category android:name="android.intent.category.BROWSABLE"></category>
+                <data android:scheme="cobaltlogin"></data>
+            </intent-filter>
         </activity>
     </application>
 

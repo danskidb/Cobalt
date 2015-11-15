@@ -17,6 +17,7 @@ public class Defines {
     public static Context CurrentContext;
     static long convertor = 76561197960265728l;
     public static String key = "7B5DF1FD8BA33927FAC62EF3D1DB37FB";
+    public static long openid_steamid64;
 
     public static String RawToString(int Resource){
         InputStream stream = CurrentContext.getResources().openRawResource(Resource);

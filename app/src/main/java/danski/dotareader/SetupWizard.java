@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -26,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import danski.dotareader.Data.Match;
+import danski.dotareader.PreferencesActivity.LoginActivity;
 
 
 public class SetupWizard extends ActionBarActivity {
@@ -36,6 +38,9 @@ public class SetupWizard extends ActionBarActivity {
     EditText usernamefield;
     TextView displaynameresult;
     TextView steamidresult;
+    ImageButton steamlogin;
+    AlertDialog.Builder alert;
+
 
     Boolean allowContinue = false;
 
@@ -52,7 +57,6 @@ public class SetupWizard extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_wizard);
-
         allowContinue = false;
         Defines.CurrentContext = this;
         wiz = this;
@@ -63,6 +67,7 @@ public class SetupWizard extends ActionBarActivity {
 
         displaynameresult = (TextView) findViewById(R.id.setup_result_uname);
         steamidresult = (TextView) findViewById(R.id.setup_result_id);
+        steamlogin = (ImageButton) findViewById(R.id.steamLogin);
 
 
         confirmbtn.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +78,14 @@ public class SetupWizard extends ActionBarActivity {
                 usernamefield.setText(username);
                 GetSteamID id = new GetSteamID();
                 id.execute();
+            }
+        });
+
+        steamlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Defines.CurrentContext, LoginActivity.class));
+                finish();
             }
         });
 
@@ -95,7 +108,32 @@ public class SetupWizard extends ActionBarActivity {
             }
         });
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null){
+            if(extras.containsKey("openid")){
+                Toast.makeText(getApplicationContext(), "Successfully logged in!", Toast.LENGTH_LONG).show();
+
+                Log.d("steamid", extras.getString("openid"));
+                steamid = extras.getString("openid");
+
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+                editor.putString("steamid", steamid);
+                editor.apply();
+
+                mu = new MatchUpdater();
+                mu.FreshMatches(wiz);
+
+                editor.putBoolean("didSetup", true);
+                editor.apply();
+
+            }
+
+        }
+
     }
+
+
 
     private class GetSteamID extends AsyncTask<Void, Void, Void> {
         int err = 0;
@@ -191,7 +229,6 @@ public class SetupWizard extends ActionBarActivity {
             steamidresult.setText("SteamID: " + steamid);
             displaynameresult.setText("Display name: " + persona);
 
-            AlertDialog.Builder alert;
 
             switch(err){
                 case 0:

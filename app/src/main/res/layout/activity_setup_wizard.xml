@@ -87,11 +87,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/setup_uname"
+        android:text="SteamProfileURL"
         android:layout_below="@+id/imageView2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="51dp"
-        android:text="SteamProfileURL" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -108,8 +107,26 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Your Steam and Dota profiles must be public."
         android:id="@+id/textView36"
+        android:layout_marginBottom="24dp"
         android:layout_above="@+id/textView32"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="34dp" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="OR"
+        android:id="@+id/textView34"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/steamLogin"
+        android:src="@drawable/steamlogin"
+        android:layout_below="@+id/textView34"
+        android:layout_toLeftOf="@+id/setup_continue"
+        android:layout_toStartOf="@+id/setup_continue" />
 
 </RelativeLayout>

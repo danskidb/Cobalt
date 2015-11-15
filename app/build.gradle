@@ -35,4 +35,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.diogobernardino:williamchart:2.0.1'
     compile 'com.yqritc:recyclerview-multiple-viewtypes-adapter:1.1.0'
+    compile files('libs/signpost-commonshttp4-1.2.1.2.jar')
+    compile files('libs/signpost-core-1.2.1.2.jar')
 }

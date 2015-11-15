@@ -20,6 +20,7 @@ import org.json.JSONException;
 
 import danski.dotareader.Adaptor.Adapter_MainActivity;
 import danski.dotareader.Data.Match;
+import danski.dotareader.PreferencesActivity.LoginActivity;
 import danski.dotareader.PreferencesActivity.PreferencesActivity;
 import danski.dotareader.StatsActivity.TabbedStatsActivity;
 
@@ -177,11 +178,10 @@ public class MainActivity_v2 extends ActionBarActivity{
             return true;
         }
 
-       /* if (id == R.id.action_import) {
-            MatchUpdater ma = new MatchUpdater();
-            ma.LoadFromFile(true, this);
+        if (id == R.id.action_logintest) {
+            startActivity(new Intent(Defines.CurrentContext, LoginActivity.class));
             return true;
-        }*/
+        }
 
         return super.onOptionsItemSelected(item);
     }

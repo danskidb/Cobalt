@@ -28,10 +28,10 @@ public class TabbedStatsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tabbed_match);
+        setContentView(R.layout.activity_tabbed_stats);
 
-        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        pager = (ViewPager) findViewById(R.id.pager);
+        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabz);
+        pager = (ViewPager) findViewById(R.id.nsvp);
         adapter = new MyPagerAdapter(getSupportFragmentManager());
 
         pager.setAdapter(adapter);
@@ -42,6 +42,7 @@ public class TabbedStatsActivity extends ActionBarActivity {
 
         tabs.setViewPager(pager);
 
+
         Defines.CurrentContext = this;
 
     }
@@ -49,7 +50,7 @@ public class TabbedStatsActivity extends ActionBarActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Winrate", "KDA", "Per Minute", "Per Match", "Hall of Fame"};
+        private final String[] TITLES = { "Hall of Fame", "Winrate", "KDA", "Per Minute", "Per Match" };
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -74,26 +75,26 @@ public class TabbedStatsActivity extends ActionBarActivity {
 
             switch(position){
                 case 0:
-                    return TabbedStatsActivity_WinRate.newInstance(position);
+                    return TabbedStatsActivity_Scoreboard.newInstance(position);
                 case 1:
+                    return TabbedStatsActivity_WinRate.newInstance(position);
+                case 2:
                     //kda
                     stat = new Stat[1];
                     stat[0] = new Stat(StatTypes.kda, sg);
                     return StatFragment.newInstance(position, stat);
-                case 2:
+                case 3:
                     //Per minute
                     stat = new Stat[2];
                     stat[0] = new Stat(StatTypes.xpm, sg);
                     stat[1] = new Stat(StatTypes.gpm, sg);
                     return StatFragment.newInstance(position, stat);
-                case 3:
+                case 4:
                     //Per match
                     stat = new Stat[2];
                     stat[0] = new Stat(StatTypes.lasthits, sg);
                     stat[1] = new Stat(StatTypes.denies, sg);
                     return StatFragment.newInstance(position, stat);
-                case 4:
-                    return TabbedStatsActivity_Scoreboard.newInstance(position);
                 default:
                     return TabbedStatsActivity_WinRate.newInstance(position);
             }

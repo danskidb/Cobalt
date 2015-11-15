@@ -62,7 +62,17 @@ public class StatFragment extends Fragment{
             graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
             graph.addSeries(lgs);
+
         }
+
+        /*graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(stats.length);
+
+        graph.onDataChanged(false, false);*/
+        //graph.getViewport().setScrollable(true);
+
+        //TODO: Onclick alertdialog with big scrollable graph
         return root;
 
     }

@@ -11,42 +11,6 @@
     tools:context="danski.dotareader.Preferences"
     android:id="@+id/a">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Steam Username:"
-        android:id="@+id/tv_title_username"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/field_username"
-        android:layout_below="@+id/tv_title_username"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="SteamUsername"
-        android:imeOptions="actionDone"
-        android:maxLength="32"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Steam ID: 0000000000"
-        android:id="@+id/tv_steamid"
-        android:layout_alignBottom="@+id/field_username"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/field_username"
-        android:gravity="center_vertical"
-        android:focusable="true"
-        android:focusableInTouchMode="true"/>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,22 +24,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Use this after changing your username.\nor when your matches are corrupted."
+        android:text="Use re-download if some of \nyour matches are corrupted."
         android:id="@+id/textView15"
-        android:layout_above="@+id/pref_redownload"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/pref_redownload"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Click the blank space\n to verify/store your Steam ID."
-        android:id="@+id/textView17"
-        android:layout_below="@+id/field_username"
-        android:layout_alignRight="@+id/tv_steamid"
-        android:layout_alignEnd="@+id/tv_steamid"
-        android:gravity="right" />
+        android:text="Log out"
+        android:id="@+id/pref_logout"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/pref_redownload"
+        android:layout_toEndOf="@+id/pref_redownload"
+        android:layout_marginTop="49dp" />
 
 
 </RelativeLayout>

@@ -20,104 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Please enter your Steam profile URL"
+        android:text="Please login with Steam"
         android:id="@+id/textView19"
         android:layout_marginTop="28dp"
         android:layout_below="@+id/textView18"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Continue ->"
-        android:id="@+id/setup_continue"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Result:"
-        android:id="@+id/textView32"
-        android:layout_above="@+id/setup_result_uname"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="SteamID: 000000"
-        android:id="@+id/setup_result_id"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Display name: SteamUser"
-        android:id="@+id/setup_result_uname"
-        android:layout_above="@+id/setup_result_id"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:src="@drawable/customurlhint"
-        android:layout_below="@+id/textView35"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Find it in Steam -> Profile -> Edit Profile"
-        android:id="@+id/textView35"
-        android:layout_below="@+id/textView19"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/setup_uname"
-        android:text="SteamProfileURL"
-        android:layout_below="@+id/imageView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:id="@+id/setup_confirm"
-        android:layout_alignTop="@+id/setup_uname"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Your Steam and Dota profiles must be public."
-        android:id="@+id/textView36"
-        android:layout_marginBottom="24dp"
-        android:layout_above="@+id/textView32"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="OR"
-        android:id="@+id/textView34"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <ImageButton
@@ -125,8 +31,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/steamLogin"
         android:src="@drawable/steamlogin"
-        android:layout_below="@+id/textView34"
-        android:layout_toLeftOf="@+id/setup_continue"
-        android:layout_toStartOf="@+id/setup_continue" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

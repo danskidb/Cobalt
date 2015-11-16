@@ -178,11 +178,6 @@ public class MainActivity_v2 extends ActionBarActivity{
             return true;
         }
 
-        if (id == R.id.action_logintest) {
-            startActivity(new Intent(Defines.CurrentContext, LoginActivity.class));
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

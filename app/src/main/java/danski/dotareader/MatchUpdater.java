@@ -395,6 +395,11 @@ public class MatchUpdater{
         return content;
     }
 
+    public void RemoveFile(){
+        File storage = Environment.getExternalStorageDirectory();
+        File file = new File(storage.getAbsolutePath() + "/Cobalt", "matchdb.json");
+        boolean del = file.delete();
+    }
 
     public void SaveToSharedPreferences(){
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext()).edit();

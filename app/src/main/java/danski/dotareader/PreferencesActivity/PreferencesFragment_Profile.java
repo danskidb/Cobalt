@@ -1,6 +1,7 @@
 package danski.dotareader.PreferencesActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,17 +34,8 @@ public class PreferencesFragment_Profile extends Fragment {
 
     private static final String ARG_POSITION = "position";
     private int position;
-    EditText usernamefield;
-    TextView steamidtext;
     Button redownload;
-
-
-    private ProgressDialog pDialog;
-
-    String username;
-    String steamid;
-
-    String url = "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=7B5DF1FD8BA33927FAC62EF3D1DB37FB&vanityurl=";
+    Button logout;
 
     public static PreferencesFragment_Profile newInstance(int position) {
         PreferencesFragment_Profile f = new PreferencesFragment_Profile();
@@ -64,34 +56,26 @@ public class PreferencesFragment_Profile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View root = inflater.inflate(R.layout.activity_preferences, container, false);
+        final View froot = root;
 
-        usernamefield = (EditText) root.findViewById(R.id.field_username);
-        steamidtext = (TextView) root.findViewById(R.id.tv_steamid);
         redownload = (Button) root.findViewById(R.id.pref_redownload);
+        logout = (Button) root.findViewById(R.id.pref_logout);
 
-        //Read settings
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext());
-        String checkuname = prefs.getString("username", null);
-        if(checkuname != null) {
-            username = prefs.getString("username", null);
-            usernamefield.setText(username);
-        }
-        String checksteamid = prefs.getString("steamid", null);
-        if(checksteamid != null){
-            steamid = prefs.getString("steamid", null);
-            steamidtext.setText("Steam ID: " + steamid);
-        }
-
-        //Listen when we are done editing. then call the Async task.
-        usernamefield.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    username = usernamefield.getText().toString();
-                    username = username.replaceAll("\\s", "");
-                    usernamefield.setText(username);
-                    new GetSteamID().execute();
-                }
+            public void onClick(View view) {
+                MatchUpdater mu = new MatchUpdater();
+                mu.RemoveFile();
+                mu = null;
+
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(froot.getContext()).edit();
+                editor.putBoolean("didSetup", false);
+                editor.apply();
+
+                Intent i = getActivity().getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage( getActivity().getBaseContext().getPackageName() );
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
             }
         });
 
@@ -101,6 +85,7 @@ public class PreferencesFragment_Profile extends Fragment {
             public void onClick(View view) {
                 MatchUpdater mu = new MatchUpdater();
                 mu.FreshMatches();
+                mu = null;
             }
         });
 
@@ -109,73 +94,4 @@ public class PreferencesFragment_Profile extends Fragment {
 
     }
 
-    private class GetSteamID extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Showing progress dialog
-            pDialog = new ProgressDialog(Defines.CurrentContext);
-            pDialog.setMessage("Please wait... Finding SteamID");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
-            ServiceHandler sh = new ServiceHandler();
-
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(url + username, ServiceHandler.GET);
-
-            Log.d("Response: ", "> " + jsonStr);
-
-            if (jsonStr != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONObject response = jsonObj.getJSONObject("response");
-
-                    int success = response.getInt("success");
-                    if(success == 1)
-                    {
-                        Log.d("steamid", response.getString("steamid"));
-                        steamid = response.getString("steamid");
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext.getApplicationContext()).edit();
-                        editor.putString("steamid", steamid);
-                        editor.putString("username", username);
-                        editor.apply();
-                    }
-                    else if (success == 42)
-                    {
-                        //TODO: Throw error couldnt find user
-                        steamid = "Unknown!";
-                    } else {
-                        //TODO: Throw error internet/blah blah
-
-                        steamid = "ERROR!";
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
-            if (pDialog.isShowing())
-                pDialog.dismiss();
-
-            steamidtext.setText("Steam ID: " + steamid);
-
-        }
-
-    }
 }

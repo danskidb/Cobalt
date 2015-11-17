@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".MatchHistoryActivity"
-            android:label="My Matches"
+            android:label="Matches"
             android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -40,7 +40,7 @@
         </activity>
         <activity
             android:name=".StatsActivity.TabbedStatsActivity"
-            android:label="My Statistics"
+            android:label="Statistics"
             android:parentActivityName=".MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

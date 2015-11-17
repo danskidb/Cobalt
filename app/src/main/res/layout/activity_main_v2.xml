@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My matches"
+        android:text="Matches"
         android:id="@+id/btn_matches"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -23,7 +23,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My stats"
+        android:text="Statistics"
         android:id="@+id/btn_stats"
         android:layout_below="@+id/btn_matches"
         android:layout_alignParentLeft="true"

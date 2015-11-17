@@ -47,7 +47,7 @@ public class TabbedMatchActivity extends AppCompatActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String[] TITLES = { "Overview", "Player Details", "Structures"};
+        private final String[] TITLES = { "Overview", "Player Details", "Me"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -73,7 +73,7 @@ public class TabbedMatchActivity extends AppCompatActivity {
                 case 1:
                     return TabbedMatchActivity_Details.newInstance(position);
                 case 2:
-                    return TabbedMatchActivity_Structures.newInstance(position);
+                    return TabbedMatchActivity_Me.newInstance(position);
                 default:
                     return TabbedMatchActivity_Overview.newInstance(position);
             }

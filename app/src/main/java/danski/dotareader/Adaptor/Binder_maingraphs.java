@@ -64,6 +64,11 @@ public class Binder_maingraphs extends DataBinder<Binder_maingraphs.ViewHolder> 
             }
         }
 
+        holder.graph.getViewport().setScrollable(true);
+        holder.graph.getViewport().setXAxisBoundsManual(true);
+        holder.graph.getViewport().setMinX(0);
+        holder.graph.getViewport().setMaxX(20);
+
 
 
     }

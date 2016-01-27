@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="danski.dotareader" >
+    package="danski.cobalt" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,11 +9,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/cobaltlogo"
+        android:icon="@drawable/logo2"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity_v2"
+            android:name="danski.cobalt.MainActivity_v2"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,40 +22,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MatchActivity.TabbedMatchActivity"
+            android:name="danski.cobalt.MatchActivity.TabbedMatchActivity"
             android:label="@string/title_activity_tabbed_match" >
         </activity>
         <activity
-            android:name=".MatchHistoryActivity"
+            android:name="danski.cobalt.MatchHistoryActivity"
             android:label="Matches"
-            android:parentActivityName=".MainActivity_v2" >
+            android:parentActivityName="danski.cobalt.MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity_v2" />
+                android:value="danski.cobalt.MainActivity_v2" />
         </activity>
         <activity
-            android:name=".SetupWizard"
+            android:name="danski.cobalt.SetupWizard"
             android:label="@string/title_activity_setup_wizard"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name=".StatsActivity.TabbedStatsActivity"
+            android:name="danski.cobalt.StatsActivity.TabbedStatsActivity"
             android:label="Statistics"
-            android:parentActivityName=".MainActivity_v2" >
+            android:parentActivityName="danski.cobalt.MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity_v2" />
+                android:value="danski.cobalt.MainActivity_v2" />
         </activity>
         <activity
-            android:name=".PreferencesActivity.PreferencesActivity"
+            android:name="danski.cobalt.PreferencesActivity.PreferencesActivity"
             android:label="Settings"
-            android:parentActivityName=".MainActivity_v2" >
+            android:parentActivityName="danski.cobalt.MainActivity_v2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="danski.dotareader.MainActivity_v2" />
+                android:value="danski.cobalt.MainActivity_v2" />
         </activity>
         <activity
-            android:name=".PreferencesActivity.LoginActivity"
+            android:name="danski.cobalt.PreferencesActivity.LoginActivity"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"></action>

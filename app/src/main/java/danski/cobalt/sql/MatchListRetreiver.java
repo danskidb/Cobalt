@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import danski.cobalt.Defines;
+import danski.cobalt.MainActivity;
 import danski.cobalt.data.Match;
 
 /**
@@ -86,6 +87,8 @@ public class MatchListRetreiver {
 
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
+            MainActivity.instance.populateList();
         }
     }
 }

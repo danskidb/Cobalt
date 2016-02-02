@@ -1,14 +1,17 @@
 package danski.cobalt.sql;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * Created by Danny on 28/01/2016.
@@ -16,11 +19,12 @@ import java.io.InputStream;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 2;
+    static int databaseVersion = 4;
 
     Context context;
     AssetManager am;
-    String fileSetup = "setupdb.sql";
+
+    SQLiteDatabase db;
 
     public SQLManager (Context _context){
         super(_context, databaseName, null, databaseVersion);
@@ -29,6 +33,43 @@ public class SQLManager extends SQLiteOpenHelper {
         Log.i("SQLM", "All ready!");
     }
 
+    public boolean doesMatchExist(long matchid){
+       db = this.getReadableDatabase();
+
+        String query = "Select * from Match where match_id = " + matchid;
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
+    }
+
+    public boolean addMatch(JSONObject match){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        try{
+            cv.put("match_id", match.getLong("match_id"));
+            cv.put("match_seq_num", match.getLong("match_seq_num"));
+            cv.put("start_time", match.getLong("start_time"));
+            cv.put("lobby_type", match.getInt("lobby_type"));
+            cv.put("radiant_team_id", match.getInt("radiant_team_id"));
+            cv.put("dire_team_id", match.getInt("dire_team_id"));
+            db.insert("Match", null, cv);
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Cursor getAllMatches(){
+        db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("Select * from Match", null);
+        return res;
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) throws SQLiteException{
@@ -135,6 +176,7 @@ public class SQLManager extends SQLiteOpenHelper {
                     "  \"Item_item_id3\" INTEGER NOT NULL,\n" +
                     "  \"Item_item_id4\" INTEGER NOT NULL,\n" +
                     "  \"Item_item_id5\" INTEGER NOT NULL,\n" +
+                    "  \"player_slot\" INTEGER,\n" +
                     "  \"kills\" INTEGER,\n" +
                     "  \"deaths\" INTEGER,\n" +
                     "  \"assists\" INTEGER,\n" +

@@ -6,4 +6,5 @@ package danski.cobalt.data;
 public class Player {
     long account_id;
     String name;
+    int player_slot;
 }

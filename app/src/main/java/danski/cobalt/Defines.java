@@ -1,8 +1,11 @@
 package danski.cobalt;
 
+import android.content.Context;
+
 /**
  * Created by Danny on 28/01/2016.
  */
 public class Defines {
-    int appver = 0; //placeholder
+    public static Context CurrentContext;
+    public static String APIKEY = "7B5DF1FD8BA33927FAC62EF3D1DB37FB";
 }

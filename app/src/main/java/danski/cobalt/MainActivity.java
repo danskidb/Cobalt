@@ -8,31 +8,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import danski.cobalt.sql.MatchListRetreiver;
 import danski.cobalt.sql.SQLManager;
 
 public class MainActivity extends AppCompatActivity {
 
     Button b;
     Context context;
-    SQLManager sm;
-    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
-
-        Log.i("MainActivity", "Going to create sql");
-        sm = new SQLManager(context);
-        db = sm.getReadableDatabase();
+        Defines.CurrentContext = this;
 
         b = (Button) findViewById(R.id.button);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                SQLiteDatabase db = sm.getReadableDatabase();
+                MatchListRetreiver mlr = new MatchListRetreiver();
+                mlr.retreive();
 
             }
         });

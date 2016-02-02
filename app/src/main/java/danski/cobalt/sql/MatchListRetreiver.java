@@ -36,7 +36,7 @@ public class MatchListRetreiver {
         @Override
         protected void onPreExecute(){
             pDialog = new ProgressDialog(Defines.CurrentContext);
-            pDialog.setMessage("Downloading/Processing Matches");
+            pDialog.setMessage("Retreiving match history");
             pDialog.setCancelable(false);
             pDialog.show();
         }
@@ -62,10 +62,21 @@ public class MatchListRetreiver {
                     for (i = 0 ; i < matches.length(); i++){
 
                         JSONObject m = matches.getJSONObject(i);
-                        if(!sq.doesMatchExist(m.getLong("match_id"))){
+                        if(!sq.doesMatchExist(m.getLong("match_id"))) {
                             sq.addMatch(m);
-                        } else {
                         }
+
+                        JSONArray players = m.getJSONArray("players");
+                        for(int j = 0; j < players.length(); j++){
+                            JSONObject p = players.getJSONObject(j);
+                            if(!sq.doesPlayerExist(p.getLong("account_id"))){
+                                sq.addPlayer(p.getLong("account_id"));
+                            }
+                            if(!sq.isPlayerInMatch(p.getLong("account_id"), m.getLong("match_id"))){
+                                sq.linkPlayerToMatch(p, m.getLong("match_id"));
+                            }
+                        }
+
                     }
                     Log.i("MatchListRetreiver", "Retreived: " + i + " entries");
 

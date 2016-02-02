@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ import org.json.JSONObject;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 4;
+    static int databaseVersion = 10;
 
     Context context;
     AssetManager am;
@@ -30,13 +31,40 @@ public class SQLManager extends SQLiteOpenHelper {
         super(_context, databaseName, null, databaseVersion);
         context = _context;
         am = context.getAssets();
-        Log.i("SQLM", "All ready!");
     }
 
     public boolean doesMatchExist(long matchid){
        db = this.getReadableDatabase();
 
         String query = "Select * from Match where match_id = " + matchid;
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
+    }
+
+    public boolean doesPlayerExist(long playerid){
+        db = this.getReadableDatabase();
+
+        String query = "Select * from Player where account_id = " + playerid;
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
+    }
+
+    public boolean isPlayerInMatch(long playerid, long matchid){
+        db = this.getReadableDatabase();
+
+        String query = "Select * from Match_has_Player where Match_match_id = " + matchid + " and Player_account_id = " + playerid;
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
@@ -60,6 +88,36 @@ public class SQLManager extends SQLiteOpenHelper {
             db.insert("Match", null, cv);
             return true;
         } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean addPlayer(long playerid){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        try{
+            cv.put("account_id", playerid);
+            db.insert("Player", null, cv);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean linkPlayerToMatch(JSONObject player, long matchid){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        try{
+            cv.put("Player_account_id", player.getLong("account_id"));
+            cv.put("Match_match_id", matchid);
+            cv.put("player_slot", player.getInt("player_slot"));
+            cv.put("Hero_hero_id", player.getInt("hero_id"));
+            db.insert("Match_has_Player", null, cv);
+            return true;
+        }catch (JSONException e){
             e.printStackTrace();
             return false;
         }
@@ -136,8 +194,9 @@ public class SQLManager extends SQLiteOpenHelper {
                     ");");
 
             db.execSQL("CREATE INDEX \"Hero_has_ability.fk_Hero_has_ability_ability1_idx\" ON \"Hero_has_ability\" (\"ability_ability_id\");\n" +
-                    "CREATE INDEX \"Hero_has_ability.fk_Hero_has_ability_Hero1_idx\" ON \"Hero_has_ability\" (\"Hero_hero_id\");\n" +
-                    "CREATE TABLE \"Player\"(\n" +
+                    "CREATE INDEX \"Hero_has_ability.fk_Hero_has_ability_Hero1_idx\" ON \"Hero_has_ability\" (\"Hero_hero_id\");");
+
+            db.execSQL("CREATE TABLE \"Player\"(\n" +
                     "  \"account_id\" INTEGER PRIMARY KEY NOT NULL,\n" +
                     "  \"name\" VARCHAR(45)\n" +
                     ");");
@@ -170,12 +229,12 @@ public class SQLManager extends SQLiteOpenHelper {
                     "  \"Match_match_id\" INTEGER NOT NULL,\n" +
                     "  \"Player_account_id\" INTEGER NOT NULL,\n" +
                     "  \"Hero_hero_id\" INTEGER NOT NULL,\n" +
-                    "  \"Item_item_id\" INTEGER NOT NULL,\n" +
-                    "  \"Item_item_id1\" INTEGER NOT NULL,\n" +
-                    "  \"Item_item_id2\" INTEGER NOT NULL,\n" +
-                    "  \"Item_item_id3\" INTEGER NOT NULL,\n" +
-                    "  \"Item_item_id4\" INTEGER NOT NULL,\n" +
-                    "  \"Item_item_id5\" INTEGER NOT NULL,\n" +
+                    "  \"Item_item_id\" INTEGER,\n" +
+                    "  \"Item_item_id1\" INTEGER,\n" +
+                    "  \"Item_item_id2\" INTEGER,\n" +
+                    "  \"Item_item_id3\" INTEGER,\n" +
+                    "  \"Item_item_id4\" INTEGER,\n" +
+                    "  \"Item_item_id5\" INTEGER,\n" +
                     "  \"player_slot\" INTEGER,\n" +
                     "  \"kills\" INTEGER,\n" +
                     "  \"deaths\" INTEGER,\n" +
@@ -255,6 +314,7 @@ public class SQLManager extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS Hero");
+        db.execSQL("DROP TABLE IF EXISTS Player");
         db.execSQL("DROP TABLE IF EXISTS Hero_has_Ability");
         db.execSQL("DROP TABLE IF EXISTS Item");
         db.execSQL("DROP TABLE IF EXISTS Match");

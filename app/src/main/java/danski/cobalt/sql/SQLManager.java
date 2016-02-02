@@ -16,7 +16,7 @@ import java.io.InputStream;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 1;
+    static int databaseVersion = 2;
 
     Context context;
     AssetManager am;
@@ -207,33 +207,17 @@ public class SQLManager extends SQLiteOpenHelper {
         } catch (SQLiteException e) {
             e.printStackTrace();
         }
-
-
-
-       /* Log.i("SQLM", "onCreate");
-        InputStream input;
-        String output = "";
-
-        try{
-            input = am.open("setupdb.sql");
-            byte[] buffer = new byte[input.available()];
-            input.read(buffer);
-            input.close();
-
-            output = new String(buffer);
-            Log.i("SQLM", output);
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        db.execSQL(output); //from file*/
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + databaseName);
+        db.execSQL("DROP TABLE IF EXISTS Hero");
+        db.execSQL("DROP TABLE IF EXISTS Hero_has_Ability");
+        db.execSQL("DROP TABLE IF EXISTS Item");
+        db.execSQL("DROP TABLE IF EXISTS Match");
+        db.execSQL("DROP TABLE IF EXISTS Match_has_Player");
+        db.execSQL("DROP TABLE IF EXISTS ability");
 
         //todo: CLEAR OUT ALL TABLEZ
         

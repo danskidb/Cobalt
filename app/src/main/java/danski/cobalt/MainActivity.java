@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import danski.cobalt.sql.MatchListRetreiver;
+import danski.cobalt.sql.MatchRetreiver;
 import danski.cobalt.sql.SQLManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +48,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 MatchListRetreiver mlr = new MatchListRetreiver();
                 mlr.retreive();
+            }
+        });
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = (String) parent.getItemAtPosition(position);
+                Log.i("MainActivity", item);
+                MatchRetreiver mr = new MatchRetreiver();
+                mr.retreive(Long.parseLong(item));
             }
         });
     }

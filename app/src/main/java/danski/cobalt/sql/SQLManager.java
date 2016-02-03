@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 10;
+    static int databaseVersion = 15;
 
     Context context;
     AssetManager am;
@@ -63,6 +63,10 @@ public class SQLManager extends SQLiteOpenHelper {
 
     public boolean isPlayerInMatch(long playerid, long matchid){
         db = this.getReadableDatabase();
+
+        if(playerid == Long.parseLong("4294967295")){
+            return false;
+        }
 
         String query = "Select * from Match_has_Player where Match_match_id = " + matchid + " and Player_account_id = " + playerid;
         Cursor cursor = db.rawQuery(query, null);
@@ -109,6 +113,7 @@ public class SQLManager extends SQLiteOpenHelper {
 
     public boolean linkPlayerToMatch(JSONObject player, long matchid){
         db = this.getWritableDatabase();
+
         ContentValues cv = new ContentValues();
         try{
             cv.put("Player_account_id", player.getLong("account_id"));
@@ -123,6 +128,43 @@ public class SQLManager extends SQLiteOpenHelper {
         }
     }
 
+    public boolean addPlayerDataToMatch(JSONObject player, long matchid){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        try{
+            cv.put("Item_item_id", player.getInt("item_0"));
+            cv.put("Item_item_id1", player.getInt("item_1"));
+            cv.put("Item_item_id2", player.getInt("item_2"));
+            cv.put("Item_item_id3", player.getInt("item_3"));
+            cv.put("Item_item_id4", player.getInt("item_4"));
+            cv.put("Item_item_id5", player.getInt("item_5"));
+            cv.put("kills", player.getInt("kills"));
+            cv.put("deaths", player.getInt("deaths"));
+            cv.put("assists", player.getInt("assists"));
+            cv.put("leaver_status", player.getInt("leaver_status"));
+            cv.put("gold", player.getInt("gold"));
+            cv.put("last_hits", player.getInt("last_hits"));
+            cv.put("denies", player.getInt("denies"));
+            cv.put("gold_per_minute", player.getInt("gold_per_min"));
+            cv.put("xp_per_minute", player.getInt("xp_per_min"));
+            cv.put("gold_spent", player.getLong("gold_spent"));
+            cv.put("hero_damage", player.getLong("hero_damage"));
+            cv.put("tower_damage", player.getLong("tower_damage"));
+            cv.put("hero_healing", player.getLong("hero_healing"));
+            cv.put("level", player.getInt("level"));
+
+            db.update("Match_has_Player",
+                    cv,
+                    "Match_match_id = ? AND player_slot = ?",
+                    new String[] { String.valueOf(matchid), String.valueOf(player.getLong("player_slot"))}
+            );
+            return true;
+        }catch (JSONException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public Cursor getAllMatches(){
         db = this.getReadableDatabase();
         Cursor res = db.rawQuery("Select * from Match", null);
@@ -130,8 +172,8 @@ public class SQLManager extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) throws SQLiteException{
-        try{
+    public void onCreate(SQLiteDatabase db) throws SQLiteException {
+        try {
             Log.i("SQLM", "Going to create tables");
             db.execSQL("CREATE TABLE \"Hero\"(\n" +
                     "  \"hero_id\" INTEGER PRIMARY KEY NOT NULL,\n" +
@@ -250,7 +292,7 @@ public class SQLManager extends SQLiteOpenHelper {
                     "  \"tower_damage\" INTEGER,\n" +
                     "  \"hero_healing\" INTEGER,\n" +
                     "  \"level\" INTEGER,\n" +
-                    "  PRIMARY KEY(\"Match_match_id\",\"Player_account_id\"),\n" +
+                    "  PRIMARY KEY(\"Match_match_id\",\"player_slot\"),\n" +
                     "  CONSTRAINT \"fk_Match_has_Player_Match\"\n" +
                     "    FOREIGN KEY(\"Match_match_id\")\n" +
                     "    REFERENCES \"Match\"(\"match_id\"),\n" +
@@ -288,8 +330,9 @@ public class SQLManager extends SQLiteOpenHelper {
                     "CREATE INDEX \"Match_has_Player.fk_Match_has_Player_Item3_idx\" ON \"Match_has_Player\" (\"Item_item_id2\");\n" +
                     "CREATE INDEX \"Match_has_Player.fk_Match_has_Player_Item4_idx\" ON \"Match_has_Player\" (\"Item_item_id3\");\n" +
                     "CREATE INDEX \"Match_has_Player.fk_Match_has_Player_Item5_idx\" ON \"Match_has_Player\" (\"Item_item_id4\");\n" +
-                    "CREATE INDEX \"Match_has_Player.fk_Match_has_Player_Item6_idx\" ON \"Match_has_Player\" (\"Item_item_id5\");\n" +
-                    "CREATE TABLE \"Match_has_Player_has_ability\"(\n" +
+                    "CREATE INDEX \"Match_has_Player.fk_Match_has_Player_Item6_idx\" ON \"Match_has_Player\" (\"Item_item_id5\");\n");
+
+            db.execSQL("CREATE TABLE \"Match_has_Player_has_ability\"(\n" +
                     "  \"Match_has_Player_Match_match_id\" INTEGER NOT NULL,\n" +
                     "  \"Match_has_Player_Player_account_id\" INTEGER NOT NULL,\n" +
                     "  \"ability_ability_id\" INTEGER NOT NULL,\n" +
@@ -319,6 +362,7 @@ public class SQLManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Item");
         db.execSQL("DROP TABLE IF EXISTS Match");
         db.execSQL("DROP TABLE IF EXISTS Match_has_Player");
+        db.execSQL("DROP TABLE IF EXISTS Match_has_Player_has_ability");
         db.execSQL("DROP TABLE IF EXISTS ability");
 
         //todo: CLEAR OUT ALL TABLEZ

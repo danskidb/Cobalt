@@ -8,4 +8,5 @@ import android.content.Context;
 public class Defines {
     public static Context CurrentContext;
     public static String APIKEY = "7B5DF1FD8BA33927FAC62EF3D1DB37FB";
+    public static String itemimgurl = "http://media.steampowered.com/apps/dota2/images/items/";
 }

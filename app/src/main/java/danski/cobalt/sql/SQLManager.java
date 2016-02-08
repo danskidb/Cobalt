@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 15;
+    static int databaseVersion = 16;
 
     Context context;
     AssetManager am;
@@ -31,6 +31,20 @@ public class SQLManager extends SQLiteOpenHelper {
         super(_context, databaseName, null, databaseVersion);
         context = _context;
         am = context.getAssets();
+    }
+
+    public boolean doesItemExist(int itemID){
+        db = this.getReadableDatabase();
+
+        String query = "Select * from Item where item_id = " + itemID;
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
     }
 
     public boolean doesMatchExist(long matchid){
@@ -64,6 +78,7 @@ public class SQLManager extends SQLiteOpenHelper {
     public boolean isPlayerInMatch(long playerid, long matchid){
         db = this.getReadableDatabase();
 
+        //Anon.
         if(playerid == Long.parseLong("4294967295")){
             return false;
         }
@@ -77,6 +92,45 @@ public class SQLManager extends SQLiteOpenHelper {
             cursor.close();
             return true;
         }
+    }
+
+    public boolean addItem(JSONObject item){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        try{
+            cv.put("manacost", item.getInt("mc"));
+        } catch (JSONException e){
+            cv.put("manacost", 0);
+        }
+
+        try{
+            cv.put("cooldown", item.getInt("cd"));
+        } catch (JSONException e){
+            cv.put("cooldown", 0);
+        }
+
+
+        try{
+            cv.put("item_id", item.getInt("id"));
+            cv.put("item_name", item.getString("dname"));
+            cv.put("description", item.getString("desc"));
+            cv.put("img", item.getString("img"));
+            cv.put("qual", item.getString("qual"));
+            cv.put("cost", item.getInt("cost"));
+            cv.put("notes", item.getString("notes"));
+            cv.put("attributes", item.getString("attrib"));
+            cv.put("lore", item.getString("lore"));
+            cv.put("components", item.getString("components"));
+            cv.put("created", item.getBoolean("created"));
+            db.insert("Item", null, cv);
+            return true;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
     }
 
     public boolean addMatch(JSONObject match){
@@ -106,6 +160,38 @@ public class SQLManager extends SQLiteOpenHelper {
             db.insert("Player", null, cv);
             return true;
         }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateItem(JSONObject item){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        //todo: update cooldown and manacost.
+
+        try{
+            cv.put("item_id", item.getInt("id"));
+            cv.put("item_name", item.getString("dname"));
+            cv.put("description", item.getString("desc"));
+            cv.put("img", item.getString("img"));
+            cv.put("qual", item.getString("qual"));
+            cv.put("cost", item.getInt("cost"));
+            cv.put("notes", item.getString("notes"));
+            cv.put("attributes", item.getString("attrib"));
+            cv.put("lore", item.getString("lore"));
+            cv.put("components", item.getString("components"));
+            cv.put("created", item.getBoolean("created"));
+
+            db.update("Item",
+                    cv,
+                    "item_id = ?",
+                    new String[]{ String.valueOf(item.getInt("id"))}
+            );
+
+            return true;
+        } catch (JSONException e){
             e.printStackTrace();
             return false;
         }

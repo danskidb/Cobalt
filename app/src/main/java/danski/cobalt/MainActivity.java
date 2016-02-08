@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import danski.cobalt.sql.ItemRetreiver;
 import danski.cobalt.sql.MatchListRetreiver;
 import danski.cobalt.sql.MatchRetreiver;
 import danski.cobalt.sql.SQLManager;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity instance;
 
     Button b;
+    Button grabitem;
     ListView lv;
     SQLManager sm;
     ArrayAdapter<String> listada;
@@ -48,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 MatchListRetreiver mlr = new MatchListRetreiver();
                 mlr.retreive();
+            }
+        });
+
+        grabitem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ItemRetreiver ir = new ItemRetreiver();
+                ir.retreive();
             }
         });
 
@@ -79,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     void findViews(){
         b = (Button) findViewById(R.id.button);
+        grabitem = (Button) findViewById(R.id.button3) ;
         lv = (ListView) findViewById(R.id.listView);
 
         ArrayList<String> temp = new ArrayList<>();

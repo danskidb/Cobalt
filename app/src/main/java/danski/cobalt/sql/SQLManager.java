@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 16;
+    static int databaseVersion = 17;
 
     Context context;
     AssetManager am;
@@ -263,6 +263,7 @@ public class SQLManager extends SQLiteOpenHelper {
             Log.i("SQLM", "Going to create tables");
             db.execSQL("CREATE TABLE \"Hero\"(\n" +
                     "  \"hero_id\" INTEGER PRIMARY KEY NOT NULL,\n" +
+                    "  \"hero_title\" VARCHAR(45),\n" +
                     "  \"hero_name\" VARCHAR(45),\n" +
                     "  \"biography\" VARCHAR(45),\n" +
                     "  \"primary_attribute\" VARCHAR(45),\n" +

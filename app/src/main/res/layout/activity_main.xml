@@ -28,9 +28,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Grab Items"
+        android:text="Items"
         android:id="@+id/button3"
+        android:layout_above="@+id/listView"
+        android:layout_toRightOf="@+id/button"
+        android:layout_toEndOf="@+id/button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Heroes"
+        android:id="@+id/button2"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/button3"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

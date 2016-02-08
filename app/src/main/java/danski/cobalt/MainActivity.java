@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import danski.cobalt.adaptor.MatchListAdaptor;
 import danski.cobalt.sql.HeroRetreiver;
 import danski.cobalt.sql.ItemRetreiver;
 import danski.cobalt.sql.MatchListRetreiver;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Button grabheroes;
     ListView lv;
     SQLManager sm;
-    ArrayAdapter<String> listada;
+
+    MatchListAdaptor mla;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //todo: fix clicks.
                 String item = (String) parent.getItemAtPosition(position);
                 Log.i("MainActivity", item);
                 MatchRetreiver mr = new MatchRetreiver();
@@ -84,17 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void populateList(){
 
-        final Cursor allmatches = sm.getAllMatches();
-        ArrayList<String> cols = new ArrayList<>();
-        for(int i = 0; i < allmatches.getCount(); i++){
-            allmatches.moveToPosition(i);
-            cols.add(allmatches.getString(allmatches.getColumnIndex("match_id")));
-        }
 
-        listada.clear();
-        listada.addAll(cols);
-        listada.notifyDataSetChanged();
-        lv.deferNotifyDataSetChanged();
+        final Cursor allmatches = sm.getAllMatches();
+        mla = new MatchListAdaptor(this, allmatches, 0);
+        lv.setAdapter(mla);
+
     }
 
     void findViews(){
@@ -102,11 +99,6 @@ public class MainActivity extends AppCompatActivity {
         grabitem = (Button) findViewById(R.id.button3) ;
         grabheroes = (Button) findViewById(R.id.button2);
         lv = (ListView) findViewById(R.id.listView);
-
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add("...");
-        listada = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, temp);
-        lv.setAdapter(listada);
 
     }
 }

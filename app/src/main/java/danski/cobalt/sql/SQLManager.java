@@ -253,7 +253,7 @@ public class SQLManager extends SQLiteOpenHelper {
 
     public Cursor getAllMatches(){
         db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("Select * from Match", null);
+        Cursor res = db.rawQuery("Select rowid _id,* from Match", null);
         return res;
     }
 

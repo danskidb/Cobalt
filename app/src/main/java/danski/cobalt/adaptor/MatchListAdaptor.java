@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -55,13 +56,17 @@ public class MatchListAdaptor extends CursorAdapter {
         // Find fields to populate in inflated template
         holder.status = (TextView) view.findViewById(R.id.item_match_small_status);
         holder.id = (TextView) view.findViewById(R.id.item_match_small_id);
-        holder.time = (TextView) view.findViewById(R.id.item_match_small_time);
+        holder.timestarted = (TextView) view.findViewById(R.id.item_match_small_time);
 
         // Extract properties from cursor
         holder.id.setText(cursor.getString(cursor.getColumnIndex("match_id")));
 
         Date origDate = new Date(cursor.getLong(cursor.getColumnIndex("start_time")) * 1000);
-        holder.time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
+        holder.timestarted.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
+
+        if(cursor.getInt(cursor.getColumnIndex("hasdetail")) > 0){
+            
+        }
 
     }
 
@@ -81,9 +86,13 @@ public class MatchListAdaptor extends CursorAdapter {
     }
 
     public static class ViewHolder {
-        public TextView status;
-        public TextView id;
-        public TextView time;
+        public TextView status;         //win / loss / abandon / download
+        public TextView id;             //matchid
+        public TextView timestarted;    //time started
+        public TextView duration;       //duration of match
+        public TextView KDA;            //KDA hero made
+        public ImageView heroImage;     //Hero image
+        public ImageView overlay;       //Gradient image
     }
 
 }

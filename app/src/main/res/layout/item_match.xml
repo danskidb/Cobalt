@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="0dp">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/relativeLayout">
@@ -21,19 +20,18 @@
             android:layout_alignParentBottom="true" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/overlay"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignRight="@+id/heroImg"
             android:layout_alignEnd="@+id/heroImg"
-            android:background="#46000000"
-            android:src="@drawable/gradient_blue"
-            android:layout_alignParentBottom="true" />
+            android:src="@drawable/gradient_orange"
+            android:background="#64000000" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -45,12 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="eh i dunno ye nut"
+            android:text="WIN/LOSS"
             android:id="@+id/item_match_small_status"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:textColor="#96bafe"
+            android:textColor="@color/text_abandon"
             android:textStyle="bold"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="-1"
@@ -74,20 +72,69 @@
             android:shadowDy="-1"
             android:shadowRadius="3"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Yesterday, 10:08 AM"
-            android:id="@+id/item_match_small_time"
             android:layout_below="@+id/item_match_small_status"
-            android:layout_alignRight="@+id/item_match_small_status"
-            android:layout_alignEnd="@+id/item_match_small_status"
-            android:textColor="#ffffff"
-            android:shadowColor="@color/text_shadow"
-            android:shadowDx="-1"
-            android:shadowDy="-1"
-            android:shadowRadius="3"/>
+            android:columnCount="2"
+            android:rowCount="2"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00 / 00 / 00"
+                android:id="@+id/textView"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Pick"
+                android:id="@+id/textView2"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:layout_gravity="right" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60 : 00"
+                android:id="@+id/textView3"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Yesterday, 10:08 AM"
+                android:id="@+id/item_match_small_time"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="right" />
+        </GridLayout>
 
     </RelativeLayout>
 

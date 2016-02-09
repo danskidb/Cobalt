@@ -7,4 +7,17 @@
     <color name="grey_font">#ff9e9e9e</color>
     <color name="text_shadow">#7F000000</color>
     <color name="text_shadow_white">#FFFFFF</color>
+
+    <!-- Text -->
+    <color name="text_download">#96bafe</color>
+    <color name="text_win">#00B050</color>
+    <color name="text_abandon">#B05C00</color>
+    <color name="text_loss">#C00000</color>
+
+    <!-- Gradient colors -->
+    <color name="gradient_download">#50221ED5</color> <!-- note: first two digits are alpha 00-99 -->
+    <color name="gradient_win">#5000B050</color>
+    <color name="gradient_abandon">#50B05C00</color>
+    <color name="gradient_loss">#50C00000</color>
+
 </resources>

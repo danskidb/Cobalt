@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 17;
+    static int databaseVersion = 19;
 
     Context context;
     AssetManager am;
@@ -238,14 +238,29 @@ public class SQLManager extends SQLiteOpenHelper {
             cv.put("tower_damage", player.getLong("tower_damage"));
             cv.put("hero_healing", player.getLong("hero_healing"));
             cv.put("level", player.getInt("level"));
+            //cv.put("hasdetail", true);
 
             db.update("Match_has_Player",
                     cv,
                     "Match_match_id = ? AND player_slot = ?",
                     new String[] { String.valueOf(matchid), String.valueOf(player.getLong("player_slot"))}
             );
-            return true;
         }catch (JSONException e){
+            e.printStackTrace();
+            return false;
+        }
+
+        cv = new ContentValues();
+        try{
+            cv.put("hasdetail", true);
+
+            db.update("Match",
+                    cv,
+                    "match_id = ?",
+                    new String[] { String.valueOf(matchid)}
+            );
+            return true;
+        }catch (Exception e){
             e.printStackTrace();
             return false;
         }
@@ -253,7 +268,7 @@ public class SQLManager extends SQLiteOpenHelper {
 
     public Cursor getAllMatches(){
         db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("Select rowid _id,* from Match", null);
+        Cursor res = db.rawQuery("Select rowid _id,* from Match ORDER BY match_id DESC", null);
         return res;
     }
 
@@ -351,6 +366,7 @@ public class SQLManager extends SQLiteOpenHelper {
                     "  \"negative_votes\" INTEGER,\n" +
                     "  \"game_mode\" INTEGER,\n" +
                     "  \"flags\" INTEGER,\n" +
+                    "  \"hasdetail\" BOOL,\n" +
                     "  \"engine\" INTEGER\n" +
                     ");");
 

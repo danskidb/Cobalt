@@ -32,25 +32,58 @@ public class MatchListAdaptor extends CursorAdapter {
     // you don't bind any data to the view at this point.
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.item_match_small, parent, false);
+        ViewHolder holder = new ViewHolder();
+        View v = null;
+
+        if(cursor.getInt(cursor.getColumnIndex("hasdetail")) > 0){
+            v = LayoutInflater.from(context).inflate(R.layout.item_match, parent, false);
+
+        } else {
+            v = LayoutInflater.from(context).inflate(R.layout.item_match_small, parent, false);        }
+
+        v.setTag(holder);
+        return v;
+
     }
 
     // The bindView method is used to bind all data to a given view
     // such as setting the text on a TextView.
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        ViewHolder holder = new ViewHolder();
+
         // Find fields to populate in inflated template
-        TextView status = (TextView) view.findViewById(R.id.item_match_small_status);
-        TextView id = (TextView) view.findViewById(R.id.item_match_small_id);
-        TextView time = (TextView) view.findViewById(R.id.item_match_small_time);
+        holder.status = (TextView) view.findViewById(R.id.item_match_small_status);
+        holder.id = (TextView) view.findViewById(R.id.item_match_small_id);
+        holder.time = (TextView) view.findViewById(R.id.item_match_small_time);
 
         // Extract properties from cursor
-        id.setText("ID: " + cursor.getString(cursor.getColumnIndex("match_id")));
+        holder.id.setText(cursor.getString(cursor.getColumnIndex("match_id")));
 
         Date origDate = new Date(cursor.getLong(cursor.getColumnIndex("start_time")) * 1000);
-        time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
+        holder.time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
 
     }
 
+    @Override
+    public int getViewTypeCount(){
+        return 2;
+    }
+
+    private int getItemViewType(Cursor cursor) {
+        return cursor.getInt(cursor.getColumnIndex("hasdetail"));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Cursor cursor = (Cursor) getItem(position);
+        return getItemViewType(cursor);
+    }
+
+    public static class ViewHolder {
+        public TextView status;
+        public TextView id;
+        public TextView time;
+    }
 
 }

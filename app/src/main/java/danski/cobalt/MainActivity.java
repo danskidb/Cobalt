@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -76,11 +77,9 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo: fix clicks.
-                String item = (String) parent.getItemAtPosition(position);
-                Log.i("MainActivity", item);
+                TextView matchid = (TextView) view.findViewById(R.id.item_match_small_id);
                 MatchRetreiver mr = new MatchRetreiver();
-                mr.retreive(Long.parseLong(item));
+                mr.retreive(Long.parseLong(matchid.getText().toString()));
             }
         });
     }

@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import danski.cobalt.Defines;
 import danski.cobalt.MainActivity;
-import danski.cobalt.data.Match;
 
 /**
  * Created by Danny on 02/02/2016.

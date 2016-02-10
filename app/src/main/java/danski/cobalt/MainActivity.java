@@ -77,9 +77,13 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView matchid = (TextView) view.findViewById(R.id.item_match_small_id);
-                MatchRetreiver mr = new MatchRetreiver();
-                mr.retreive(Long.parseLong(matchid.getText().toString()));
+                try{
+                    TextView matchid = (TextView) view.findViewById(R.id.item_match_small_id);
+                    MatchRetreiver mr = new MatchRetreiver();
+                    mr.retreive(Long.parseLong(matchid.getText().toString()));
+                } catch (Exception e){
+
+                }
             }
         });
     }

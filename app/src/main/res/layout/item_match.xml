@@ -11,7 +11,7 @@
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/heroImg"
+            android:id="@+id/match_heroImg"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -22,13 +22,13 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/overlay"
+            android:id="@+id/match_overlay"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/heroImg"
-            android:layout_alignEnd="@+id/heroImg"
-            android:src="@drawable/gradient_orange"
+            android:layout_alignRight="@+id/match_heroImg"
+            android:layout_alignEnd="@+id/match_heroImg"
+            android:src="@drawable/gradient_red"
             android:background="#64000000" />
 
     </FrameLayout>
@@ -43,12 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="WIN/LOSS"
+            android:text="LOSS"
             android:id="@+id/item_match_status"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/text_abandon"
+            android:textColor="@color/text_loss"
             android:textStyle="bold"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="-1"

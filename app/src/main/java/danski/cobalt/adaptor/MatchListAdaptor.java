@@ -14,6 +14,8 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import danski.cobalt.Defines;
+import danski.cobalt.MatchTools;
 import danski.cobalt.R;
 
 /**
@@ -62,9 +64,23 @@ public class MatchListAdaptor extends CursorAdapter {
             holder.duration = (TextView) view.findViewById(R.id.item_match_duration);
             holder.KDA = (TextView) view.findViewById(R.id.item_match_kda);
             holder.matchtype = (TextView) view.findViewById(R.id.item_match_type);
+            holder.overlay = (ImageView) view.findViewById(R.id.match_overlay);
 
-            holder.duration.setText("" + matchlist.getInt(matchlist.getColumnIndex("duration")));
-            holder.matchtype.setText("" + matchlist.getInt(matchlist.getColumnIndex("game_mode")));
+            Cursor playerdata = MatchTools.getMyPlayerDetails(matchlist.getLong(matchlist.getColumnIndex("match_id")), context);
+            String kdastr = "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists"));
+            holder.KDA.setText(kdastr);
+
+            //todo: dont use match list here, but try to get a specific match and save it.
+            //if(MatchTools.didWin(playerdata, matchlist)){
+            //    holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
+             //   holder.status.setText("WON");
+             //   holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
+            //}
+
+
+            int[] duration = Defines.splitToComponentTimes(matchlist.getInt(matchlist.getColumnIndex("duration")));
+            holder.duration.setText(duration[0] + "h " + duration[1] + "m");
+            holder.matchtype.setText(MatchTools.returnGameMode(matchlist.getInt(matchlist.getColumnIndex("game_mode"))));
         } else {
             holder.status = (TextView) view.findViewById(R.id.item_match_status);
             holder.id = (TextView) view.findViewById(R.id.item_match_small_id);

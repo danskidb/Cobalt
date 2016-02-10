@@ -293,6 +293,14 @@ public class SQLManager extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getPlayerInMatch(long playerid32, long matchid){
+        db = this.getReadableDatabase();
+        String query = "Select rowid _id,* from Match_has_Player WHERE Player_account_id = " + playerid32 + " AND Match_match_id = " + matchid;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();;
+        return res;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
         try {

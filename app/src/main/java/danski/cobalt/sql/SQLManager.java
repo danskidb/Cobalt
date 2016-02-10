@@ -20,7 +20,7 @@ import org.json.JSONObject;
 public class SQLManager extends SQLiteOpenHelper {
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 19;
+    static int databaseVersion = 20;
 
     Context context;
     AssetManager am;
@@ -245,22 +245,43 @@ public class SQLManager extends SQLiteOpenHelper {
                     "Match_match_id = ? AND player_slot = ?",
                     new String[] { String.valueOf(matchid), String.valueOf(player.getLong("player_slot"))}
             );
+            return true;
         }catch (JSONException e){
             e.printStackTrace();
             return false;
         }
+    }
 
-        cv = new ContentValues();
+    public boolean setMatchDetails(JSONObject match){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
         try{
             cv.put("hasdetail", true);
+            cv.put("radiant_win", match.getBoolean("radiant_win"));
+            cv.put("duration", match.getInt("duration"));
+            cv.put("tower_status_radiant", match.getInt("tower_status_radiant"));
+            cv.put("tower_status_dire", match.getInt("tower_status_dire"));
+            cv.put("barracks_status_radiant", match.getInt("barracks_status_radiant"));
+            cv.put("barracks_status_dire", match.getInt("barracks_status_dire"));
+            cv.put("cluster", match.getInt("cluster"));
+            cv.put("first_blood_time", match.getInt("first_blood_time"));
+            cv.put("human_players", match.getInt("human_players"));
+            cv.put("leagueid", match.getInt("leagueid"));
+            cv.put("positive_votes", match.getInt("positive_votes"));
+            cv.put("negative_votes", match.getInt("negative_votes"));
+            cv.put("game_mode", match.getInt("game_mode"));
+            cv.put("flags", match.getInt("flags"));
+            cv.put("engine", match.getInt("engine"));
+
 
             db.update("Match",
                     cv,
                     "match_id = ?",
-                    new String[] { String.valueOf(matchid)}
+                    new String[] { String.valueOf(match.getLong("match_id"))}
             );
             return true;
-        }catch (Exception e){
+        }catch (JSONException e){
             e.printStackTrace();
             return false;
         }

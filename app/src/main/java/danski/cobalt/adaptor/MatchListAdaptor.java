@@ -9,6 +9,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,12 +22,12 @@ import danski.cobalt.R;
 public class MatchListAdaptor extends CursorAdapter {
 
     Context context;
-    Cursor cursor;
+    Cursor matchlist;
 
     public MatchListAdaptor(Context _context, Cursor _cursor, int flags) {
         super(_context, _cursor, flags);
         context = _context;
-        cursor = _cursor;
+        matchlist = _cursor;
 
     }
 
@@ -50,23 +52,32 @@ public class MatchListAdaptor extends CursorAdapter {
     // The bindView method is used to bind all data to a given view
     // such as setting the text on a TextView.
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, Context context, Cursor matchlist) {
         ViewHolder holder = new ViewHolder();
 
-        // Find fields to populate in inflated template
-        holder.status = (TextView) view.findViewById(R.id.item_match_small_status);
-        holder.id = (TextView) view.findViewById(R.id.item_match_small_id);
-        holder.timestarted = (TextView) view.findViewById(R.id.item_match_small_time);
+        if(matchlist.getInt(matchlist.getColumnIndex("hasdetail")) > 0){
+            holder.status = (TextView) view.findViewById(R.id.item_match_status);
+            holder.id = (TextView) view.findViewById(R.id.item_match_id);
+            holder.timestarted = (TextView) view.findViewById(R.id.item_match_time);
+            holder.duration = (TextView) view.findViewById(R.id.item_match_duration);
+            holder.KDA = (TextView) view.findViewById(R.id.item_match_kda);
+            holder.matchtype = (TextView) view.findViewById(R.id.item_match_type);
+
+            holder.duration.setText("" + matchlist.getInt(matchlist.getColumnIndex("duration")));
+            holder.matchtype.setText("" + matchlist.getInt(matchlist.getColumnIndex("game_mode")));
+        } else {
+            holder.status = (TextView) view.findViewById(R.id.item_match_status);
+            holder.id = (TextView) view.findViewById(R.id.item_match_small_id);
+            holder.timestarted = (TextView) view.findViewById(R.id.item_match_small_time);
+        }
 
         // Extract properties from cursor
-        holder.id.setText(cursor.getString(cursor.getColumnIndex("match_id")));
+        holder.id.setText(matchlist.getString(matchlist.getColumnIndex("match_id")));
 
-        Date origDate = new Date(cursor.getLong(cursor.getColumnIndex("start_time")) * 1000);
+        Date origDate = new Date(matchlist.getLong(matchlist.getColumnIndex("start_time")) * 1000);
         holder.timestarted.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
 
-        if(cursor.getInt(cursor.getColumnIndex("hasdetail")) > 0){
-            
-        }
+
 
     }
 
@@ -75,14 +86,14 @@ public class MatchListAdaptor extends CursorAdapter {
         return 2;
     }
 
-    private int getItemViewType(Cursor cursor) {
-        return cursor.getInt(cursor.getColumnIndex("hasdetail"));
+    private int getItemViewType(Cursor matchlist) {
+        return matchlist.getInt(matchlist.getColumnIndex("hasdetail"));
     }
 
     @Override
     public int getItemViewType(int position) {
-        Cursor cursor = (Cursor) getItem(position);
-        return getItemViewType(cursor);
+        Cursor matchlist = (Cursor) getItem(position);
+        return getItemViewType(matchlist);
     }
 
     public static class ViewHolder {
@@ -91,6 +102,7 @@ public class MatchListAdaptor extends CursorAdapter {
         public TextView timestarted;    //time started
         public TextView duration;       //duration of match
         public TextView KDA;            //KDA hero made
+        public TextView matchtype;      //match type
         public ImageView heroImage;     //Hero image
         public ImageView overlay;       //Gradient image
     }

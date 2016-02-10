@@ -65,6 +65,7 @@ public class MatchRetreiver {
                         sq.addPlayerDataToMatch(p, result.getLong("match_id"));
                     }
 
+                    sq.setMatchDetails(result);
 
                 } catch (JSONException e){
                     e.printStackTrace();

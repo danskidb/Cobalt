@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,18 +66,21 @@ public class MatchListAdaptor extends CursorAdapter {
             holder.KDA = (TextView) view.findViewById(R.id.item_match_kda);
             holder.matchtype = (TextView) view.findViewById(R.id.item_match_type);
             holder.overlay = (ImageView) view.findViewById(R.id.match_overlay);
-
+            holder.heroImage = (ImageView) view.findViewById(R.id.match_heroImg);
             Cursor playerdata = MatchTools.getMyPlayerDetails(matchlist.getLong(matchlist.getColumnIndex("match_id")), context);
-            String kdastr = "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists"));
-            holder.KDA.setText(kdastr);
+
+            //todo: get hero data from db
+            //Picasso.with(context).load(Defines.heroimgurl + playerdata.getString(playerdata.getColumnIndex("hero")))
 
             //todo: dont use match list here, but try to get a specific match and save it.
             //if(MatchTools.didWin(playerdata, matchlist)){
             //    holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
-             //   holder.status.setText("WON");
-             //   holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
+            //   holder.status.setText("WON");
+            //   holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
             //}
 
+            String kdastr = "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists"));
+            holder.KDA.setText(kdastr);
 
             int[] duration = Defines.splitToComponentTimes(matchlist.getInt(matchlist.getColumnIndex("duration")));
             holder.duration.setText(duration[0] + "h " + duration[1] + "m");

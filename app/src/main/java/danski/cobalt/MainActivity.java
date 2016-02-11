@@ -104,4 +104,11 @@ public class MainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listView);
 
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        sm.getDatabase().close();
+    }
 }

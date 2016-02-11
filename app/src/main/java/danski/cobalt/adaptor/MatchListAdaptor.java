@@ -18,6 +18,7 @@ import java.util.Date;
 import danski.cobalt.Defines;
 import danski.cobalt.MatchTools;
 import danski.cobalt.R;
+import danski.cobalt.sql.SQLManager;
 
 /**
  * Created by Danny on 08/02/2016.
@@ -67,17 +68,20 @@ public class MatchListAdaptor extends CursorAdapter {
             holder.matchtype = (TextView) view.findViewById(R.id.item_match_type);
             holder.overlay = (ImageView) view.findViewById(R.id.match_overlay);
             holder.heroImage = (ImageView) view.findViewById(R.id.match_heroImg);
+
+            SQLManager sm = new SQLManager(context);
+            Cursor match = sm.getMatch(matchlist.getLong(matchlist.getColumnIndex("match_id")));
             Cursor playerdata = MatchTools.getMyPlayerDetails(matchlist.getLong(matchlist.getColumnIndex("match_id")), context);
 
             //todo: get hero data from db
             //Picasso.with(context).load(Defines.heroimgurl + playerdata.getString(playerdata.getColumnIndex("hero")))
 
             //todo: dont use match list here, but try to get a specific match and save it.
-            //if(MatchTools.didWin(playerdata, matchlist)){
-            //    holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
-            //   holder.status.setText("WON");
-            //   holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
-            //}
+            if(MatchTools.didWin(playerdata, match)){
+               holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
+               holder.status.setText("WON");
+               holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
+            }
 
             String kdastr = "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists"));
             holder.KDA.setText(kdastr);

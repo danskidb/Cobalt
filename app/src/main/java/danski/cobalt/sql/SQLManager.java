@@ -293,11 +293,19 @@ public class SQLManager extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getMatch(long matchid){
+        db = this.getReadableDatabase();
+        String query = "Select rowid _id,* from Match WHERE match_id = " + matchid;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        return res;
+    }
+
     public Cursor getPlayerInMatch(long playerid32, long matchid){
         db = this.getReadableDatabase();
         String query = "Select rowid _id,* from Match_has_Player WHERE Player_account_id = " + playerid32 + " AND Match_match_id = " + matchid;
         Cursor res = db.rawQuery(query, null);
-        res.moveToFirst();;
+        res.moveToFirst();
         return res;
     }
 
@@ -501,5 +509,9 @@ public class SQLManager extends SQLiteOpenHelper {
         
         // Create tables again
         onCreate(db);
+    }
+
+    public SQLiteDatabase getDatabase(){
+        return db;
     }
 }

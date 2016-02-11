@@ -35,10 +35,6 @@ public class MatchTools {
     public static boolean didWin(Cursor Match_has_Player, Cursor Match){
         Match_has_Player.moveToFirst();
 
-        Log.i("MT", "radiantwin: " + Match.getInt(Match.getColumnIndex("radiant_win")));
-        Log.i("MT", "playerslot: " + Match_has_Player.getInt(Match_has_Player.getColumnIndex("player_slot")));
-
-
         if(Match.getInt(Match.getColumnIndex("radiant_win")) > 0){
             if(Match_has_Player.getInt(Match_has_Player.getColumnIndex("player_slot")) <= 4){
                 return true;

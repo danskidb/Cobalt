@@ -1,20 +1,19 @@
-package danski.cobalt;
+package danski.cobalt.Home;
+
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
+import danski.cobalt.R;
 import danski.cobalt.adaptor.MatchListAdaptor;
 import danski.cobalt.sql.HeroRetreiver;
 import danski.cobalt.sql.ItemRetreiver;
@@ -22,33 +21,42 @@ import danski.cobalt.sql.MatchListRetreiver;
 import danski.cobalt.sql.MatchRetreiver;
 import danski.cobalt.sql.SQLManager;
 
-public class MainActivity extends AppCompatActivity {
 
-    public static MainActivity instance;
+public class home_matchhistory extends Fragment {
+
+    public static home_matchhistory instance;
 
     Button b;
     Button grabitem;
     Button grabheroes;
     ListView lv;
-    SQLManager sm;
-
     MatchListAdaptor mla;
 
+   /* public home_matchhistory() {
+        // Required empty public constructor
+    }
+
+
+    public static home_matchhistory newInstance() {
+        home_matchhistory fragment = new home_matchhistory();
+        return fragment;
+    }*/
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Defines.CurrentContext = this;
         instance = this;
-        sm = new SQLManager(this);
+    }
 
-        findViews();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_home_matchhistory, container, false);
 
-        Cursor matches = sm.getAllMatches();
-        if(matches.getCount() > 0){
-            populateList();
-        }
-
+        b = (Button) v.findViewById(R.id.button);
+        grabitem = (Button) v.findViewById(R.id.button3) ;
+        grabheroes = (Button) v.findViewById(R.id.button2);
+        lv = (ListView) v.findViewById(R.id.listView);
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,29 +94,36 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        return v;
+    }
+
+    public void onViewCreated(View v, Bundle savedInstanceState){
+        SQLManager sm = new SQLManager(getContext());
+        Cursor matches = sm.getAllMatches();
+        if(matches.getCount() > 0){
+            populateList();
+        }
     }
 
     public void populateList(){
-
-
+        SQLManager sm = new SQLManager(getContext());
         final Cursor allmatches = sm.getAllMatches();
-        mla = new MatchListAdaptor(this, allmatches, 0);
+        mla = new MatchListAdaptor(getContext(), allmatches, 0);
         lv.setAdapter(mla);
 
     }
 
-    void findViews(){
-        b = (Button) findViewById(R.id.button);
-        grabitem = (Button) findViewById(R.id.button3) ;
-        grabheroes = (Button) findViewById(R.id.button2);
-        lv = (ListView) findViewById(R.id.listView);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
     }
 
     @Override
-    public void onDestroy(){
-        super.onDestroy();
-
-        sm.getDatabase().close();
+    public void onDetach() {
+        super.onDetach();
+        SQLManager.instance.getDatabase().close();
     }
+
 }

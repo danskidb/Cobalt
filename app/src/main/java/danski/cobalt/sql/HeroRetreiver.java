@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import danski.cobalt.Defines;
-import danski.cobalt.MainActivity;
 
 /**
  * Created by Danny on 08/02/2016.
@@ -89,7 +88,6 @@ public class HeroRetreiver {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            MainActivity.instance.populateList();
         }
     }
 }

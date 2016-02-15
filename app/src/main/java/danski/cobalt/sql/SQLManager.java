@@ -19,6 +19,8 @@ import org.json.JSONObject;
  */
 public class SQLManager extends SQLiteOpenHelper {
 
+    public static SQLManager instance;
+
     static String databaseName = "cobaltdb";
     static int databaseVersion = 20;
 
@@ -31,6 +33,7 @@ public class SQLManager extends SQLiteOpenHelper {
         super(_context, databaseName, null, databaseVersion);
         context = _context;
         am = context.getAssets();
+        instance = this;
     }
 
     public boolean doesItemExist(int itemID){

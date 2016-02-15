@@ -2,14 +2,13 @@ package danski.cobalt.sql;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import danski.cobalt.Defines;
-import danski.cobalt.MainActivity;
+import danski.cobalt.Home.home_matchhistory;
 
 /**
  * Created by Danny on 02/02/2016.
@@ -85,7 +84,11 @@ public class MatchRetreiver {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            MainActivity.instance.populateList();
+            try{
+                home_matchhistory.instance.populateList();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

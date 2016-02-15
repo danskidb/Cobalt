@@ -4,12 +4,10 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import danski.cobalt.Defines;
-import danski.cobalt.MainActivity;
 
 /**
  * Created by Danny on 08/02/2016.
@@ -83,7 +81,6 @@ public class ItemRetreiver {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-            MainActivity.instance.populateList();
         }
     }
 }

@@ -10,3 +10,5 @@ android:
 
 deploy:
     provider: debug
+
+file: app/build/outputs/apk/app-debug.apk

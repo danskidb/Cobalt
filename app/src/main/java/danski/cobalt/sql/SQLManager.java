@@ -22,7 +22,7 @@ public class SQLManager extends SQLiteOpenHelper {
     public static SQLManager instance;
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 20;
+    static int databaseVersion = 22;
 
     Context context;
     AssetManager am;
@@ -68,6 +68,20 @@ public class SQLManager extends SQLiteOpenHelper {
         db = this.getReadableDatabase();
 
         String query = "Select * from Player where account_id = " + playerid;
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
+    }
+
+    public boolean doesHeroExist(int heroid){
+        db = this.getReadableDatabase();
+
+        String query = "Select * from Hero where hero_id = " + heroid;
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.getCount() <= 0){
             cursor.close();
@@ -163,6 +177,38 @@ public class SQLManager extends SQLiteOpenHelper {
             db.insert("Player", null, cv);
             return true;
         }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean addHero(JSONObject heroid, JSONObject heropickerdata){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        try{
+            //Hero ID json data
+            cv.put("hero_id", heroid.getInt("id"));                      //22
+            String title = heroid.getString("name");
+            title = title.replace("npc_dota_hero_", "");
+            cv.put("hero_title", title);                                //furion
+            cv.put("hero_name", heroid.getString("localized_name"));      //Nature's prophet
+
+            //Heropickerdata JSON
+            cv.put("biography", heropickerdata.getString("bio"));
+            cv.put("attack_type", heropickerdata.getString("atk_l"));
+
+            JSONArray roles = heropickerdata.getJSONArray("roles_l");
+            String rolestring = "";
+            for(int i = 0; i < roles.length(); i++){
+                rolestring += roles.getString(i);
+                if(i != roles.length() -1) rolestring += ", ";
+            }
+            cv.put("roles", rolestring);
+
+
+            db.insert("Hero", null, cv);
+            return true;
+        } catch (JSONException e) {
             e.printStackTrace();
             return false;
         }
@@ -316,10 +362,10 @@ public class SQLManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
         try {
             Log.i("SQLM", "Going to create tables");
-            db.execSQL("CREATE TABLE \"Hero\"(\n" +
-                    "  \"hero_id\" INTEGER PRIMARY KEY NOT NULL,\n" +
-                    "  \"hero_title\" VARCHAR(45),\n" +
-                    "  \"hero_name\" VARCHAR(45),\n" +
+            db.execSQL("CREATE TABLE \"Hero\"(\n" +                     //EG
+                    "  \"hero_id\" INTEGER PRIMARY KEY NOT NULL,\n" +   //22
+                    "  \"hero_title\" VARCHAR(45),\n" +                 //furion
+                    "  \"hero_name\" VARCHAR(45),\n" +                  //Nature's Prophet
                     "  \"biography\" VARCHAR(45),\n" +
                     "  \"primary_attribute\" VARCHAR(45),\n" +
                     "  \"strength_base\" INTEGER,\n" +

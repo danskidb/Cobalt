@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,8 +15,8 @@ import danski.cobalt.Defines;
  */
 public class HeroRetreiver {
 
-    private String heropickerdataurl = "http://www.dota2.com/jsfeed/heropickerdata";
-    private String heropediadataurl = "http://www.dota2.com/jsfeed/heropediadata";
+    private String heroidsurl = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key=" + Defines.APIKEY + "&language=en_us";
+    private String heropickerdataurl = "http://www.dota2.com/jsfeed/heropickerdata?v=0";
     public static HeroRetreiver instance;
     ProgressDialog pDialog;
 
@@ -40,42 +41,45 @@ public class HeroRetreiver {
         protected Void doInBackground(Void... arg0){
 
             ServiceHandler sh = new ServiceHandler();
-            String heropickerJSON = sh.getJSON(heropickerdataurl, 0);
+            Log.i("HeroRetreiver", "Downloading 2 JSON files");
+            String heroidsJSON = sh.getJSON(heroidsurl, 0);
+            String heropickerdataJSON = sh.getJSON(heropickerdataurl, 0);
             SQLManager sq = new SQLManager(Defines.CurrentContext);
 
-            if(heropickerJSON != null){
-                Log.i("HeroRetreiver", "Got data. Parsing items from JSON...");
+            if(heroidsJSON != null && heropickerdataJSON != null){
+                Log.i("HeroRetreiver", "Got data. Parsing items...");
 
                 try{
-                    JSONObject jsonObj = new JSONObject(heropickerJSON);
+                    JSONObject heroidjsonobj = new JSONObject(heroidsJSON);
+                    JSONObject heropickerdatajsonobj = new JSONObject(heropickerdataJSON);
 
-                    for(int i = 0; i < jsonObj.names().length(); i++){
-                        JSONObject hero = jsonObj.getJSONObject(jsonObj.names().getString(i));
+                    JSONObject result = heroidjsonobj.getJSONObject("result");
+                    JSONArray heroes = result.getJSONArray("heroes");
+                    for(int i = 0; i < heroes.length(); i++){
+                        JSONObject hero = heroes.getJSONObject(i);
 
-                        Log.i("HeroRetreiver", hero.getString("name"));
+                        if(!sq.doesHeroExist(hero.getInt("id"))){
+                            Log.i("HeroRetreiver", hero.getString("localized_name") + " - Does not exist, creating.");
+
+                            String title = hero.getString("name");
+                            title = title.replace("npc_dota_hero_", "");
+
+                            JSONObject heropickerdata = heropickerdatajsonobj.getJSONObject(title);
+                            Log.i("HeroRetreiver", heropickerdata.getString("bio"));
 
 
-                        /*
-                        todo: Find a JSON File which has the ID's, title name (eg "antimage") and image url.
-                         */
-
-                        /*if(!sq.doesItemExist(item.getInt("id"))){
-                            Log.i("HeroRetreiver", item.getString("dname") + " - Does not exist, creating.");
-
-                            sq.addItem(item);
-                        } else {
-                            Log.i("HeroRetreiver", item.getString("dname") + " - Exists, updating.");
-
-                            sq.updateItem(item);
-                        }*/
+                            sq.addHero(hero, heropickerdata);
+                        }
                     }
+
+
 
                 } catch (JSONException e){
                     e.printStackTrace();
                     //todo: Handle that nothing came back.
                 }
-
             }
+
 
             return null;
         }

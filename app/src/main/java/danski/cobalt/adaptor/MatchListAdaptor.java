@@ -77,15 +77,46 @@ public class MatchListAdaptor extends CursorAdapter {
 
             Picasso.with(context).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").into(holder.heroImage);
 
-            //todo: dont use match list here, but try to get a specific match and save it.
-            if(playerdata.getInt(playerdata.getColumnIndex("win")) > 0){
-               holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
-               holder.status.setText("WON");
-               holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
+
+            if(playerdata.getInt(playerdata.getColumnIndex("leaver_status")) > 0){
+                holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_orange));
+                holder.status.setTextColor(context.getResources().getColor(R.color.text_abandon));
+
+                switch(playerdata.getInt(playerdata.getColumnIndex("leaver_status"))){
+                    case 1:
+                        holder.status.setText("ABANDON");
+                        break;
+                    case 2:
+                        holder.status.setText("+5 MIN. DISCONNECT");
+                        break;
+                    case 3:
+                        holder.status.setText("DISCONNECT & LEAVE");
+                        break;
+                    case 4:
+                        holder.status.setText("AFK ABANDON");
+                        break;
+                    case 5:
+                        holder.status.setText("NEVER CONNECTED");
+                        break;
+                    case 6:
+                        holder.status.setText("NEVER CONNECTED");
+                        break;
+                    default:
+                        holder.status.setText("ABANDON");
+                        break;
+                }
+
+
             } else {
-                holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_red));
-                holder.status.setText("LOSS");
-                holder.status.setTextColor(context.getResources().getColor(R.color.text_loss));
+                if(playerdata.getInt(playerdata.getColumnIndex("win")) > 0){
+                    holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
+                    holder.status.setText("WON");
+                    holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
+                } else {
+                    holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_red));
+                    holder.status.setText("LOSS");
+                    holder.status.setTextColor(context.getResources().getColor(R.color.text_loss));
+                }
             }
 
             String kdastr = "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists"));

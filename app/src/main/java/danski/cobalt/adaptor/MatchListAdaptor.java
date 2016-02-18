@@ -78,10 +78,14 @@ public class MatchListAdaptor extends CursorAdapter {
             Picasso.with(context).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").into(holder.heroImage);
 
             //todo: dont use match list here, but try to get a specific match and save it.
-            if(MatchTools.didWin(playerdata, match)){
+            if(playerdata.getInt(playerdata.getColumnIndex("win")) > 0){
                holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_green));
                holder.status.setText("WON");
                holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
+            } else {
+                holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_red));
+                holder.status.setText("LOSS");
+                holder.status.setTextColor(context.getResources().getColor(R.color.text_loss));
             }
 
             String kdastr = "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists"));

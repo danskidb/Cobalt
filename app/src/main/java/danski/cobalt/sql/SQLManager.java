@@ -22,7 +22,7 @@ public class SQLManager extends SQLiteOpenHelper {
     public static SQLManager instance;
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 22;
+    static int databaseVersion = 23;
 
     Context context;
     AssetManager am;
@@ -296,11 +296,32 @@ public class SQLManager extends SQLiteOpenHelper {
             cv.put("level", player.getInt("level"));
             //cv.put("hasdetail", true);
 
+            Cursor match = getMatch(matchid);
+            int radiantwin = match.getInt(match.getColumnIndex("radiant_win"));
+
+            if(radiantwin > 0){
+                if(player.getInt("player_slot") <= 4){
+                    cv.put("win", true);
+                } else {
+                    cv.put("win", false);
+                }
+            } else {
+                if(player.getInt("player_slot") <= 4){
+                    cv.put("win", false);
+                } else {
+                    cv.put("win", true);
+                }
+            }
+
+            match.close();
             db.update("Match_has_Player",
                     cv,
                     "Match_match_id = ? AND player_slot = ?",
                     new String[] { String.valueOf(matchid), String.valueOf(player.getLong("player_slot"))}
             );
+
+
+
             return true;
         }catch (JSONException e){
             e.printStackTrace();
@@ -495,6 +516,7 @@ public class SQLManager extends SQLiteOpenHelper {
                     "  \"hero_damage\" INTEGER,\n" +
                     "  \"tower_damage\" INTEGER,\n" +
                     "  \"hero_healing\" INTEGER,\n" +
+                    "  \"win\" BOOL,\n" +
                     "  \"level\" INTEGER,\n" +
                     "  PRIMARY KEY(\"Match_match_id\",\"player_slot\"),\n" +
                     "  CONSTRAINT \"fk_Match_has_Player_Match\"\n" +

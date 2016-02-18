@@ -28,8 +28,9 @@ public class MatchTools {
     }
 
     public static Cursor getMyPlayerDetails(long matchid, Context context){
-        SQLManager sm = new SQLManager(context);
-        return sm.getPlayerInMatch(Defines.idTo32(Long.parseLong(Defines.mysteamid)), matchid);
+        SQLManager sm = new SQLManager(context, false);
+        Cursor cur = sm.getPlayerInMatch(Defines.idTo32(Long.parseLong(Defines.mysteamid)), matchid);
+        return cur;
     }
 
     public static boolean didWin(Cursor Match_has_Player, Cursor Match){

@@ -55,6 +55,7 @@ public class MatchRetreiver {
                     JSONArray players = result.getJSONArray("players");
                     SQLManager sq = new SQLManager(Defines.CurrentContext, false);
 
+                    sq.setMatchDetails(result);
 
                     int i;
                     for (i = 0 ; i < players.length(); i++){
@@ -63,8 +64,6 @@ public class MatchRetreiver {
                         //if(sq.isPlayerInMatch(p.getLong("account_id"), result.getLong("match_id"))) {
                         sq.addPlayerDataToMatch(p, result.getLong("match_id"));
                     }
-
-                    sq.setMatchDetails(result);
                     sq.close();
 
                 } catch (JSONException e){

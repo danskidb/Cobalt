@@ -8,4 +8,6 @@ The current version of the application. This won't be updated anymore, because I
 
 Devel Branch
 ------------
+![travis](https://travis-ci.org/djpbx/Cobalt.svg?branch=devel)
+
 New version of the application, with many features lacking, but way more to come. I've found more (up-to-date) resources to pull information from and learned new techniques which i'm going to apply here. Time prevents me from working a lot on the project, but if there's going to be updates, its going to be here.

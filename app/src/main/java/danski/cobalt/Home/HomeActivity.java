@@ -91,18 +91,23 @@ public class HomeActivity extends AppCompatActivity
         switch(item.getItemId()){
             case R.id.nav_me:
                 fragmentClass = home_me.class;
+                this.getSupportActionBar().setTitle("Jean-Yves Masson");
                 break;
             case R.id.nav_matchhistory:
                 fragmentClass = home_matchhistory.class;
+                this.getSupportActionBar().setTitle(getString(R.string.title_matchhistory));
                 break;
             case R.id.nav_stats:
                 fragmentClass = home_me.class;
+                this.getSupportActionBar().setTitle(getString(R.string.title_stats));
                 break;
             case R.id.nav_heroes:
                 fragmentClass = home_me.class;
+                this.getSupportActionBar().setTitle(getString(R.string.title_heroes));
                 break;
             default:
                 fragmentClass = home_me.class;
+                this.getSupportActionBar().setTitle(getString(R.string.app_name));
         }
 
         try{

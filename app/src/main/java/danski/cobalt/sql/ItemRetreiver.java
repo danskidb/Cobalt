@@ -21,7 +21,7 @@ public class ItemRetreiver {
         instance = this;
     }
 
-    public void retreive(){
+    public void retreiveAsync(){
         new RetreiveList().execute();
     }
 
@@ -37,40 +37,7 @@ public class ItemRetreiver {
 
         @Override
         protected Void doInBackground(Void... arg0){
-
-            ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.getJSON(url, 0);
-            SQLManager sq = new SQLManager(Defines.CurrentContext, false);
-
-            if(jsonStr != null){
-                Log.i("ItemRetreiver", "Got data. Parsing items from JSON...");
-
-                try{
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONObject itemdata = jsonObj.getJSONObject("itemdata");
-
-                    for(int i = 0; i < itemdata.names().length(); i++){
-                        JSONObject item = itemdata.getJSONObject(itemdata.names().getString(i));
-
-                        if(!sq.doesItemExist(item.getInt("id"))){
-                            Log.i("ItemRetreiver", item.getString("dname") + " - Does not exist, creating.");
-
-                            sq.addItem(item);
-                        } else {
-                            Log.i("ItemRetreiver", item.getString("dname") + " - Exists, updating.");
-
-                            sq.updateItem(item);
-                        }
-                    }
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                    //todo: Handle that nothing came back.
-                }
-
-            }
-
-            sq.close();
+            retreive();
             return null;
         }
 
@@ -83,5 +50,42 @@ public class ItemRetreiver {
                 pDialog.dismiss();
 
         }
+    }
+
+    public void retreive(){
+
+        ServiceHandler sh = new ServiceHandler();
+        String jsonStr = sh.getJSON(url, 0);
+        SQLManager sq = new SQLManager(Defines.CurrentContext, false);
+
+        if(jsonStr != null){
+            Log.i("ItemRetreiver", "Got data. Parsing items from JSON...");
+
+            try{
+                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONObject itemdata = jsonObj.getJSONObject("itemdata");
+
+                for(int i = 0; i < itemdata.names().length(); i++){
+                    JSONObject item = itemdata.getJSONObject(itemdata.names().getString(i));
+
+                    if(!sq.doesItemExist(item.getInt("id"))){
+                        Log.i("ItemRetreiver", item.getString("dname") + " - Does not exist, creating.");
+
+                        sq.addItem(item);
+                    } else {
+                        Log.i("ItemRetreiver", item.getString("dname") + " - Exists, updating.");
+
+                        sq.updateItem(item);
+                    }
+                }
+
+            } catch (JSONException e){
+                e.printStackTrace();
+                //todo: Handle that nothing came back.
+            }
+
+        }
+
+        sq.close();
     }
 }

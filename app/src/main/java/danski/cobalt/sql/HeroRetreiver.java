@@ -23,7 +23,7 @@ public class HeroRetreiver {
     public HeroRetreiver(){
         instance = this;
     }
-    public void retreive(){
+    public void retreiveAsync(){
         new RetreiveList().execute();
     }
 
@@ -39,59 +39,59 @@ public class HeroRetreiver {
 
         @Override
         protected Void doInBackground(Void... arg0){
-
-            ServiceHandler sh = new ServiceHandler();
-            Log.i("HeroRetreiver", "Downloading 2 JSON files");
-            String heroidsJSON = sh.getJSON(heroidsurl, 0);
-            String heropickerdataJSON = sh.getJSON(heropickerdataurl, 0);
-            SQLManager sq = new SQLManager(Defines.CurrentContext, false);
-
-            if(heroidsJSON != null && heropickerdataJSON != null){
-                Log.i("HeroRetreiver", "Got data. Parsing items...");
-
-                try{
-                    JSONObject heroidjsonobj = new JSONObject(heroidsJSON);
-                    JSONObject heropickerdatajsonobj = new JSONObject(heropickerdataJSON);
-
-                    JSONObject result = heroidjsonobj.getJSONObject("result");
-                    JSONArray heroes = result.getJSONArray("heroes");
-                    for(int i = 0; i < heroes.length(); i++){
-                        JSONObject hero = heroes.getJSONObject(i);
-
-                        if(!sq.doesHeroExist(hero.getInt("id"))){
-                            Log.i("HeroRetreiver", hero.getString("localized_name") + " - Does not exist, creating.");
-
-                            String title = hero.getString("name");
-                            title = title.replace("npc_dota_hero_", "");
-
-                            JSONObject heropickerdata = heropickerdatajsonobj.getJSONObject(title);
-                            Log.i("HeroRetreiver", heropickerdata.getString("bio"));
-
-
-                            sq.addHero(hero, heropickerdata);
-                        }
-                    }
-
-
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                    //todo: Handle that nothing came back.
-                }
-            }
-            sq.close();
-
+            retreive();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
-
-
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
         }
+    }
+
+    public void retreive(){
+        ServiceHandler sh = new ServiceHandler();
+        Log.i("HeroRetreiver", "Downloading 2 JSON files");
+        String heroidsJSON = sh.getJSON(heroidsurl, 0);
+        String heropickerdataJSON = sh.getJSON(heropickerdataurl, 0);
+        SQLManager sq = new SQLManager(Defines.CurrentContext, false);
+
+        if(heroidsJSON != null && heropickerdataJSON != null){
+            Log.i("HeroRetreiver", "Got data. Parsing items...");
+
+            try{
+                JSONObject heroidjsonobj = new JSONObject(heroidsJSON);
+                JSONObject heropickerdatajsonobj = new JSONObject(heropickerdataJSON);
+
+                JSONObject result = heroidjsonobj.getJSONObject("result");
+                JSONArray heroes = result.getJSONArray("heroes");
+                for(int i = 0; i < heroes.length(); i++){
+                    JSONObject hero = heroes.getJSONObject(i);
+
+                    if(!sq.doesHeroExist(hero.getInt("id"))){
+                        Log.i("HeroRetreiver", hero.getString("localized_name") + " - Does not exist, creating.");
+
+                        String title = hero.getString("name");
+                        title = title.replace("npc_dota_hero_", "");
+
+                        JSONObject heropickerdata = heropickerdatajsonobj.getJSONObject(title);
+                        Log.i("HeroRetreiver", heropickerdata.getString("bio"));
+
+
+                        sq.addHero(hero, heropickerdata);
+                    }
+                }
+
+
+
+            } catch (JSONException e){
+                e.printStackTrace();
+                //todo: Handle that nothing came back.
+            }
+        }
+        sq.close();
     }
 }

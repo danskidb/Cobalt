@@ -25,7 +25,7 @@ public class MatchRetreiver {
         instance = this;
     }
 
-    public void retreive(long matchid){
+    public void retreiveAsync(long matchid){
         matchToRetreive = matchid;
         new RetreiveMatch().execute();
     }
@@ -42,37 +42,7 @@ public class MatchRetreiver {
 
         @Override
         protected Void doInBackground(Void... arg0){
-
-            ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.getJSON(url + matchToRetreive, 0);
-
-            if(jsonStr != null){
-
-                try{
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONObject result = jsonObj.getJSONObject("result");
-
-                    JSONArray players = result.getJSONArray("players");
-                    SQLManager sq = new SQLManager(Defines.CurrentContext, false);
-
-                    sq.setMatchDetails(result);
-
-                    int i;
-                    for (i = 0 ; i < players.length(); i++){
-
-                        JSONObject p = players.getJSONObject(i);
-                        //if(sq.isPlayerInMatch(p.getLong("account_id"), result.getLong("match_id"))) {
-                        sq.addPlayerDataToMatch(p, result.getLong("match_id"));
-                    }
-                    sq.close();
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                    //todo: Handle that nothing came back.
-                }
-
-            }
-
+            retreive();
             return null;
         }
 
@@ -90,5 +60,39 @@ public class MatchRetreiver {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void retreive(){
+
+        ServiceHandler sh = new ServiceHandler();
+        String jsonStr = sh.getJSON(url + matchToRetreive, 0);
+
+        if(jsonStr != null){
+
+            try{
+                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONObject result = jsonObj.getJSONObject("result");
+
+                JSONArray players = result.getJSONArray("players");
+                SQLManager sq = new SQLManager(Defines.CurrentContext, false);
+
+                sq.setMatchDetails(result);
+
+                int i;
+                for (i = 0 ; i < players.length(); i++){
+
+                    JSONObject p = players.getJSONObject(i);
+                    //if(sq.isPlayerInMatch(p.getLong("account_id"), result.getLong("match_id"))) {
+                    sq.addPlayerDataToMatch(p, result.getLong("match_id"));
+                }
+                sq.close();
+
+            } catch (JSONException e){
+                e.printStackTrace();
+                //todo: Handle that nothing came back.
+            }
+
+        }
+
     }
 }

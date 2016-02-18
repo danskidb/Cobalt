@@ -25,8 +25,7 @@ public class MatchListRetreiver {
         instance = this;
     }
 
-    public void retreive(){
-
+    public void RetreiveAsync(){
         new RetreiveList().execute();
     }
 
@@ -42,51 +41,7 @@ public class MatchListRetreiver {
 
         @Override
         protected Void doInBackground(Void... arg0){
-
-            ServiceHandler sh = new ServiceHandler();
-            String jsonStr = sh.getJSON(url + id64, 0);
-
-            if(jsonStr != null){
-
-                try{
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    JSONObject result = jsonObj.getJSONObject("result");
-
-                    JSONArray matches = result.getJSONArray("matches");
-                    SQLManager sq = new SQLManager(Defines.CurrentContext);
-
-                    Log.i("MatchListRetreiver", "Adding matches to database if they don't exist yet");
-
-                    int i;
-                    for (i = 0 ; i < matches.length(); i++){
-
-                        JSONObject m = matches.getJSONObject(i);
-                        if(!sq.doesMatchExist(m.getLong("match_id"))) {
-                            sq.addMatch(m);
-                        }
-
-                        JSONArray players = m.getJSONArray("players");
-                        for(int j = 0; j < players.length(); j++){
-                            JSONObject p = players.getJSONObject(j);
-                            if(!sq.doesPlayerExist(p.getLong("account_id"))){
-                                sq.addPlayer(p.getLong("account_id"));
-                            }
-                            if(!sq.isPlayerInMatch(p.getLong("account_id"), m.getLong("match_id"))){
-                                sq.linkPlayerToMatch(p, m.getLong("match_id"));
-                            }
-                        }
-
-                    }
-                    Log.i("MatchListRetreiver", "Retreived: " + i + " entries");
-
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                    //todo: Handle that nothing came back.
-                }
-
-            }
-
+            retreive();
             return null;
         }
 
@@ -102,6 +57,53 @@ public class MatchListRetreiver {
 
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
+        }
+    }
+
+    public void retreive(){
+
+        ServiceHandler sh = new ServiceHandler();
+        String jsonStr = sh.getJSON(url + id64, 0);
+
+        if(jsonStr != null){
+
+            try{
+                JSONObject jsonObj = new JSONObject(jsonStr);
+                JSONObject result = jsonObj.getJSONObject("result");
+
+                JSONArray matches = result.getJSONArray("matches");
+                SQLManager sq = new SQLManager(Defines.CurrentContext);
+
+                Log.i("MatchListRetreiver", "Adding matches to database if they don't exist yet");
+
+                int i;
+                for (i = 0 ; i < matches.length(); i++){
+
+                    JSONObject m = matches.getJSONObject(i);
+                    if(!sq.doesMatchExist(m.getLong("match_id"))) {
+                        sq.addMatch(m);
+                    }
+
+                    JSONArray players = m.getJSONArray("players");
+                    for(int j = 0; j < players.length(); j++){
+                        JSONObject p = players.getJSONObject(j);
+                        if(!sq.doesPlayerExist(p.getLong("account_id"))){
+                            sq.addPlayer(p.getLong("account_id"));
+                        }
+                        if(!sq.isPlayerInMatch(p.getLong("account_id"), m.getLong("match_id"))){
+                            sq.linkPlayerToMatch(p, m.getLong("match_id"));
+                        }
+                    }
+
+                }
+                Log.i("MatchListRetreiver", "Retreived: " + i + " entries");
+
+
+            } catch (JSONException e){
+                e.printStackTrace();
+                //todo: Handle that nothing came back.
+            }
 
         }
     }

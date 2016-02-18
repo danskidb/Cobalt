@@ -62,7 +62,7 @@ public class home_matchhistory extends Fragment {
             @Override
             public void onClick(View v) {
                 MatchListRetreiver mlr = new MatchListRetreiver();
-                mlr.retreive();
+                mlr.RetreiveAsync();
             }
         });
 
@@ -70,7 +70,7 @@ public class home_matchhistory extends Fragment {
             @Override
             public void onClick(View v) {
                 ItemRetreiver ir = new ItemRetreiver();
-                ir.retreive();
+                ir.retreiveAsync();
             }
         });
 
@@ -78,7 +78,7 @@ public class home_matchhistory extends Fragment {
             @Override
             public void onClick(View v) {
                 HeroRetreiver hr = new HeroRetreiver();
-                hr.retreive();
+                hr.retreiveAsync();
             }
         });
 
@@ -88,7 +88,7 @@ public class home_matchhistory extends Fragment {
                 try{
                     TextView matchid = (TextView) view.findViewById(R.id.item_match_small_id);
                     MatchRetreiver mr = new MatchRetreiver();
-                    mr.retreive(Long.parseLong(matchid.getText().toString()));
+                    mr.retreiveAsync(Long.parseLong(matchid.getText().toString()));
                 } catch (Exception e){
 
                 }

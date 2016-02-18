@@ -44,7 +44,7 @@ public class HeroRetreiver {
             Log.i("HeroRetreiver", "Downloading 2 JSON files");
             String heroidsJSON = sh.getJSON(heroidsurl, 0);
             String heropickerdataJSON = sh.getJSON(heropickerdataurl, 0);
-            SQLManager sq = new SQLManager(Defines.CurrentContext);
+            SQLManager sq = new SQLManager(Defines.CurrentContext, false);
 
             if(heroidsJSON != null && heropickerdataJSON != null){
                 Log.i("HeroRetreiver", "Got data. Parsing items...");
@@ -79,7 +79,7 @@ public class HeroRetreiver {
                     //todo: Handle that nothing came back.
                 }
             }
-
+            sq.close();
 
             return null;
         }

@@ -53,7 +53,7 @@ public class MatchRetreiver {
                     JSONObject result = jsonObj.getJSONObject("result");
 
                     JSONArray players = result.getJSONArray("players");
-                    SQLManager sq = new SQLManager(Defines.CurrentContext);
+                    SQLManager sq = new SQLManager(Defines.CurrentContext, false);
 
 
                     int i;
@@ -65,6 +65,7 @@ public class MatchRetreiver {
                     }
 
                     sq.setMatchDetails(result);
+                    sq.close();
 
                 } catch (JSONException e){
                     e.printStackTrace();

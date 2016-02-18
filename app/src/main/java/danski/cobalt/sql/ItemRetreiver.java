@@ -40,7 +40,7 @@ public class ItemRetreiver {
 
             ServiceHandler sh = new ServiceHandler();
             String jsonStr = sh.getJSON(url, 0);
-            SQLManager sq = new SQLManager(Defines.CurrentContext);
+            SQLManager sq = new SQLManager(Defines.CurrentContext, false);
 
             if(jsonStr != null){
                 Log.i("ItemRetreiver", "Got data. Parsing items from JSON...");
@@ -70,6 +70,7 @@ public class ItemRetreiver {
 
             }
 
+            sq.close();
             return null;
         }
 

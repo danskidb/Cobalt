@@ -2,6 +2,7 @@ package danski.cobalt.adaptor;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,12 +70,12 @@ public class MatchListAdaptor extends CursorAdapter {
             holder.overlay = (ImageView) view.findViewById(R.id.match_overlay);
             holder.heroImage = (ImageView) view.findViewById(R.id.match_heroImg);
 
-            SQLManager sm = new SQLManager(context);
+            SQLManager sm = new SQLManager(context, false);
             Cursor match = sm.getMatch(matchlist.getLong(matchlist.getColumnIndex("match_id")));
             Cursor playerdata = MatchTools.getMyPlayerDetails(matchlist.getLong(matchlist.getColumnIndex("match_id")), context);
+            Cursor hero = sm.getHero(playerdata.getInt(playerdata.getColumnIndex("Hero_hero_id")));
 
-            //todo: get hero data from db
-            //Picasso.with(context).load(Defines.heroimgurl + playerdata.getString(playerdata.getColumnIndex("hero")))
+            Picasso.with(context).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").into(holder.heroImage);
 
             //todo: dont use match list here, but try to get a specific match and save it.
             if(MatchTools.didWin(playerdata, match)){
@@ -89,6 +90,8 @@ public class MatchListAdaptor extends CursorAdapter {
             int[] duration = Defines.splitToComponentTimes(matchlist.getInt(matchlist.getColumnIndex("duration")));
             holder.duration.setText(duration[0] + "h " + duration[1] + "m");
             holder.matchtype.setText(MatchTools.returnGameMode(matchlist.getInt(matchlist.getColumnIndex("game_mode"))));
+
+            sm.close();
         } else {
             holder.status = (TextView) view.findViewById(R.id.item_match_status);
             holder.id = (TextView) view.findViewById(R.id.item_match_small_id);

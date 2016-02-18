@@ -36,6 +36,13 @@ public class SQLManager extends SQLiteOpenHelper {
         instance = this;
     }
 
+    public SQLManager (Context _context, boolean overrideinstance){
+        super(_context, databaseName, null, databaseVersion);
+        context = _context;
+        am = context.getAssets();
+        if(overrideinstance) instance = this;
+    }
+
     public boolean doesItemExist(int itemID){
         db = this.getReadableDatabase();
 
@@ -353,6 +360,14 @@ public class SQLManager extends SQLiteOpenHelper {
     public Cursor getPlayerInMatch(long playerid32, long matchid){
         db = this.getReadableDatabase();
         String query = "Select rowid _id,* from Match_has_Player WHERE Player_account_id = " + playerid32 + " AND Match_match_id = " + matchid;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        return res;
+    }
+
+    public Cursor getHero(int heroid){
+        db = this.getReadableDatabase();
+        String query = "Select rowid _id,* from Hero WHERE hero_id = " + heroid;
         Cursor res = db.rawQuery(query, null);
         res.moveToFirst();
         return res;

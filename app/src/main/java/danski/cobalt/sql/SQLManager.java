@@ -398,6 +398,7 @@ public class SQLManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
         try {
             Log.i("SQLM", "Going to create tables");
+
             db.execSQL("CREATE TABLE \"Hero\"(\n" +                     //EG
                     "  \"hero_id\" INTEGER PRIMARY KEY NOT NULL,\n" +   //22
                     "  \"hero_title\" VARCHAR(45),\n" +                 //furion

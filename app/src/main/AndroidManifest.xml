@@ -6,10 +6,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo2"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
 
         <activity
             android:name=".Home.HomeActivity"
@@ -17,10 +18,19 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Setup.SetupWizard"
+            android:label="@string/title_activity_setup_wizard"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".Setup.LoginActivity"
+            android:label="@string/title_login"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

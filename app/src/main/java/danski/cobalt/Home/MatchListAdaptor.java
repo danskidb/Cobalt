@@ -1,4 +1,4 @@
-package danski.cobalt.adaptor;
+package danski.cobalt.Home;
 
 import android.content.Context;
 import android.database.Cursor;

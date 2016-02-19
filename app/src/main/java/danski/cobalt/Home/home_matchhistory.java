@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import danski.cobalt.R;
-import danski.cobalt.adaptor.MatchListAdaptor;
 import danski.cobalt.sql.HeroRetreiver;
 import danski.cobalt.sql.ItemRetreiver;
 import danski.cobalt.sql.MatchListRetreiver;

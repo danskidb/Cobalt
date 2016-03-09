@@ -53,8 +53,6 @@ public class home_matchhistory extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home_matchhistory, container, false);
 
         b = (Button) v.findViewById(R.id.button);
-        grabitem = (Button) v.findViewById(R.id.button3) ;
-        grabheroes = (Button) v.findViewById(R.id.button2);
         lv = (ListView) v.findViewById(R.id.listView);
 
         b.setOnClickListener(new View.OnClickListener() {
@@ -62,22 +60,6 @@ public class home_matchhistory extends Fragment {
             public void onClick(View v) {
                 MatchListRetreiver mlr = new MatchListRetreiver();
                 mlr.RetreiveAsync();
-            }
-        });
-
-        grabitem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ItemRetreiver ir = new ItemRetreiver();
-                ir.retreiveAsync();
-            }
-        });
-
-        grabheroes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HeroRetreiver hr = new HeroRetreiver();
-                hr.retreiveAsync();
             }
         });
 

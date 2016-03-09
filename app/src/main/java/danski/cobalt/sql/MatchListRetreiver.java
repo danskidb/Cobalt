@@ -1,7 +1,9 @@
 package danski.cobalt.sql;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -17,7 +19,6 @@ import danski.cobalt.Home.home_matchhistory;
 public class MatchListRetreiver {
 
     private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=" + Defines.APIKEY + "&account_id=";
-    private String id64 = "76561198076104596";
     public static MatchListRetreiver instance;
     ProgressDialog pDialog;
 
@@ -64,7 +65,8 @@ public class MatchListRetreiver {
     public void retreive(){
 
         ServiceHandler sh = new ServiceHandler();
-        String jsonStr = sh.getJSON(url + id64, 0);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Defines.CurrentContext);
+        String jsonStr = sh.getJSON(url + prefs.getLong("steamid64", 0), 0);
 
         if(jsonStr != null){
 

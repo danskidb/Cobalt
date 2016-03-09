@@ -1,7 +1,9 @@
 package danski.cobalt;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.Dictionary;
@@ -29,7 +31,8 @@ public class MatchTools {
 
     public static Cursor getMyPlayerDetails(long matchid, Context context){
         SQLManager sm = new SQLManager(context, false);
-        Cursor cur = sm.getPlayerInMatch(Defines.idTo32(Long.parseLong(Defines.mysteamid)), matchid);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Cursor cur = sm.getPlayerInMatch(Defines.idTo32(prefs.getLong("steamid64", 0)), matchid);
         return cur;
     }
 

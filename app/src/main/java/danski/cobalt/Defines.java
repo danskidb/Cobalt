@@ -12,8 +12,6 @@ public class Defines {
     public static String itemimgurl = "http://media.steampowered.com/apps/dota2/images/items/";
     public static String heroimgurl = "http://media.steampowered.com/apps/dota2/images/heroes/"; //furion_full.png
 
-    public static String mysteamid = "76561198076104596";
-
     public static long idTo32(long id64){
         return id64 - SteamIDconvertor;
     }

@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
                     // Extracts user id.
                     Uri userAccountUrl = Uri.parse(Url.getQueryParameter("openid.identity"));
                     String userId = userAccountUrl.getLastPathSegment();
-                    Defines.mysteamid = userId;
 
                     // Do whatever you want with the user's steam id
                     SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();

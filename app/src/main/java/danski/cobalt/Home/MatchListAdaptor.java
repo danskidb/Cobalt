@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -35,6 +37,7 @@ public class MatchListAdaptor extends CursorAdapter {
         matchlist = _cursor;
 
     }
+
 
     // The newView method is used to inflate a new view and return it,
     // you don't bind any data to the view at this point.

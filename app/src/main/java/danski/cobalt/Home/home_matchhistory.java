@@ -2,9 +2,11 @@ package danski.cobalt.Home;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import danski.cobalt.Match.MatchActivity;
 import danski.cobalt.R;
 import danski.cobalt.sql.HeroRetreiver;
 import danski.cobalt.sql.ItemRetreiver;
@@ -66,10 +69,28 @@ public class home_matchhistory extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try{
-                    TextView matchid = (TextView) view.findViewById(R.id.item_match_small_id);
-                    MatchRetreiver mr = new MatchRetreiver();
-                    mr.retreiveAsync(Long.parseLong(matchid.getText().toString()));
+                try {
+                    TextView matchid;
+
+                    if (view.findViewById(R.id.item_match_id) == null) {
+                        matchid = (TextView) view.findViewById(R.id.item_match_small_id);
+                    } else {
+                        matchid = (TextView) view.findViewById(R.id.item_match_id);
+                    }
+
+                    SQLManager sqlm = new SQLManager(getContext(), false);
+
+                    if(sqlm.doesMatchHaveDetails(Long.parseLong(matchid.getText().toString()))){
+                        Intent i = new Intent(getContext(), MatchActivity.class);
+                        Bundle b = new Bundle();
+                        b.putLong("matchid", Long.parseLong(matchid.getText().toString()));
+                        i.putExtras(b);
+                        startActivity(i);
+                    } else {
+                        MatchRetreiver mr = new MatchRetreiver();
+                        mr.retreiveAsync(Long.parseLong(matchid.getText().toString()));
+                    }
+
                 } catch (Exception e){
 
                 }

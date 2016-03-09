@@ -369,6 +369,23 @@ public class SQLManager extends SQLiteOpenHelper {
         }
     }
 
+    public boolean doesMatchHaveDetails(long matchid){
+        db = this.getReadableDatabase();
+        String query = "Select hasdetail from Match where match_id=" + matchid;
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        if(c.getCount() > 0) {
+            if (c.getInt(c.getColumnIndex("hasdetail")) > 0) {
+                c.close();
+                return true;
+            }
+        }
+
+        c.close();
+        return false;
+    }
+
     public boolean setMatchDetails(JSONObject match){
         db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();

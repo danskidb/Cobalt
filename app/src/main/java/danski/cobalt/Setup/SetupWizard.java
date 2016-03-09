@@ -73,7 +73,7 @@ public class SetupWizard extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        pDialog.setMessage(getString(R.string.setup_loading_heroes));
+                        pDialog.setMessage(getString(R.string.setup_loading_personadata));
                         pDialog.setProgress(0);
                     }
                 });

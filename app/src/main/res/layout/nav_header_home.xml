@@ -12,18 +12,19 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/userimg"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/jeansmall" />
+        android:src="@drawable/abc_ic_clear_mtrl_alpha" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Jean Yves Masson"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:text="Unknown user"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/username"/>
 
     <!--<TextView
         android:id="@+id/textView"

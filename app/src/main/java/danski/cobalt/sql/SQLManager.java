@@ -2,11 +2,13 @@ package danski.cobalt.sql;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -22,7 +24,7 @@ public class SQLManager extends SQLiteOpenHelper {
     public static SQLManager instance;
 
     static String databaseName = "cobaltdb";
-    static int databaseVersion = 23;
+    static int databaseVersion = 28;
 
     Context context;
     AssetManager am;
@@ -186,6 +188,44 @@ public class SQLManager extends SQLiteOpenHelper {
         }catch (Exception e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public boolean updatePlayerDetail(String playerid, String name, String profileurl, String avatarfullurl, String avatarmedurl){
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        try{
+            cv.put("name", name);
+            cv.put("profile_url", profileurl);
+            cv.put("avatarfull_url", avatarfullurl);
+            cv.put("avatarmed_url", avatarmedurl);
+
+            db.update("Player", cv, "account_id=?", new String[]{playerid});
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Player getPlayer(Long playerid){
+        db = this.getReadableDatabase();
+        String query = "Select * from Player where account_id = " + playerid;
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0){
+            Player p = new Player(
+                    cursor.getString(cursor.getColumnIndex("account_id")),
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getString(cursor.getColumnIndex("profile_url")),
+                    cursor.getString(cursor.getColumnIndex("avatarfull_url")),
+                    cursor.getString(cursor.getColumnIndex("avatarmed_url")));
+            cursor.close();
+            return p;
+        } else {
+            cursor.close();
+            return null;
         }
     }
 
@@ -465,7 +505,10 @@ public class SQLManager extends SQLiteOpenHelper {
 
             db.execSQL("CREATE TABLE \"Player\"(\n" +
                     "  \"account_id\" INTEGER PRIMARY KEY NOT NULL,\n" +
-                    "  \"name\" VARCHAR(45)\n" +
+                    "  \"name\" VARCHAR(45),\n" +
+                    "  \"profile_url\" VARCHAR(45),\n" +
+                    "  \"avatarfull_url\" VARCHAR(45),\n" +
+                    "  \"avatarmed_url\" VARCHAR(45)\n" +
                     ");");
 
             db.execSQL("CREATE TABLE \"Match\"(\n" +
@@ -592,7 +635,9 @@ public class SQLManager extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Match_has_Player_has_ability");
         db.execSQL("DROP TABLE IF EXISTS ability");
 
-        //todo: CLEAR OUT ALL TABLEZ
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putBoolean("setupcomplete", false);
+        editor.apply();
         
         // Create tables again
         onCreate(db);

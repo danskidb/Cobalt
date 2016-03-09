@@ -1,10 +1,15 @@
 package danski.cobalt.Home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,13 +19,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import danski.cobalt.Defines;
 import danski.cobalt.R;
+import danski.cobalt.sql.Player;
 import danski.cobalt.sql.SQLManager;
+import danski.cobalt.sql.SteamprofileRetreiver;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Context context;
+    Player loggedinplayer;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +43,10 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        context = this;
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        loggedinplayer = SQLManager.instance.getPlayer(prefs.getLong("steamid64", 0));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -40,14 +59,32 @@ public class HomeActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this,
+                drawer,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Get header and set the name and user image
+        View headerlayout = navigationView.getHeaderView(0);
+        ImageView img = (ImageView) headerlayout.findViewById(R.id.userimg);
+        TextView tv = (TextView) headerlayout.findViewById(R.id.username);
+
+        tv.setText(loggedinplayer.Name);
+        Picasso.with(this).load(loggedinplayer.URL_avatarmed).into(img);
+
+
         Defines.CurrentContext = this;
+
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.flContent, new home_me());
+        this.getSupportActionBar().setTitle(loggedinplayer.Name);
+        tx.commit();
     }
 
     @Override
@@ -79,6 +116,17 @@ public class HomeActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.action_test) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    new SteamprofileRetreiver().retreivePlayerDetails(prefs.getLong("steamid64", 0));
+                }
+            }).start();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -91,7 +139,7 @@ public class HomeActivity extends AppCompatActivity
         switch(item.getItemId()){
             case R.id.nav_me:
                 fragmentClass = home_me.class;
-                this.getSupportActionBar().setTitle("Jean-Yves Masson");
+                this.getSupportActionBar().setTitle(loggedinplayer.Name);
                 break;
             case R.id.nav_matchhistory:
                 fragmentClass = home_matchhistory.class;

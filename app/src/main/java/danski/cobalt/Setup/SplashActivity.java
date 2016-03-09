@@ -6,8 +6,10 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import danski.cobalt.Defines;
 import danski.cobalt.Home.HomeActivity;
 import danski.cobalt.R;
+import danski.cobalt.sql.SQLManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -15,6 +17,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_splash);
+        Defines.CurrentContext = this;
+
+        SQLManager sqlm = new SQLManager(this);
+        sqlm.getReadableDatabase();
+        sqlm.close();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(prefs.getBoolean("setupcomplete", false)){

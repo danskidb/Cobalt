@@ -22,6 +22,7 @@ import danski.cobalt.R;
 import danski.cobalt.sql.HeroRetreiver;
 import danski.cobalt.sql.ItemRetreiver;
 import danski.cobalt.sql.MatchListRetreiver;
+import danski.cobalt.sql.SteamprofileRetreiver;
 
 public class SetupWizard extends AppCompatActivity {
 
@@ -62,7 +63,7 @@ public class SetupWizard extends AppCompatActivity {
         pDialog.setCancelable(false);
         pDialog.setIndeterminate(false);
         pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pDialog.setMax(4);
+        pDialog.setMax(5);
         pDialog.setProgress(0);
         pDialog.show();
 
@@ -76,6 +77,16 @@ public class SetupWizard extends AppCompatActivity {
                         pDialog.setProgress(0);
                     }
                 });
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                new SteamprofileRetreiver().retreivePlayerDetails(prefs.getLong("steamid64", 0));
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        pDialog.setMessage(getString(R.string.setup_loading_heroes));
+                        pDialog.setProgress(1);
+                    }
+                });
                 HeroRetreiver hr = new HeroRetreiver();
                 hr.retreive();
 
@@ -84,7 +95,7 @@ public class SetupWizard extends AppCompatActivity {
                     @Override
                     public void run() {
                         pDialog.setMessage(getString(R.string.setup_loading_items));
-                        pDialog.setProgress(1);
+                        pDialog.setProgress(2);
                     }
                 });
                 ItemRetreiver ir = new ItemRetreiver();
@@ -95,7 +106,7 @@ public class SetupWizard extends AppCompatActivity {
                     @Override
                     public void run() {
                         pDialog.setMessage(getString(R.string.setup_loading_match_history));
-                        pDialog.setProgress(2);
+                        pDialog.setProgress(3);
                     }
                 });
                 MatchListRetreiver mlr = new MatchListRetreiver();
@@ -106,7 +117,7 @@ public class SetupWizard extends AppCompatActivity {
                     @Override
                     public void run() {
                         pDialog.setMessage(getString(R.string.setup_loading_last_matches));
-                        pDialog.setProgress(3);
+                        pDialog.setProgress(4);
                     }
                 });
 
@@ -117,7 +128,7 @@ public class SetupWizard extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        pDialog.setProgress(3);
+                        pDialog.setProgress(5);
                         startActivity(new Intent(context, HomeActivity.class));
                         if (pDialog.isShowing()){
                             pDialog.dismiss();

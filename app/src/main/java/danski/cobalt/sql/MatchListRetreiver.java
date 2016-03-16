@@ -69,7 +69,7 @@ public class MatchListRetreiver {
         String jsonStr = sh.getJSON(url + prefs.getLong("steamid64", 0), 0);
 
         if(jsonStr != null){
-
+            Log.i("MLR", "Found JSON...");
             try{
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 JSONObject result = jsonObj.getJSONObject("result");
@@ -107,6 +107,8 @@ public class MatchListRetreiver {
                 //todo: Handle that nothing came back.
             }
 
+        } else {
+            Log.e("MLR", "Couldn't download JSON file! Are you connected to internet?");
         }
     }
 }

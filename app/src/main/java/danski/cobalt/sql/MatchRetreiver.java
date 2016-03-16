@@ -2,6 +2,7 @@ package danski.cobalt.sql;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +69,7 @@ public class MatchRetreiver {
         String jsonStr = sh.getJSON(url + matchToRetreive, 0);
 
         if(jsonStr != null){
-
+            Log.i("MR", "Found JSON...");
             try{
                 JSONObject jsonObj = new JSONObject(jsonStr);
                 JSONObject result = jsonObj.getJSONObject("result");
@@ -92,6 +93,8 @@ public class MatchRetreiver {
                 //todo: Handle that nothing came back.
             }
 
+        } else {
+            Log.e("MR", "Couldn't get a JSON! Are you connected to internet?");
         }
 
     }

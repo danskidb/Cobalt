@@ -22,6 +22,7 @@ import danski.cobalt.R;
 import danski.cobalt.sql.HeroRetreiver;
 import danski.cobalt.sql.ItemRetreiver;
 import danski.cobalt.sql.MatchListRetreiver;
+import danski.cobalt.sql.MatchRetreiver;
 import danski.cobalt.sql.SteamprofileRetreiver;
 
 public class SetupWizard extends AppCompatActivity {
@@ -120,6 +121,8 @@ public class SetupWizard extends AppCompatActivity {
                         pDialog.setProgress(4);
                     }
                 });
+                MatchRetreiver mr = new MatchRetreiver();
+                mr.retreiveLastX(10);
 
 
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();

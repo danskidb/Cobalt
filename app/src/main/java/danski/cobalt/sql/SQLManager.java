@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,6 +15,9 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -427,6 +431,26 @@ public class SQLManager extends SQLiteOpenHelper {
         return res;
     }
 
+    public ArrayList<Long> getAllMatchesList(){
+        ArrayList<Long> allmatches = new ArrayList<>();
+
+        db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery("Select rowid _id,* from Match ORDER BY match_id DESC", null);
+
+        if(cur.getCount() == 0) Log.w("SQLM", "Allmatches cursor is empty");
+        else {
+            cur.moveToFirst();
+
+            for (int i = 0; i < cur.getCount(); i++){
+                cur.moveToPosition(i);
+                allmatches.add(Long.parseLong(cur.getString(cur.getColumnIndex("match_id"))));
+            }
+        }
+
+        cur.close();
+        return allmatches;
+    }
+
     public Cursor getMatch(long matchid){
         db = this.getReadableDatabase();
         String query = "Select rowid _id,* from Match WHERE match_id = " + matchid;
@@ -449,6 +473,27 @@ public class SQLManager extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(query, null);
         res.moveToFirst();
         return res;
+    }
+
+    public ArrayList<Long> getLastXMatches(int ammount){
+        ArrayList<Long> lastxmatches = new ArrayList<>();
+
+        db = this.getReadableDatabase();
+        String query = "Select rowid _id,match_id from Match ORDER BY match_id DESC LIMIT "+ammount;
+        Cursor cur = db.rawQuery(query, null);
+
+        if(cur.getCount() == 0) Log.w("SQLM", "Last 5 matches cursor is empty");
+        else {
+            cur.moveToFirst();
+
+            for (int i = 0; i < cur.getCount(); i++){
+                cur.moveToPosition(i);
+                lastxmatches.add(Long.parseLong(cur.getString(cur.getColumnIndex("match_id"))));
+            }
+        }
+
+        cur.close();
+        return lastxmatches;
     }
 
     @Override

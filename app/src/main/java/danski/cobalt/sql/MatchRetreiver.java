@@ -8,6 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import danski.cobalt.Defines;
 import danski.cobalt.Home.home_matchhistory;
 
@@ -26,9 +29,36 @@ public class MatchRetreiver {
         instance = this;
     }
 
+    //retreives one match.
     public void retreiveAsync(long matchid){
         matchToRetreive = matchid;
         new RetreiveMatch().execute();
+    }
+
+    //retreives the last 5 matches, regardless whether they are in the database or not.
+    public void retreiveLastX(int ammount){
+        SQLManager sq = new SQLManager(Defines.CurrentContext, false);
+        final ArrayList<Long> last5matches = sq.getLastXMatches(ammount);
+
+        for(Long l : last5matches){
+            retreive(l);
+        }
+
+    }
+
+    //retreives all the matches you haven't downloaded yet, up until it finds the latest downloaded.
+    public void retreiveLastUntilDownloaded(){
+
+    }
+
+    //retreives all matches in the matchlist. WARNING: THIS CAN TAKE LONG ON A SLOW CONNECTION.
+    public void retreiveAllMatches(){
+        SQLManager sq = new SQLManager(Defines.CurrentContext, false);
+        final ArrayList<Long> allmatches = sq.getAllMatchesList();
+
+        for(Long l : allmatches){
+            retreive(l);
+        }
     }
 
     private class RetreiveMatch extends AsyncTask<Void, Void, Void> {
@@ -64,9 +94,12 @@ public class MatchRetreiver {
     }
 
     public void retreive(){
+        retreive(matchToRetreive);
+    }
 
+    public void retreive(long match){
         ServiceHandler sh = new ServiceHandler();
-        String jsonStr = sh.getJSON(url + matchToRetreive, 0);
+        String jsonStr = sh.getJSON(url + match, 0);
 
         if(jsonStr != null){
             Log.i("MR", "Found JSON...");
@@ -96,6 +129,5 @@ public class MatchRetreiver {
         } else {
             Log.e("MR", "Couldn't get a JSON! Are you connected to internet?");
         }
-
     }
 }

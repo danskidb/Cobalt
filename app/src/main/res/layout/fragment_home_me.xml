@@ -1,13 +1,292 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="danski.cobalt.Home.home_me">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ME" />
 
-</FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:padding="12dp"
+        android:elevation="16dp"
+        android:id="@+id/relativeLayout2">
+
+        <ImageView
+            android:id="@+id/fragment_me_profilepicture"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/jeansmall" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/fragment_me_profilepicture"
+            android:gravity="center_vertical"
+            android:layout_alignBottom="@+id/fragment_me_profilepicture"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jean-Yves Masson"
+                android:id="@+id/fragment_me_profilename"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:background="@color/overlay"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Last Game: 07-05-2016"
+                android:id="@+id/fragment_me_lastseen"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:background="@color/overlay"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="16dp"
+        android:elevation="8dp"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_alignParentStart="true">
+
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="W / L / A"
+                android:id="@+id/fragment_me_wla"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:background="@color/overlay"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Winrate"
+                android:id="@+id/fragment_me_winrate"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:background="@color/overlay"
+                android:textAlignment="textEnd"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView3"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/templar_assassin_full"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView4"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/imageView3"
+                android:layout_alignEnd="@+id/imageView3"
+                android:src="@drawable/gradient_red"
+                android:background="#64000000" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout3"
+            android:padding="5dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="LOSS"
+                android:id="@+id/textView4"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/text_loss"
+                android:textStyle="bold"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/fragment_me_lastmatch"
+                android:id="@+id/textView6"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="3"
+                android:padding="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textView4" >
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="00 / 00 / 00"
+                        android:id="@+id/textView7"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffff"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:shadowRadius="3"
+                        android:background="@color/overlay"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="60 : 00"
+                        android:id="@+id/textView8"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffff"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:shadowRadius="3"
+                        android:background="@color/overlay"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="All Pick"
+                        android:id="@+id/textView9"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#ffffff"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:shadowRadius="3"
+                        android:background="@color/overlay"
+                        android:textAlignment="textEnd"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Yesterday, 10:08 AM"
+                        android:id="@+id/textView10"
+                        android:textColor="#ffffff"
+                        android:shadowColor="@color/text_shadow"
+                        android:shadowDx="-1"
+                        android:shadowDy="-1"
+                        android:shadowRadius="3"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:background="@color/overlay"
+                        android:textAlignment="textEnd"
+                        android:padding="5dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
+</RelativeLayout>

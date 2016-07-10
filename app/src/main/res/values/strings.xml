@@ -21,4 +21,5 @@
     <string name="setup_loading_match_history">Loading Match History...</string>
     <string name="setup_loading_last_matches">Loading last couple of matches...</string>
     <string name="setup_loading_personadata">Loading your Steam profile...</string>
+    <string name="fragment_me_lastmatch">Last Match</string>
 </resources>

@@ -51,8 +51,8 @@
             android:textColor="#96bafe"
             android:textStyle="bold"
             android:shadowColor="@color/text_shadow"
-            android:shadowDx="-1"
-            android:shadowDy="-1"
+            android:shadowDx="5"
+            android:shadowDy="5"
             android:shadowRadius="3"
             />
 

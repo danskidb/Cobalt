@@ -119,7 +119,7 @@ public class MatchListAdaptor extends CursorAdapter {
                     holder.status.setTextColor(context.getResources().getColor(R.color.text_win));
                 } else {
                     holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_red));
-                    holder.status.setText("LOSS");
+                    holder.status.setText("LOST");
                     holder.status.setTextColor(context.getResources().getColor(R.color.text_loss));
                 }
             }

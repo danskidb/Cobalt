@@ -48,14 +48,14 @@ public class HomeActivity extends AppCompatActivity
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         loggedinplayer = SQLManager.instance.getPlayer(prefs.getLong("steamid64", 0));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -139,7 +139,7 @@ public class HomeActivity extends AppCompatActivity
         switch(item.getItemId()){
             case R.id.nav_me:
                 fragmentClass = home_me.class;
-                this.getSupportActionBar().setTitle(loggedinplayer.Name);
+                this.getSupportActionBar().setTitle(getString(R.string.app_name));
                 break;
             case R.id.nav_matchhistory:
                 fragmentClass = home_matchhistory.class;
@@ -152,6 +152,14 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_heroes:
                 fragmentClass = home_me.class;
                 this.getSupportActionBar().setTitle(getString(R.string.title_heroes));
+                break;
+            case R.id.nav_items:
+                fragmentClass = home_me.class;
+                this.getSupportActionBar().setTitle(getString(R.string.title_items));
+                break;
+            case R.id.nav_settings:
+                fragmentClass = home_me.class;
+                this.getSupportActionBar().setTitle(getString(R.string.title_settings));
                 break;
             default:
                 fragmentClass = home_me.class;

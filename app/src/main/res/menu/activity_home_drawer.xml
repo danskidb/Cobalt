@@ -14,23 +14,32 @@
             android:id="@+id/nav_stats"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Statistics" />
-        <item
-            android:id="@+id/nav_heroes"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Heroes and Items" />
+
+        <item android:title="Resources">
+            <menu>
+                <item
+                    android:id="@+id/nav_heroes"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="Heroes" />
+                <item
+                    android:id="@+id/nav_items"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="Items" />
+            </menu>
+        </item>
+
+        <item android:title="Other">
+            <menu>
+                <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@drawable/ic_menu_manage"
+                    android:title="Settings" />
+
+
+            </menu>
+        </item>
     </group>
 
-   <!-- <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item> -->
+
 
 </menu>

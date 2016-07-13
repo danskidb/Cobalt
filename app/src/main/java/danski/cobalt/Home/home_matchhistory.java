@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,7 @@ public class home_matchhistory extends Fragment {
     public static home_matchhistory instance;
 
     Button b;
-    Button grabitem;
-    Button grabheroes;
+    SwipeRefreshLayout srl;
     ListView lv;
     MatchListAdaptor mla;
 
@@ -55,16 +55,26 @@ public class home_matchhistory extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home_matchhistory, container, false);
 
-        b = (Button) v.findViewById(R.id.button);
+        srl = (SwipeRefreshLayout) v.findViewById(R.id.fragment_home_swiperefresh);
+        //b = (Button) v.findViewById(R.id.button);
         lv = (ListView) v.findViewById(R.id.listView);
 
-        b.setOnClickListener(new View.OnClickListener() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MatchListRetreiver mlr = new MatchListRetreiver();
+                mlr.RetreiveAsync();
+                srl.setRefreshing(false);
+            }
+        });
+
+        /*b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MatchListRetreiver mlr = new MatchListRetreiver();
                 mlr.RetreiveAsync();
             }
-        });
+        });*/
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

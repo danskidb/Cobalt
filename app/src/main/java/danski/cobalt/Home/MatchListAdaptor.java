@@ -31,6 +31,8 @@ public class MatchListAdaptor extends CursorAdapter {
     Context context;
     Cursor matchlist;
 
+    int placeholderImage = R.drawable.templar_assassin_full;
+
     public MatchListAdaptor(Context _context, Cursor _cursor, int flags) {
         super(_context, _cursor, flags);
         context = _context;
@@ -78,7 +80,7 @@ public class MatchListAdaptor extends CursorAdapter {
             Cursor playerdata = MatchTools.getMyPlayerDetails(matchlist.getLong(matchlist.getColumnIndex("match_id")), context);
             Cursor hero = sm.getHero(playerdata.getInt(playerdata.getColumnIndex("Hero_hero_id")));
 
-            Picasso.with(context).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").into(holder.heroImage);
+            Picasso.with(context).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").placeholder(placeholderImage).into(holder.heroImage);
 
 
             if(playerdata.getInt(playerdata.getColumnIndex("leaver_status")) > 0){
@@ -134,6 +136,14 @@ public class MatchListAdaptor extends CursorAdapter {
             holder.status = (TextView) view.findViewById(R.id.item_match_status);
             holder.id = (TextView) view.findViewById(R.id.item_match_small_id);
             holder.timestarted = (TextView) view.findViewById(R.id.item_match_small_time);
+            holder.heroImage = (ImageView) view.findViewById(R.id.heroImg_small);
+
+            SQLManager sm = new SQLManager(context);
+            Cursor playerdata = MatchTools.getMyPlayerDetails(matchlist.getLong(matchlist.getColumnIndex("match_id")), context);
+            Cursor hero = sm.getHero(playerdata.getInt(playerdata.getColumnIndex("Hero_hero_id")));
+            Log.v("MLA", hero.getString(hero.getColumnIndex("hero_title")) + "_full.png");
+            Picasso.with(context).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").placeholder(placeholderImage).fit().into(holder.heroImage);
+
         }
 
         // Extract properties from cursor

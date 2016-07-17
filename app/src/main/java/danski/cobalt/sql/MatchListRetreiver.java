@@ -21,6 +21,7 @@ public class MatchListRetreiver {
     private String url = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=" + Defines.APIKEY + "&account_id=";
     public static MatchListRetreiver instance;
     ProgressDialog pDialog;
+    public boolean alsoGetLatestMatch = false;
 
     public MatchListRetreiver(){
         instance = this;
@@ -101,6 +102,10 @@ public class MatchListRetreiver {
                 }
                 Log.i("MatchListRetreiver", "Retreived: " + i + " entries");
 
+                if(alsoGetLatestMatch){
+                    MatchRetreiver mr = new MatchRetreiver();
+                    mr.retreive(sq.getAllMatchesList().get(0));
+                }
 
             } catch (JSONException e){
                 e.printStackTrace();

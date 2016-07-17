@@ -87,29 +87,7 @@ public class MatchListAdaptor extends CursorAdapter {
                 holder.overlay.setImageDrawable(context.getResources().getDrawable(R.drawable.gradient_orange));
                 holder.status.setTextColor(context.getResources().getColor(R.color.text_abandon));
 
-                switch(playerdata.getInt(playerdata.getColumnIndex("leaver_status"))){
-                    case 1:
-                        holder.status.setText("ABANDON");
-                        break;
-                    case 2:
-                        holder.status.setText("+5 MIN. DISCONNECT");
-                        break;
-                    case 3:
-                        holder.status.setText("DISCONNECT & LEAVE");
-                        break;
-                    case 4:
-                        holder.status.setText("AFK ABANDON");
-                        break;
-                    case 5:
-                        holder.status.setText("NEVER CONNECTED");
-                        break;
-                    case 6:
-                        holder.status.setText("NEVER CONNECTED");
-                        break;
-                    default:
-                        holder.status.setText("ABANDON");
-                        break;
-                }
+                holder.status.setText(Defines.getLeaverStatus(playerdata.getInt(playerdata.getColumnIndex("leaver_status"))));
 
 
             } else {

@@ -32,4 +32,23 @@ public class Defines {
         return ints;
     }
 
+    public static String getLeaverStatus(int status){
+        switch(status){
+            case 1:
+                return "ABANDON";
+            case 2:
+                return "+5 MIN. DISCONNECT";
+            case 3:
+                return "DISCONNECT & LEAVE";
+            case 4:
+                return "AFK ABANDON";
+            case 5:
+                return "NEVER CONNECTED";
+            case 6:
+                return "NEVER CONNECTED";
+            default:
+                return "ABANDON";
+        }
+    }
+
 }

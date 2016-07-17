@@ -56,25 +56,17 @@ public class home_matchhistory extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home_matchhistory, container, false);
 
         srl = (SwipeRefreshLayout) v.findViewById(R.id.fragment_home_swiperefresh);
-        //b = (Button) v.findViewById(R.id.button);
         lv = (ListView) v.findViewById(R.id.listView);
 
         srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 MatchListRetreiver mlr = new MatchListRetreiver();
+                mlr.alsoGetLatestMatch = true;
                 mlr.RetreiveAsync();
                 srl.setRefreshing(false);
             }
         });
-
-        /*b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MatchListRetreiver mlr = new MatchListRetreiver();
-                mlr.RetreiveAsync();
-            }
-        });*/
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

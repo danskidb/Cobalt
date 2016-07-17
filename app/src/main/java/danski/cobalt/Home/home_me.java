@@ -1,7 +1,9 @@
 package danski.cobalt.Home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,11 +12,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import danski.cobalt.Defines;
+import danski.cobalt.Match.MatchActivity;
+import danski.cobalt.MatchTools;
 import danski.cobalt.R;
 import danski.cobalt.sql.Player;
 import danski.cobalt.sql.SQLManager;
@@ -55,9 +66,76 @@ public class home_me extends Fragment {
         profileName.setText(p.Name);
         Picasso.with(getContext()).load(p.URL_avatarfull).into(profilePicture);
 
+        setLastMatchData(v);
+
+
         return v;
     }
     
+    void setLastMatchData(View v){
+        if(SQLManager.instance == null) new SQLManager(getContext());
+        Cursor lastmatch = SQLManager.instance.getMatch(SQLManager.instance.getAllMatchesList().get(0));
+        final long matchid = lastmatch.getLong(lastmatch.getColumnIndex("match_id"));
+        Cursor playerdata = MatchTools.getMyPlayerDetails(matchid, getContext());
+        Cursor hero = SQLManager.instance.getHero(playerdata.getInt(playerdata.getColumnIndex("Hero_hero_id")));
+
+        //Hero image
+        ImageView lm_heroImage = (ImageView) v.findViewById(R.id.fragment_me_lm_heroimg);
+        Picasso.with(getContext()).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").placeholder(R.drawable.templar_assassin_full).into(lm_heroImage);
+
+        //Win or loss?
+        TextView lm_result = (TextView) v.findViewById(R.id.fragment_me_lm_matchresult);
+        ImageView lm_gradient = (ImageView) v.findViewById(R.id.fragment_me_lm_overdraw);
+        setWinLossAbandon(playerdata, lm_gradient, lm_result);
+
+        //Contents
+        TextView lm_kda = (TextView) v.findViewById(R.id.fragment_me_lm_kda);
+        lm_kda.setText( "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists")));
+
+        TextView lm_duration = (TextView) v.findViewById(R.id.fragment_me_lm_duration);
+        int[] duration = Defines.splitToComponentTimes(lastmatch.getInt(lastmatch.getColumnIndex("duration")));
+        lm_duration.setText(duration[0] + "h " + duration[1] + "m");
+
+        TextView lm_matchtype = (TextView) v.findViewById(R.id.fragment_me_lm_matchtype);
+        lm_matchtype.setText(MatchTools.returnGameMode(lastmatch.getInt(lastmatch.getColumnIndex("game_mode"))));
+
+        TextView lm_time = (TextView) v.findViewById(R.id.fragment_me_lm_time);
+        Date origDate = new Date(lastmatch.getLong(lastmatch.getColumnIndex("start_time")) * 1000);
+        lm_time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
+
+        FrameLayout fl = (FrameLayout) v.findViewById(R.id.fragment_me_lm_layout);
+        fl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), MatchActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("matchid", matchid);
+                i.putExtras(b);
+                startActivity(i);
+            }
+        });
+    }
+
+    void setWinLossAbandon(Cursor playerdata, ImageView overlay, TextView result){
+        if(playerdata.getInt(playerdata.getColumnIndex("leaver_status")) > 0){
+            overlay.setImageDrawable(getContext().getResources().getDrawable(R.drawable.gradient_orange));
+            result.setTextColor(getContext().getResources().getColor(R.color.text_abandon));
+            
+            result.setText(Defines.getLeaverStatus(playerdata.getInt(playerdata.getColumnIndex("leaver_status"))));
+
+
+        } else {
+            if(playerdata.getInt(playerdata.getColumnIndex("win")) > 0){
+                overlay.setImageDrawable(getContext().getResources().getDrawable(R.drawable.gradient_green));
+                result.setText("WON");
+                result.setTextColor(getContext().getResources().getColor(R.color.text_win));
+            } else {
+                overlay.setImageDrawable(getContext().getResources().getDrawable(R.drawable.gradient_red));
+                result.setText("LOST");
+                result.setTextColor(getContext().getResources().getColor(R.color.text_loss));
+            }
+        }
+    }
 
     @Override
     public void onAttach(Context context) {

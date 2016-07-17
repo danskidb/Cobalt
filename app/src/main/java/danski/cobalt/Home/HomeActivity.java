@@ -146,19 +146,19 @@ public class HomeActivity extends AppCompatActivity
                 this.getSupportActionBar().setTitle(getString(R.string.title_matchhistory));
                 break;
             case R.id.nav_stats:
-                fragmentClass = home_me.class;
+                fragmentClass = home_statistics.class;
                 this.getSupportActionBar().setTitle(getString(R.string.title_stats));
                 break;
             case R.id.nav_heroes:
-                fragmentClass = home_me.class;
+                fragmentClass = home_heroes.class;
                 this.getSupportActionBar().setTitle(getString(R.string.title_heroes));
                 break;
             case R.id.nav_items:
-                fragmentClass = home_me.class;
+                fragmentClass = home_items.class;
                 this.getSupportActionBar().setTitle(getString(R.string.title_items));
                 break;
             case R.id.nav_settings:
-                fragmentClass = home_me.class;
+                fragmentClass = home_settings.class;
                 this.getSupportActionBar().setTitle(getString(R.string.title_settings));
                 break;
             default:

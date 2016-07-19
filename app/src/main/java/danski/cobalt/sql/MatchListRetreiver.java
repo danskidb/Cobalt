@@ -6,11 +6,15 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import danski.cobalt.Defines;
 import danski.cobalt.Home.home_matchhistory;
@@ -108,15 +112,43 @@ public class MatchListRetreiver {
                 }
                 Log.i("MatchListRetreiver", "Retreived: " + i + " entries");
 
-                MatchRetreiver mr = new MatchRetreiver();
+                final MatchRetreiver mr = new MatchRetreiver();
                 if(prefs.getBoolean("sett_downloadallonupdate", false)){
                     ArrayList<Long> allmatcheslist = sq.getAllMatchesList();
+                    List<Long> allmatchesWithoutDetail = new ArrayList<>();
 
                     for(Long match : allmatcheslist){
                         if(!sq.doesMatchHaveDetails(match)){
-                            mr.retreive(match);
+                            allmatchesWithoutDetail.add(match);
                         }
                     }
+                    allmatcheslist = null;
+
+                    for(Long match: allmatchesWithoutDetail){
+                        mr.retreive(match);
+                    }
+
+                    //todo: finish this threading, boi.
+                /*    int threads = 4;
+                    int chunks = allmatchesWithoutDetail.size() / threads;
+                    final List<List<Long>> listoflist = Lists.partition(allmatchesWithoutDetail, chunks);
+
+                    for(int j = 0; j < threads; j++){
+                        final int chunk = j;
+
+                        Thread t = new Thread() {
+                            @Override
+                            public void run() {
+                                List<Long> matchlist = listoflist.get(chunk);
+                                for(Long match : matchlist){
+                                    mr.retreive(match);
+                                }
+
+                            }
+                        };
+                        t.start();
+                    }*/
+
                 } else {
                     if(alsoGetLatestMatch){
                         mr.retreive(sq.getAllMatchesList().get(0));

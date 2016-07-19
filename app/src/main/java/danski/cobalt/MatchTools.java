@@ -67,14 +67,14 @@ public class MatchTools {
 
     public float calculateWinRate(){
         if(!wlaCalculated) calculateWLA();
-        float winrate = (float)WLA[0] / (float)WLA[1] * 100;
+        float winrate = (float)WLA[0] / (float)WLA[3] * 100;
         winrate = Defines.round(winrate, 2);
 
         return winrate;
     }
 
     public void calculateWLA(){
-        WLA = new int[3];
+        WLA = new int[4];
 
         if(SQLManager.instance == null) new SQLManager(Defines.CurrentContext);
         ArrayList<Long> allmatches = SQLManager.instance.getAllMatchesList();
@@ -95,6 +95,7 @@ public class MatchTools {
 
             }
         }
+        WLA[3] = WLA[0] + WLA[1];
 
         wlaCalculated = true;
     }

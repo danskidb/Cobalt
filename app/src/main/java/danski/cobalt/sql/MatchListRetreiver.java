@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import danski.cobalt.Defines;
 import danski.cobalt.Home.home_matchhistory;
 
@@ -106,9 +108,19 @@ public class MatchListRetreiver {
                 }
                 Log.i("MatchListRetreiver", "Retreived: " + i + " entries");
 
-                if(alsoGetLatestMatch){
-                    MatchRetreiver mr = new MatchRetreiver();
-                    mr.retreive(sq.getAllMatchesList().get(0));
+                MatchRetreiver mr = new MatchRetreiver();
+                if(prefs.getBoolean("sett_downloadallonupdate", false)){
+                    ArrayList<Long> allmatcheslist = sq.getAllMatchesList();
+
+                    for(Long match : allmatcheslist){
+                        if(!sq.doesMatchHaveDetails(match)){
+                            mr.retreive(match);
+                        }
+                    }
+                } else {
+                    if(alsoGetLatestMatch){
+                        mr.retreive(sq.getAllMatchesList().get(0));
+                    }
                 }
 
             } catch (JSONException e){

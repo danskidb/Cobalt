@@ -3,9 +3,11 @@ package danski.cobalt;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -16,6 +18,15 @@ import danski.cobalt.sql.SQLManager;
  * Created by Danny on 10/02/2016.
  */
 public class MatchTools {
+
+    public static MatchTools instance;
+    private int[] WLA;
+    public boolean wlaCalculated;
+
+    public MatchTools(){
+        instance = this;
+        wlaCalculated = false;
+    }
 
     public static HashMap<Integer, String> game_mode = new HashMap<Integer, String>() {{
         put(0, "Unknown");
@@ -53,4 +64,44 @@ public class MatchTools {
             }
         }
     }
+
+    public float calculateWinRate(){
+        if(!wlaCalculated) calculateWLA();
+        float winrate = (float)WLA[0] / (float)WLA[1] * 100;
+        winrate = Defines.round(winrate, 2);
+
+        return winrate;
+    }
+
+    public void calculateWLA(){
+        WLA = new int[3];
+
+        if(SQLManager.instance == null) new SQLManager(Defines.CurrentContext);
+        ArrayList<Long> allmatches = SQLManager.instance.getAllMatchesList();
+        for (Long matchid : allmatches){
+            if(SQLManager.instance.doesMatchHaveDetails(matchid)){
+                Cursor playerdata = getMyPlayerDetails(matchid, Defines.CurrentContext);
+                playerdata.moveToFirst();
+
+
+                if(playerdata.getInt(playerdata.getColumnIndex("win")) > 0){
+                    WLA[0]++;
+                } else {
+                    WLA[1]++;
+                }
+                if(playerdata.getInt(playerdata.getColumnIndex("leaver_status")) > 0){
+                    WLA[2]++;
+                }
+
+            }
+        }
+
+        wlaCalculated = true;
+    }
+
+    public int[] getWLA(){
+        if(!wlaCalculated) calculateWLA();
+        return WLA;
+    }
+
 }

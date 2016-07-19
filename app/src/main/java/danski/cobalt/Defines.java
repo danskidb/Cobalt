@@ -2,6 +2,8 @@ package danski.cobalt;
 
 import android.content.Context;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Danny on 28/01/2016.
  */
@@ -18,6 +20,12 @@ public class Defines {
 
     public static long idTo64(long id32){
         return id32 + SteamIDconvertor;
+    }
+
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 
     public static int[] splitToComponentTimes(long seconds){

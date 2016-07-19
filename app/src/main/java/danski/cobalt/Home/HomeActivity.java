@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,7 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import danski.cobalt.Defines;
 import danski.cobalt.R;
-import danski.cobalt.sql.Player;
+import danski.cobalt.sql.DataStructure.Player;
 import danski.cobalt.sql.SQLManager;
 import danski.cobalt.sql.SteamprofileRetreiver;
 

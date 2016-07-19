@@ -1,4 +1,4 @@
-package danski.cobalt.sql;
+package danski.cobalt.sql.DataStructure;
 
 import android.util.Log;
 

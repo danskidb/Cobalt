@@ -63,7 +63,7 @@ public class home_matchhistory extends Fragment {
             public void onRefresh() {
                 MatchListRetreiver mlr = new MatchListRetreiver();
                 mlr.alsoGetLatestMatch = true;
-                mlr.RetreiveAsync();
+                mlr.RetreiveAsync(true);
                 srl.setRefreshing(false);
             }
         });

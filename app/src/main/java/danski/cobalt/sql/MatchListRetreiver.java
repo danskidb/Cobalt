@@ -22,12 +22,14 @@ public class MatchListRetreiver {
     public static MatchListRetreiver instance;
     ProgressDialog pDialog;
     public boolean alsoGetLatestMatch = false;
+    boolean pullToRefresh;
 
     public MatchListRetreiver(){
         instance = this;
     }
 
-    public void RetreiveAsync(){
+    public void RetreiveAsync(boolean _pullToRefresh){
+        pullToRefresh = _pullToRefresh;
         new RetreiveList().execute();
     }
 
@@ -51,10 +53,12 @@ public class MatchListRetreiver {
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
 
-            try{
-                home_matchhistory.instance.populateList();
-            } catch (Exception e){
-                e.printStackTrace();
+            if(pullToRefresh){
+                try{
+                    home_matchhistory.instance.populateList();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             if (pDialog.isShowing())

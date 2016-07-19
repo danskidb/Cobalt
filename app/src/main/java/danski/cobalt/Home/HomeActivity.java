@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 import danski.cobalt.Defines;
 import danski.cobalt.R;
 import danski.cobalt.sql.DataStructure.Player;
+import danski.cobalt.sql.MatchListRetreiver;
 import danski.cobalt.sql.SQLManager;
 import danski.cobalt.sql.SteamprofileRetreiver;
 
@@ -109,20 +110,13 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_update) {
+            MatchListRetreiver mlr = new MatchListRetreiver();
+            mlr.alsoGetLatestMatch = true;
+            mlr.RetreiveAsync(false);
             return true;
         }
 
-        if (id == R.id.action_test) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    new SteamprofileRetreiver().retreivePlayerDetails(prefs.getLong("steamid64", 0));
-                }
-            }).start();
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

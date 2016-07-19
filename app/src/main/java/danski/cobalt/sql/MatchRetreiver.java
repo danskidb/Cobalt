@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import danski.cobalt.Defines;
 import danski.cobalt.Home.home_matchhistory;
+import danski.cobalt.MatchTools;
 
 /**
  * Created by Danny on 02/02/2016.
@@ -125,7 +126,7 @@ public class MatchRetreiver {
                 e.printStackTrace();
                 //todo: Handle that nothing came back.
             }
-
+            if(MatchTools.instance != null) MatchTools.instance.wlaCalculated = false;
         } else {
             Log.e("MR", "Couldn't get a JSON! Are you connected to internet?");
         }

@@ -30,9 +30,24 @@ import danski.cobalt.sql.SQLManager;
 
 public class home_me extends Fragment {
 
+    //header
     ImageView profilePicture;
     TextView profileName;
     TextView lastGame;
+
+    //bannerdata
+    TextView wla;
+    TextView winrate;
+
+    //lastmatch
+    ImageView lm_heroImage;
+    TextView lm_result;
+    ImageView lm_gradient;
+    TextView lm_kda;
+    TextView lm_duration;
+    TextView lm_matchtype;
+    TextView lm_time;
+    FrameLayout lm_layout;
 
     public home_me() {
         // Required empty public constructor
@@ -55,9 +70,24 @@ public class home_me extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home_me, container, false);
 
+        //header
         profilePicture = (ImageView) v.findViewById(R.id.fragment_me_profilepicture);
         profileName = (TextView) v.findViewById(R.id.fragment_me_profilename);
         lastGame = (TextView) v.findViewById(R.id.fragment_me_lastseen);
+
+        //banner
+        wla = (TextView) v.findViewById(R.id.fragment_me_wla);
+        winrate = (TextView) v.findViewById(R.id.fragment_me_winrate);
+
+        //lastmatch
+        lm_heroImage = (ImageView) v.findViewById(R.id.fragment_me_lm_heroimg);
+        lm_result = (TextView) v.findViewById(R.id.fragment_me_lm_matchresult);
+        lm_gradient = (ImageView) v.findViewById(R.id.fragment_me_lm_overdraw);
+        lm_kda  = (TextView) v.findViewById(R.id.fragment_me_lm_kda);
+        lm_duration = (TextView) v.findViewById(R.id.fragment_me_lm_duration);
+        lm_matchtype = (TextView) v.findViewById(R.id.fragment_me_lm_matchtype);
+        lm_time = (TextView) v.findViewById(R.id.fragment_me_lm_time);
+        lm_layout = (FrameLayout) v.findViewById(R.id.fragment_me_lm_layout);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         if(SQLManager.instance == null) new SQLManager(getContext());
@@ -67,8 +97,8 @@ public class home_me extends Fragment {
         Picasso.with(getContext()).load(p.URL_avatarfull).into(profilePicture);
 
         setBannerData(v);
-        setLastMatchData(v);
 
+        updateData();
 
         return v;
     }
@@ -76,8 +106,6 @@ public class home_me extends Fragment {
     void setBannerData(View v){
         LinearLayout winratelayout = (LinearLayout) v.findViewById(R.id.fragment_me_winratelayout);
         LinearLayout wlalayout = (LinearLayout) v.findViewById(R.id.fragment_me_wlalayout);
-        TextView wla = (TextView) v.findViewById(R.id.fragment_me_wla);
-        TextView winrate = (TextView) v.findViewById(R.id.fragment_me_winrate);
 
         winratelayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,57 +121,9 @@ public class home_me extends Fragment {
             }
         });
 
-        if(MatchTools.instance == null) new MatchTools();
-        int[] winlossassist = MatchTools.instance.getWLA();
 
-        wla.setText(winlossassist[0] + " / " + winlossassist[1] + " / " + winlossassist[2]);
-        winrate.setText(MatchTools.instance.calculateWinRate() + "%");
     }
 
-    void setLastMatchData(View v){
-        if(SQLManager.instance == null) new SQLManager(getContext());
-        Cursor lastmatch = SQLManager.instance.getMatch(SQLManager.instance.getAllMatchesList().get(0));
-        final long matchid = lastmatch.getLong(lastmatch.getColumnIndex("match_id"));
-        Cursor playerdata = MatchTools.getMyPlayerDetails(matchid, getContext());
-        Cursor hero = SQLManager.instance.getHero(playerdata.getInt(playerdata.getColumnIndex("Hero_hero_id")));
-
-        //Hero image
-        ImageView lm_heroImage = (ImageView) v.findViewById(R.id.fragment_me_lm_heroimg);
-        Picasso.with(getContext()).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").placeholder(R.drawable.templar_assassin_full).into(lm_heroImage);
-
-        //Win or loss?
-        TextView lm_result = (TextView) v.findViewById(R.id.fragment_me_lm_matchresult);
-        ImageView lm_gradient = (ImageView) v.findViewById(R.id.fragment_me_lm_overdraw);
-        setWinLossAbandon(playerdata, lm_gradient, lm_result);
-
-        //Contents
-        TextView lm_kda = (TextView) v.findViewById(R.id.fragment_me_lm_kda);
-        lm_kda.setText( "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists")));
-
-        TextView lm_duration = (TextView) v.findViewById(R.id.fragment_me_lm_duration);
-        int[] duration = Defines.splitToComponentTimes(lastmatch.getInt(lastmatch.getColumnIndex("duration")));
-        lm_duration.setText(duration[0] + "h " + duration[1] + "m");
-
-        TextView lm_matchtype = (TextView) v.findViewById(R.id.fragment_me_lm_matchtype);
-        lm_matchtype.setText(MatchTools.returnGameMode(lastmatch.getInt(lastmatch.getColumnIndex("game_mode"))));
-
-        TextView lm_time = (TextView) v.findViewById(R.id.fragment_me_lm_time);
-        Date origDate = new Date(lastmatch.getLong(lastmatch.getColumnIndex("start_time")) * 1000);
-        lm_time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
-        lastGame.setText(getString(R.string.frament_me_lastseen) + "  "+ new SimpleDateFormat("dd MMM yyyy").format(origDate));
-
-        FrameLayout fl = (FrameLayout) v.findViewById(R.id.fragment_me_lm_layout);
-        fl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), MatchActivity.class);
-                Bundle b = new Bundle();
-                b.putLong("matchid", matchid);
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
-    }
 
     void setWinLossAbandon(Cursor playerdata, ImageView overlay, TextView result){
         if(playerdata.getInt(playerdata.getColumnIndex("leaver_status")) > 0){
@@ -169,7 +149,57 @@ public class home_me extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
 
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateData();
+    }
+
+    void updateData(){
+        if(MatchTools.instance == null) new MatchTools();
+        int[] winlossassist = MatchTools.instance.getWLA();
+
+        wla.setText(winlossassist[0] + " / " + winlossassist[1] + " / " + winlossassist[2]);
+        winrate.setText(MatchTools.instance.calculateWinRate() + "%");
+
+        if(SQLManager.instance == null) new SQLManager(getContext());
+        Cursor lastmatch = SQLManager.instance.getMatch(SQLManager.instance.getAllMatchesList().get(0));
+        final long matchid = lastmatch.getLong(lastmatch.getColumnIndex("match_id"));
+        Cursor playerdata = MatchTools.getMyPlayerDetails(matchid, getContext());
+        Cursor hero = SQLManager.instance.getHero(playerdata.getInt(playerdata.getColumnIndex("Hero_hero_id")));
+
+        //Hero image
+        Picasso.with(getContext()).load(Defines.heroimgurl + hero.getString(hero.getColumnIndex("hero_title")) + "_full.png").placeholder(R.drawable.templar_assassin_full).into(lm_heroImage);
+
+        //Win or loss?
+        setWinLossAbandon(playerdata, lm_gradient, lm_result);
+
+        //Contents
+        lm_kda.setText( "KDA: " + playerdata.getInt(playerdata.getColumnIndex("kills")) + " / " + playerdata.getInt(playerdata.getColumnIndex("deaths")) + " / " + playerdata.getInt(playerdata.getColumnIndex("assists")));
+
+        int[] duration = Defines.splitToComponentTimes(lastmatch.getInt(lastmatch.getColumnIndex("duration")));
+        lm_duration.setText(duration[0] + "h " + duration[1] + "m");
+
+        lm_matchtype.setText(MatchTools.returnGameMode(lastmatch.getInt(lastmatch.getColumnIndex("game_mode"))));
+
+        Date origDate = new Date(lastmatch.getLong(lastmatch.getColumnIndex("start_time")) * 1000);
+        lm_time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));
+        lastGame.setText(getString(R.string.frament_me_lastseen) + "  "+ new SimpleDateFormat("dd MMM yyyy").format(origDate));
+
+        lm_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), MatchActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("matchid", matchid);
+                i.putExtras(b);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,6 +161,7 @@ public class home_me extends Fragment {
     }
 
     void updateData(){
+        Log.d("Home_me", "updating data...");
         if(MatchTools.instance == null) new MatchTools();
         int[] winlossassist = MatchTools.instance.getWLA();
 

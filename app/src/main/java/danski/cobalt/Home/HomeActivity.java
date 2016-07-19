@@ -1,5 +1,6 @@
 package danski.cobalt.Home;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +36,8 @@ public class HomeActivity extends AppCompatActivity
     Context context;
     Player loggedinplayer;
     SharedPreferences prefs;
+    ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,14 +115,45 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_update) {
-            MatchListRetreiver mlr = new MatchListRetreiver();
-            mlr.alsoGetLatestMatch = true;
-            mlr.RetreiveAsync(false);
+            updateButton();
             return true;
-        }
+        } //else if id is another action.
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void updateButton(){
+        pDialog = new ProgressDialog(Defines.CurrentContext);
+        pDialog.setMessage("Retreiving match history");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        Thread t = new Thread(){
+            @Override
+            public void run(){
+                MatchListRetreiver mlr = new MatchListRetreiver();
+                mlr.alsoGetLatestMatch = true;
+                mlr.retreive();
+
+                //update current open frag
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run(){
+                        if (pDialog.isShowing())
+                            pDialog.dismiss();
+
+                        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.flContent);
+                        if(currentFragment instanceof home_me){
+                            Log.d("HomeActivity", "current fragment: home_me");
+                            home_me frag = (home_me) currentFragment;
+                            frag.updateData();
+                        }
+                    }
+                });
+            }
+        };
+        t.start();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

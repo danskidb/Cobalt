@@ -114,40 +114,7 @@ public class MatchListRetreiver {
 
                 final MatchRetreiver mr = new MatchRetreiver();
                 if(prefs.getBoolean("sett_downloadallonupdate", false)){
-                    ArrayList<Long> allmatcheslist = sq.getAllMatchesList();
-                    List<Long> allmatchesWithoutDetail = new ArrayList<>();
-
-                    for(Long match : allmatcheslist){
-                        if(!sq.doesMatchHaveDetails(match)){
-                            allmatchesWithoutDetail.add(match);
-                        }
-                    }
-                    allmatcheslist = null;
-
-                    for(Long match: allmatchesWithoutDetail){
-                        mr.retreive(match);
-                    }
-
-                    //todo: finish this threading, boi.
-                /*    int threads = 4;
-                    int chunks = allmatchesWithoutDetail.size() / threads;
-                    final List<List<Long>> listoflist = Lists.partition(allmatchesWithoutDetail, chunks);
-
-                    for(int j = 0; j < threads; j++){
-                        final int chunk = j;
-
-                        Thread t = new Thread() {
-                            @Override
-                            public void run() {
-                                List<Long> matchlist = listoflist.get(chunk);
-                                for(Long match : matchlist){
-                                    mr.retreive(match);
-                                }
-
-                            }
-                        };
-                        t.start();
-                    }*/
+                    mr.retreiveAllMatches();
 
                 } else {
                     if(alsoGetLatestMatch){

@@ -4,12 +4,15 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.common.collect.Lists;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import danski.cobalt.Defines;
 import danski.cobalt.Home.home_matchhistory;
@@ -54,11 +57,50 @@ public class MatchRetreiver {
 
     //retreives all matches in the matchlist. WARNING: THIS CAN TAKE LONG ON A SLOW CONNECTION.
     public void retreiveAllMatches(){
-        SQLManager sq = new SQLManager(Defines.CurrentContext, false);
-        final ArrayList<Long> allmatches = sq.getAllMatchesList();
+        if(SQLManager.instance == null) new SQLManager(Defines.CurrentContext);
+        ArrayList<Long> allmatcheslist = SQLManager.instance.getAllMatchesList();
+        List<Long> allmatchesWithoutDetail = new ArrayList<>();
 
-        for(Long l : allmatches){
+        for(Long match : allmatcheslist){
+            if(!SQLManager.instance.doesMatchHaveDetails(match)){
+                allmatchesWithoutDetail.add(match);
+            }
+        }
+        allmatcheslist = null;
+
+        /*if(allmatchesWithoutDetail.size() < 15){
+            for(Long l : allmatchesWithoutDetail){
+                retreive(l);
+            }
+        } else {
+            retreiveMultiThreaded(allmatchesWithoutDetail);
+        }*/
+
+        for(Long l : allmatchesWithoutDetail){
             retreive(l);
+        }
+    }
+
+    //todo: only return when this is done?
+    public void retreiveMultiThreaded(List<Long> matches){
+        int threads = 2;
+        int chunks = matches.size() / threads;
+        final List<List<Long>> listoflist = Lists.partition(matches, chunks);
+
+        for(int j = 0; j <= threads; j++){
+            final int chunk = j;
+
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    List<Long> matchlist = listoflist.get(chunk);
+                    for(Long match : matchlist){
+                        retreive(match);
+                    }
+
+                }
+            };
+            t.start();
         }
     }
 

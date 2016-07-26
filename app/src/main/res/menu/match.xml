@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_redownload"
+        android:orderInCategory="80"
+        android:title="Redownload Match"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_dotabuff"
+        android:orderInCategory="90"
+        android:title="View on Dotabuff"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_yasp"
+        android:orderInCategory="100"
+        android:title="View on Yasp"
+        app:showAsAction="never" />
+
+</menu>

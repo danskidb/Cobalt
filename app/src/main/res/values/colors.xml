@@ -20,5 +20,6 @@
     <color name="gradient_win">#5000B050</color>
     <color name="gradient_abandon">#50B05C00</color>
     <color name="gradient_loss">#50C00000</color>
+    <color name="table_dark">#635c5c5c</color>
 
 </resources>

@@ -130,7 +130,7 @@ public class match_summary extends Fragment {
         }
     }
 
-    public class AchievementCard extends Card{
+    public class AchievementCard extends Card {
 
         public AchievementCard(Context context){
             super(context, R.layout.item_card_achievement);
@@ -147,5 +147,6 @@ public class match_summary extends Fragment {
             return type;
         }
     }
+
 
 }

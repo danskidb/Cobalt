@@ -1,12 +1,14 @@
 package danski.cobalt.sql;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import danski.cobalt.Defines;
+import danski.cobalt.Match.MatchSummaryRecord;
 import danski.cobalt.MatchTools;
 
 /**
@@ -18,15 +20,16 @@ public class MatchSummaryFormatter {
     public String duration;
     public String firstbloodtime;
     public String gamemode;
-    MatchSummaryRecord kills;
-    MatchSummaryRecord deaths;
-    MatchSummaryRecord assist;
-    MatchSummaryRecord lasthits;
-    MatchSummaryRecord denies;
+    public MatchSummaryRecord kills;
+    public MatchSummaryRecord deaths;
+    public MatchSummaryRecord assists;
+    public MatchSummaryRecord last_hits;
+    public MatchSummaryRecord denies;
 
     public MatchSummaryFormatter(){
         if(SQLManager.instance == null) new SQLManager(Defines.CurrentContext);
         if(MatchTools.instance == null) new MatchTools();
+        if(SteamprofileRetreiver.instance == null) new SteamprofileRetreiver();
 
     }
 
@@ -46,6 +49,30 @@ public class MatchSummaryFormatter {
 
         int[] fbt = Defines.splitToComponentTimes(match.getLong(match.getColumnIndex("first_blood_time")));
         firstbloodtime = fbt[1] + ":" + fbt[2] + " min";
+
+        match.close();
+
+        //calc most kills
+        Cursor record = SQLManager.instance.getRecordPlayer(matchid, "kills");
+        kills = new MatchSummaryRecord(record.getInt(record.getColumnIndex("kills")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "deaths");
+        deaths = new MatchSummaryRecord(record.getInt(record.getColumnIndex("deaths")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "assists");
+        assists = new MatchSummaryRecord(record.getInt(record.getColumnIndex("assists")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "last_hits");
+        last_hits = new MatchSummaryRecord(record.getInt(record.getColumnIndex("last_hits")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "denies");
+        denies = new MatchSummaryRecord(record.getInt(record.getColumnIndex("denies")), record);
+        record.close();
+
     }
 
 
@@ -53,16 +80,5 @@ public class MatchSummaryFormatter {
 
 
 
-    class MatchSummaryRecord{
-        String steamname;
-        int amount;
-        boolean radiant;
-        String localized_hero;
-        String hero_image_url;
 
-
-        public MatchSummaryRecord(){
-
-        }
-    }
 }

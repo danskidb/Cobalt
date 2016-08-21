@@ -61,6 +61,16 @@ public class MatchTools {
         return "Unknown ("+mode+")";
     }
 
+    public static String getHeroName(int hero){
+        Cursor heroentry = SQLManager.instance.getHero(hero);
+        return heroentry.getString(heroentry.getColumnIndex("hero_name"));
+    }
+
+    public static String getHeroImageUrl(int hero){
+        Cursor heroentry = SQLManager.instance.getHero(hero);
+        return Defines.heroimgurl + heroentry.getString(heroentry.getColumnIndex("hero_title")) + "_full.png";
+    }
+
     public static Cursor getMyPlayerDetails(long matchid, Context context){
         SQLManager sm = new SQLManager(context, false);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

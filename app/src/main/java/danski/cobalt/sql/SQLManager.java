@@ -496,6 +496,14 @@ public class SQLManager extends SQLiteOpenHelper {
         return lastxmatches;
     }
 
+    public Cursor getRecordPlayer(long matchid, String table) {
+        db = this.getReadableDatabase();
+        String query = "Select rowid _id,max("+table+"),* from Match_has_Player WHERE Match_match_id = " + matchid;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        return res;
+    }
+    
     @Override
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
         try {

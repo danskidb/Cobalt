@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="90dp"
         android:layout_height="50dp"
-        android:id="@+id/imageView"
+        android:id="@+id/card_achievement_heroimg"
         android:src="@drawable/templar_assassin_full" />
 
     <TextView
@@ -17,30 +17,30 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="El Danski"
-        android:id="@+id/textView18"
-        android:layout_alignTop="@+id/imageView"
+        android:id="@+id/card_achievement_playername"
+        android:layout_alignTop="@+id/card_achievement_heroimg"
         android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_toEndOf="@+id/card_achievement_heroimg" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="as Templar Assassin"
-        android:id="@+id/textView19"
-        android:layout_below="@+id/textView18"
-        android:layout_alignBottom="@+id/imageView"
+        android:id="@+id/card_achievement_ashero"
+        android:layout_below="@+id/card_achievement_playername"
+        android:layout_alignBottom="@+id/card_achievement_heroimg"
         android:layout_marginLeft="8dp"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_toEndOf="@+id/card_achievement_heroimg" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="000"
-        android:id="@+id/textView20"
-        android:layout_alignTop="@+id/textView18"
+        android:id="@+id/card_achievement_record"
+        android:layout_alignTop="@+id/card_achievement_playername"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/textView19"
+        android:layout_alignBottom="@+id/card_achievement_ashero"
         android:gravity="center_vertical" />
 </RelativeLayout>

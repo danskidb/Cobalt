@@ -6,11 +6,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import danski.cobalt.Defines;
 import danski.cobalt.R;
 import danski.cobalt.sql.MatchSummaryFormatter;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -62,31 +66,37 @@ public class match_summary extends Fragment {
 
                 cards.add(card);
             } else {
-                AchievementCard card = new AchievementCard(getContext());
-                card.setType(1);
+                AchievementCard card;
                 CardHeader header = new CardHeader(getContext());
 
                 switch(i){
                     case 1:
+                        card = new AchievementCard(getContext(), msf.kills);
                         header.setTitle("Most Kills");
                         break;
                     case 2:
+                        card = new AchievementCard(getContext(), msf.deaths);
                         header.setTitle("Most Deaths");
                         break;
                     case 3:
+                        card = new AchievementCard(getContext(), msf.assists);
                         header.setTitle("Most Assist");
                         break;
                     case 4:
+                        card = new AchievementCard(getContext(), msf.last_hits);
                         header.setTitle("Most Last Hits");
                         break;
                     case 5:
+                        card = new AchievementCard(getContext(), msf.denies);
                         header.setTitle("Most Denies");
                         break;
                     default:
+                        card = new AchievementCard(getContext());
                         header.setTitle("ERROR");
                         break;
                 }
 
+                card.setType(1);
                 card.addCardHeader(header);
                 cards.add(card);
             }
@@ -155,19 +165,50 @@ public class match_summary extends Fragment {
 
     public class AchievementCard extends Card {
 
+        MatchSummaryRecord record;
+
+        public AchievementCard(Context context, MatchSummaryRecord _record){
+            super(context, R.layout.item_card_achievement);
+            record = _record;
+            init();
+        }
+
         public AchievementCard(Context context){
             super(context, R.layout.item_card_achievement);
             init();
         }
 
         void init(){
-            setBackgroundResourceId(R.drawable.gradient_green);
         }
 
         @Override
         public int getType() {
             //Very important with different inner layouts
             return type;
+        }
+
+        @Override
+        public void setupInnerViewElements(ViewGroup parent, View view) {
+            if(record != null){
+                TextView tv_record = (TextView) parent.findViewById(R.id.card_achievement_record);
+                tv_record.setText(record.amount + "");
+
+                if(record.radiant) setBackgroundResourceId(R.drawable.gradient_green);
+                else setBackgroundResourceId(R.drawable.gradient_red);
+
+                TextView tv_ashero = (TextView) parent.findViewById(R.id.card_achievement_ashero);
+                tv_ashero.setText("as " + record.localized_hero);
+
+                ImageView iv_hero = (ImageView) parent.findViewById(R.id.card_achievement_heroimg);
+                Picasso.with(getContext()).load(record.hero_image_url).placeholder(R.drawable.templar_assassin_full).fit().into(iv_hero);
+
+                TextView tv_playername = (TextView) parent.findViewById(R.id.card_achievement_playername);
+                if(record.steamid < 0) tv_playername.setText("Anonymous");
+                else tv_playername.setText(record.steamname);
+            }
+
+
+
         }
     }
 

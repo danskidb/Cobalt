@@ -186,7 +186,7 @@ public class home_me extends Fragment {
         int[] duration = Defines.splitToComponentTimes(lastmatch.getInt(lastmatch.getColumnIndex("duration")));
         lm_duration.setText(duration[0] + "h " + duration[1] + "m");
 
-        lm_matchtype.setText(MatchTools.returnGameMode(lastmatch.getInt(lastmatch.getColumnIndex("game_mode"))));
+        lm_matchtype.setText(MatchTools.getGameMode(lastmatch.getInt(lastmatch.getColumnIndex("game_mode"))));
 
         Date origDate = new Date(lastmatch.getLong(lastmatch.getColumnIndex("start_time")) * 1000);
         lm_time.setText(new SimpleDateFormat("dd-MM / HH:mm").format(origDate));

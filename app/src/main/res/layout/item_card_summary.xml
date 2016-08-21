@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="11:57, 7th of May, 2016"
-                android:id="@+id/textView14"
+                android:id="@+id/summarycard_starttime"
                 android:layout_column="1"
                 android:layout_gravity="right" />
         </TableRow>
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="49:23 min"
-                android:id="@+id/textView15"
+                android:id="@+id/summarycard_duration"
                 android:layout_column="1"
                 android:layout_gravity="right" />
         </TableRow>
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-00:15"
-                android:id="@+id/textView16"
+                android:id="@+id/summarycard_firstbloodtime"
                 android:layout_column="1"
                 android:layout_gravity="right" />
         </TableRow>
@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ranked All Pick"
-                android:id="@+id/textView17"
+                android:id="@+id/summarycard_gamemode"
                 android:layout_column="1"
                 android:layout_gravity="right" />
         </TableRow>

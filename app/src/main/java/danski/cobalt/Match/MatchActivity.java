@@ -94,7 +94,7 @@ public class MatchActivity extends AppCompatActivity {
 
             switch(position){
                 case 0:
-                    return match_summary.newInstance(position);
+                    return match_summary.newInstance(position, matchid);
                 case 1:
                     return match_you.newInstance(position);
                 case 2:
@@ -102,7 +102,7 @@ public class MatchActivity extends AppCompatActivity {
                 case 3:
                     return match_structures.newInstance(position);
                 default:
-                    return match_summary.newInstance(position);
+                    return match_summary.newInstance(position, matchid);
             }
         }
     }

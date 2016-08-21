@@ -31,13 +31,34 @@ public class MatchTools {
     public static HashMap<Integer, String> game_mode = new HashMap<Integer, String>() {{
         put(0, "Unknown");
         put(1, "All Pick");
+        put(2, "Captains Mode");
+        put(3, "Random Draft");
+        put(4, "Single Draft");
+        put(5, "All Random");
+        put(6, "Intro");
+        put(7, "Diretide");
+        put(8, "Reverse Captains Mode");
+        put(9, "Greeviling");
+        put(10, "Tutorial");
+        put(11, "Mid Only");
+        put(12, "Least Played");
+        put(13, "Limited Heroes");
+        put(14, "Compendium Matchmaking");
+        put(15, "Custom");
+        put(16, "Captains Draft");
+        put(17, "New Bloom");
+        put(18, "Ability Draft");
+        put(19, "Event");
+        put(20, "All Random Death Match");
+        put(21, "1v1 Solo Mid");
+        put(22, "Ranked All Pick");
     }};
 
-    public static String returnGameMode(int mode){
+    public static String getGameMode(int mode){
         if(game_mode.containsKey(mode)){
             return game_mode.get(mode);
         }
-        return "Unknown";
+        return "Unknown ("+mode+")";
     }
 
     public static Cursor getMyPlayerDetails(long matchid, Context context){

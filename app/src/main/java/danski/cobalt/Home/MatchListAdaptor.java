@@ -6,13 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -107,7 +104,7 @@ public class MatchListAdaptor extends CursorAdapter {
 
             int[] duration = Defines.splitToComponentTimes(matchlist.getInt(matchlist.getColumnIndex("duration")));
             holder.duration.setText(duration[0] + "h " + duration[1] + "m");
-            holder.matchtype.setText(MatchTools.returnGameMode(matchlist.getInt(matchlist.getColumnIndex("game_mode"))));
+            holder.matchtype.setText(MatchTools.getGameMode(matchlist.getInt(matchlist.getColumnIndex("game_mode"))));
 
             sm.close();
         } else {

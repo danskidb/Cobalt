@@ -6,11 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import danski.cobalt.R;
+import danski.cobalt.sql.MatchSummaryFormatter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardHeader;
@@ -27,10 +29,11 @@ public class match_summary extends Fragment {
 
     private int position;
 
-    public static match_summary newInstance(int position) {
+    public static match_summary newInstance(int position, long matchid) {
         match_summary f = new match_summary();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
+        b.putLong("matchid", matchid);
         f.setArguments(b);
         return f;
     }
@@ -44,12 +47,17 @@ public class match_summary extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_match_summary,container,false);
+        long matchid = getArguments().getLong("matchid");
 
+        MatchSummaryFormatter msf = new MatchSummaryFormatter();
+        msf.loadData(matchid);
+
+
+        //Cards
         ArrayList<Card> cards = new ArrayList<>();
-
         for(int i = 0; i < 6; i++){
             if(i == 0){
-                SummaryCard card = new SummaryCard(getContext());
+                SummaryCard card = new SummaryCard(getContext(), msf);
                 card.setType(0);
 
                 cards.add(card);
@@ -115,12 +123,27 @@ public class match_summary extends Fragment {
 
     public class SummaryCard extends Card{
 
-        public SummaryCard(Context context){
+        MatchSummaryFormatter msf;
+
+        public SummaryCard(Context context, MatchSummaryFormatter _msf){
             super(context, R.layout.item_card_summary);
+            msf = _msf;
             init();
         }
 
         void init(){
+        }
+
+        @Override
+        public void setupInnerViewElements(ViewGroup parent, View view) {
+            TextView starttime = (TextView) parent.findViewById(R.id.summarycard_starttime);
+            starttime.setText(msf.starttime);
+            TextView duration = (TextView) parent.findViewById(R.id.summarycard_duration);
+            duration.setText(msf.duration);
+            TextView fbt = (TextView) parent.findViewById(R.id.summarycard_firstbloodtime);
+            fbt.setText(msf.firstbloodtime);
+            TextView gamemode = (TextView) parent.findViewById(R.id.summarycard_gamemode);
+            gamemode.setText(msf.gamemode);
         }
 
         @Override

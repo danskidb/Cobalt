@@ -475,6 +475,14 @@ public class SQLManager extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getItem(int itemid){
+        db = this.getReadableDatabase();
+        String query = "Select rowid _id,* from Item WHERE item_id = " + itemid;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        return res;
+    }
+
     public ArrayList<Long> getLastXMatches(int ammount){
         ArrayList<Long> lastxmatches = new ArrayList<>();
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="12dp">
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:id="@+id/imageView2"
+        android:id="@+id/youcard_heroimg"
         android:src="@drawable/templar_assassin_full"
         android:layout_alignParentTop="true" />
 
@@ -16,22 +16,22 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Templar Assassin"
-        android:id="@+id/textView3"
+        android:id="@+id/youcard_heroname"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/youcard_heroimg"
         android:layout_marginLeft="8dp"
         android:gravity="center_vertical"
-        android:layout_above="@+id/textView21" />
+        android:layout_above="@+id/youcard_playtime" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Your 5th time playing Templar Assassin"
-        android:id="@+id/textView21"
-        android:layout_alignBottom="@+id/imageView2"
-        android:layout_alignStart="@+id/textView3"
+        android:id="@+id/youcard_playtime"
+        android:layout_alignBottom="@+id/youcard_heroimg"
+        android:layout_alignStart="@+id/youcard_heroname"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

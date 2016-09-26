@@ -96,7 +96,7 @@ public class MatchActivity extends AppCompatActivity {
                 case 0:
                     return match_summary.newInstance(position, matchid);
                 case 1:
-                    return match_you.newInstance(position);
+                    return match_you.newInstance(position, matchid);
                 case 2:
                     return match_players.newInstance(position);
                 case 3:

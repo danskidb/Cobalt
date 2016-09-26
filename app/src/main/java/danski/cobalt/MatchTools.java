@@ -63,12 +63,23 @@ public class MatchTools {
 
     public static String getHeroName(int hero){
         Cursor heroentry = SQLManager.instance.getHero(hero);
-        return heroentry.getString(heroentry.getColumnIndex("hero_name"));
+        String name = heroentry.getString(heroentry.getColumnIndex("hero_name"));
+        heroentry.close();
+        return name;
     }
 
     public static String getHeroImageUrl(int hero){
         Cursor heroentry = SQLManager.instance.getHero(hero);
-        return Defines.heroimgurl + heroentry.getString(heroentry.getColumnIndex("hero_title")) + "_full.png";
+        String url = Defines.heroimgurl + heroentry.getString(heroentry.getColumnIndex("hero_title")) + "_full.png";
+        heroentry.close();
+        return url;
+    }
+
+    public static String getItemUrl(int item){
+        Cursor itementry = SQLManager.instance.getItem(item);
+        String url = Defines.itemimgurl + itementry.getString(itementry.getColumnIndex("img")) + "_lg.png";
+        itementry.close();
+        return url;
     }
 
     public static Cursor getMyPlayerDetails(long matchid, Context context){

@@ -259,32 +259,32 @@ public class match_you extends Fragment {
             if(myf.item[0] == 0) {
                 item0.setVisibility(GONE);
             } else {
-                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[0])).placeholder(R.drawable.vanguard_lg).fit().into(item0);
+                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[0])).placeholder(R.drawable.vanguard_lg).fit().centerInside().into(item0);
             }
             if(myf.item[1] == 0) {
                 item1.setVisibility(GONE);
             } else {
-                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[1])).placeholder(R.drawable.vanguard_lg).fit().into(item1);
+                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[1])).placeholder(R.drawable.vanguard_lg).fit().centerInside().into(item1);
             }
             if(myf.item[2] == 0) {
                 item2.setVisibility(GONE);
             } else {
-                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[2])).placeholder(R.drawable.vanguard_lg).fit().into(item2);
+                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[2])).placeholder(R.drawable.vanguard_lg).fit().centerInside().into(item2);
             }
             if(myf.item[3] == 0) {
                 item3.setVisibility(GONE);
             } else {
-                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[3])).placeholder(R.drawable.vanguard_lg).fit().into(item3);
+                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[3])).placeholder(R.drawable.vanguard_lg).fit().centerInside().into(item3);
             }
             if(myf.item[4] == 0) {
                 item4.setVisibility(GONE);
             } else {
-                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[4])).placeholder(R.drawable.vanguard_lg).fit().into(item4);
+                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[4])).placeholder(R.drawable.vanguard_lg).fit().centerInside().into(item4);
             }
             if(myf.item[5] == 0) {
                 item5.setVisibility(GONE);
             } else {
-                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[5])).placeholder(R.drawable.vanguard_lg).fit().into(item5);
+                Picasso.with(getContext()).load(MatchTools.getItemUrl(myf.item[5])).placeholder(R.drawable.vanguard_lg).fit().centerInside().into(item5);
             }
         }
 

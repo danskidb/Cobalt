@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,37 +69,29 @@ public class match_summary extends Fragment {
                 cards.add(card);
             } else {
                 AchievementCard card;
-                CardHeader header = new CardHeader(getContext());
 
                 switch(i){
                     case 1:
-                        card = new AchievementCard(getContext(), msf.kills);
-                        header.setTitle("Most Kills");
+                        card = new AchievementCard(getContext(), msf.kills, "Most Kills");
                         break;
                     case 2:
-                        card = new AchievementCard(getContext(), msf.deaths);
-                        header.setTitle("Most Deaths");
+                        card = new AchievementCard(getContext(), msf.deaths, "Most Deaths");
                         break;
                     case 3:
-                        card = new AchievementCard(getContext(), msf.assists);
-                        header.setTitle("Most Assist");
+                        card = new AchievementCard(getContext(), msf.assists, "Most Assist");
                         break;
                     case 4:
-                        card = new AchievementCard(getContext(), msf.last_hits);
-                        header.setTitle("Most Last Hits");
+                        card = new AchievementCard(getContext(), msf.last_hits, "Most Last Hits");
                         break;
                     case 5:
-                        card = new AchievementCard(getContext(), msf.denies);
-                        header.setTitle("Most Denies");
+                        card = new AchievementCard(getContext(), msf.denies, "Most Denies");
                         break;
                     default:
                         card = new AchievementCard(getContext());
-                        header.setTitle("ERROR");
                         break;
                 }
 
                 card.setType(1);
-                card.addCardHeader(header);
                 cards.add(card);
             }
         }
@@ -166,16 +160,19 @@ public class match_summary extends Fragment {
     public class AchievementCard extends Card {
 
         MatchSummaryRecord record;
+        String recordtext;
 
-        public AchievementCard(Context context, MatchSummaryRecord _record){
+        public AchievementCard(Context context, MatchSummaryRecord _record, String _recordtext){
             super(context, R.layout.item_card_achievement);
             record = _record;
+            recordtext = _recordtext;
             init();
         }
 
         public AchievementCard(Context context){
             super(context, R.layout.item_card_achievement);
             init();
+
         }
 
         void init(){
@@ -190,17 +187,24 @@ public class match_summary extends Fragment {
         @Override
         public void setupInnerViewElements(ViewGroup parent, View view) {
             if(record != null){
+                TextView tv_achievement = (TextView) parent.findViewById(R.id.card_achievement_text);
+                tv_achievement.setText(recordtext);
+
                 TextView tv_record = (TextView) parent.findViewById(R.id.card_achievement_record);
                 tv_record.setText(record.amount + "");
 
-                if(record.radiant) setBackgroundResourceId(R.drawable.gradient_green);
-                else setBackgroundResourceId(R.drawable.gradient_red);
+                ImageView iv_gradient = (ImageView) parent.findViewById(R.id.card_achievement_overlay);
+                if(record.radiant) iv_gradient.setImageResource(R.drawable.gradient_green);
+                else iv_gradient.setImageResource(R.drawable.gradient_red);
 
                 TextView tv_ashero = (TextView) parent.findViewById(R.id.card_achievement_ashero);
                 tv_ashero.setText("as " + record.localized_hero);
 
                 ImageView iv_hero = (ImageView) parent.findViewById(R.id.card_achievement_heroimg);
                 Picasso.with(getContext()).load(record.hero_image_url).placeholder(R.drawable.templar_assassin_full).fit().into(iv_hero);
+
+                ImageView herobg = (ImageView) parent.findViewById(R.id.card_achievement_heroImg);
+                Picasso.with(getContext()).load(record.hero_image_url).placeholder(R.drawable.templar_assassin_full).into(herobg);
 
                 TextView tv_playername = (TextView) parent.findViewById(R.id.card_achievement_playername);
                 if(record.steamid < 0) tv_playername.setText("Anonymous");

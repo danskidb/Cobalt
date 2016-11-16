@@ -61,6 +61,10 @@ public class MatchTools {
         return "Unknown ("+mode+")";
     }
 
+    public static String getPlayerNmae(long playerid64){
+        return "";
+    }
+
     public static String getHeroName(int hero){
         Cursor heroentry = SQLManager.instance.getHero(hero);
         String name = heroentry.getString(heroentry.getColumnIndex("hero_name"));

@@ -160,6 +160,9 @@ public class MatchRetreiver {
 
                     JSONObject p = players.getJSONObject(i);
                     //if(sq.isPlayerInMatch(p.getLong("account_id"), result.getLong("match_id"))) {
+                    if(SteamprofileRetreiver.instance == null) new SteamprofileRetreiver();
+                    SteamprofileRetreiver.instance.retreivePlayerDetails(Defines.idTo64(p.getLong("account_id")));
+
                     sq.addPlayerDataToMatch(p, result.getLong("match_id"));
                 }
                 sq.close();

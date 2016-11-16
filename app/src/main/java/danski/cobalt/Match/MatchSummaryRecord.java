@@ -32,6 +32,9 @@ public class MatchSummaryRecord{
         hero_image_url = MatchTools.getHeroImageUrl(heroint);
 
         steamid = Match_has_Player.getInt(Match_has_Player.getColumnIndex("Player_account_id"));
-        steamname = steamid + "";
+
+        Player p = SQLManager.instance.getPlayer(Defines.idTo64(steamid));
+        if(p!= null) steamname = p.Name;
+        else steamname = "Anonymous";
     }
 }

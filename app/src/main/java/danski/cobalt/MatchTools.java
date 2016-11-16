@@ -72,6 +72,13 @@ public class MatchTools {
         return name;
     }
 
+    public static String getHeroTitle(int hero){
+        Cursor heroentry = SQLManager.instance.getHero(hero);
+        String name = heroentry.getString(heroentry.getColumnIndex("hero_title"));
+        heroentry.close();
+        return name;
+    }
+
     public static String getHeroImageUrl(int hero){
         Cursor heroentry = SQLManager.instance.getHero(hero);
         String url = Defines.heroimgurl + heroentry.getString(heroentry.getColumnIndex("hero_title")) + "_full.png";

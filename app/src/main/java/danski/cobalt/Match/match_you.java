@@ -2,10 +2,12 @@ package danski.cobalt.Match;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,11 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import danski.cobalt.Defines;
 import danski.cobalt.MatchTools;
 import danski.cobalt.R;
 import danski.cobalt.sql.MatchYouFormatter;
+import danski.cobalt.sql.SQLManager;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardHeader;
@@ -150,7 +154,19 @@ public class match_you extends Fragment {
             Picasso.with(getContext()).load(myf.heroImageUrl).placeholder(R.drawable.templar_assassin_full).fit().into(heroimage);
             TextView heroname = (TextView) parent.findViewById(R.id.youcard_heroname);
             heroname.setText(myf.localizedHeroName);
+
+
+            if(SQLManager.instance == null) new SQLManager(getContext());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            Cursor cur = SQLManager.instance.getHeroMatchesOfPlayer(Defines.idTo32(prefs.getLong("steamid64", 0)), myf.heroTitle);
+            Log.d("Match_you", cur.getCount() + " AMMOUNT OF BLYATCYKA");
+           /* for(int i = 0; i < cur.getCount(); i++){
+                Log.d("Match_you", "Match "+i+":  " + cur.getLong(cur.getColumnIndex("Match_match_id")));
+                cur.moveToNext();
+            }*/
+
             TextView playtime = (TextView) parent.findViewById(R.id.youcard_playtime);
+            playtime.setText("You've played " + myf.localizedHeroName +" "+ cur.getCount() + " times.");
         }
 
         @Override

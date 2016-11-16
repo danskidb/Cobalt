@@ -11,6 +11,7 @@ import danski.cobalt.MatchTools;
  */
 
 public class MatchYouFormatter {
+    public String heroTitle;
     public String localizedHeroName;
     public String heroImageUrl;
     public int playedtimesbefore;       //how much x you've played this hero before.
@@ -47,6 +48,7 @@ public class MatchYouFormatter {
         //The you card
         localizedHeroName = MatchTools.getHeroName(player.getInt(player.getColumnIndex("Hero_hero_id")));
         heroImageUrl = MatchTools.getHeroImageUrl(player.getInt(player.getColumnIndex("Hero_hero_id")));
+        heroTitle = MatchTools.getHeroTitle(player.getInt(player.getColumnIndex("Hero_hero_id")));
 
         //kda stats
         level = player.getInt(player.getColumnIndex("level"));

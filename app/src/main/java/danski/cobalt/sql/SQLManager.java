@@ -461,7 +461,7 @@ public class SQLManager extends SQLiteOpenHelper {
 
     public Cursor getPlayerInMatch(long playerid32, long matchid){
         db = this.getReadableDatabase();
-        String query = "Select rowid _id,* from Match_has_Player WHERE Player_account_id = " + playerid32 + " AND Match_match_id = " + matchid;
+        String query = "Select rowid _id,* from Match_has_Player WHERE Player_account_id =" + playerid32 + " AND Match_match_id =" + matchid;
         Cursor res = db.rawQuery(query, null);
         res.moveToFirst();
         return res;
@@ -473,6 +473,16 @@ public class SQLManager extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(query, null);
         res.moveToFirst();
         return res;
+    }
+
+    public int getHeroIdFromTitle(String hero_title){
+        db = this.getReadableDatabase();
+        String query = "Select hero_id FROM Hero WHERE hero_title=\"" + hero_title + "\"";
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        int heroid = res.getInt(res.getColumnIndex("hero_id"));
+        res.close();
+        return heroid;
     }
 
     public Cursor getItem(int itemid){
@@ -511,7 +521,23 @@ public class SQLManager extends SQLiteOpenHelper {
         res.moveToFirst();
         return res;
     }
-    
+
+    public Cursor getHeroMatchesOfPlayer(long playerid, String hero_title){
+        db = this.getReadableDatabase();
+        String query = "Select * from Match_has_Player WHERE Player_account_id = " + playerid + " AND Hero_hero_id =" + getHeroIdFromTitle(hero_title);
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        return res;
+    }
+
+    public Cursor getHeroMatchesOfPlayer(long playerid, int hero_id){
+        db = this.getReadableDatabase();
+        String query = "Select * from Match_has_Player WHERE Player_account_id = " + playerid + " AND Hero_hero_id =" + hero_id;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+        return res;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) throws SQLiteException {
         try {

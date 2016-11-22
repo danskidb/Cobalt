@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import danski.cobalt.sql.DataStructure.Hero;
 import danski.cobalt.sql.DataStructure.Player;
 
 
@@ -449,6 +450,27 @@ public class SQLManager extends SQLiteOpenHelper {
 
         cur.close();
         return allmatches;
+    }
+
+    public ArrayList<Hero> getAllHeroes(){
+        ArrayList<Hero> list = new ArrayList<Hero>();
+        db = this.getReadableDatabase();
+        String query = "Select * from Hero";
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+
+        for(int i = 0; i < res.getCount(); i++){
+            try{
+                Hero h = new Hero(res.getInt(res.getColumnIndex("hero_id")),
+                        res.getString(res.getColumnIndex("hero_title")),
+                        res.getString(res.getColumnIndex("hero_name")));
+                list.add(h);
+            } catch (Exception e){
+                Log.e("SQLM", "Error adding a hero to GetAllHeroes list.");
+            }
+            res.moveToNext();
+        }
+        return list;
     }
 
     public Cursor getMatch(long matchid){

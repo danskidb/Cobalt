@@ -11,20 +11,14 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import danski.cobalt.Defines;
 import danski.cobalt.R;
 import danski.cobalt.sql.MatchSummaryFormatter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.internal.CardThumbnail;
 import it.gmariotti.cardslib.library.view.CardListView;
-import it.gmariotti.cardslib.library.view.CardView;
 
 /**
  * Created by danny on 26-7-2016.
@@ -187,7 +181,7 @@ public class match_summary extends Fragment {
         @Override
         public void setupInnerViewElements(ViewGroup parent, View view) {
             if(record != null){
-                TextView tv_achievement = (TextView) parent.findViewById(R.id.card_achievement_text);
+                TextView tv_achievement = (TextView) parent.findViewById(R.id.card_hero_name);
                 tv_achievement.setText(recordtext);
 
                 TextView tv_record = (TextView) parent.findViewById(R.id.card_achievement_record);
@@ -200,7 +194,7 @@ public class match_summary extends Fragment {
                 TextView tv_ashero = (TextView) parent.findViewById(R.id.card_achievement_ashero);
                 tv_ashero.setText("as " + record.localized_hero);
 
-                ImageView iv_hero = (ImageView) parent.findViewById(R.id.card_achievement_heroimg);
+                ImageView iv_hero = (ImageView) parent.findViewById(R.id.card_hero_heroimg);
                 Picasso.with(getContext()).load(record.hero_image_url).placeholder(R.drawable.templar_assassin_full).fit().into(iv_hero);
 
                 ImageView herobg = (ImageView) parent.findViewById(R.id.card_achievement_heroImg);

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import danski.cobalt.sql.DataStructure.Hero;
+import danski.cobalt.sql.DataStructure.Item;
 import danski.cobalt.sql.DataStructure.Player;
 
 
@@ -467,6 +468,26 @@ public class SQLManager extends SQLiteOpenHelper {
                 list.add(h);
             } catch (Exception e){
                 Log.e("SQLM", "Error adding a hero to GetAllHeroes list.");
+            }
+            res.moveToNext();
+        }
+        return list;
+    }
+
+    public ArrayList<Item> getAllItems(){
+        ArrayList<Item> list = new ArrayList<Item>();
+        db = this.getReadableDatabase();
+        String query = "Select * from Item";
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+
+        for(int i = 0; i < res.getCount(); i++){
+            try{
+                Item it = new Item(res.getInt(res.getColumnIndex("item_id")),
+                        res.getString(res.getColumnIndex("item_name")));
+                list.add(it);
+            } catch (Exception e){
+                Log.e("SQLM", "Error adding an item to getAllItems list.");
             }
             res.moveToNext();
         }

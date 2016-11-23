@@ -3,8 +3,6 @@ package danski.cobalt.Home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.text.TextDirectionHeuristicCompat;
-import android.support.v4.widget.TextViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import danski.cobalt.MatchTools;
@@ -55,7 +52,7 @@ public class home_heroes extends Fragment {
 
         if(SQLManager.instance == null) new SQLManager(getContext());
         ArrayList<Hero> heroes = SQLManager.instance.getAllHeroes();
-        
+
         ArrayList<Card> cards = new ArrayList<>();
         for(int i = 0; i < heroes.size(); i++){
             HeroCard card = new HeroCard(getContext(), heroes.get(i));

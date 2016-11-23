@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Debug;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import danski.cobalt.Defines;
 import danski.cobalt.sql.DataStructure.Hero;
 import danski.cobalt.sql.DataStructure.Item;
 import danski.cobalt.sql.DataStructure.Player;
@@ -227,6 +229,8 @@ public class SQLManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("profile_url")),
                     cursor.getString(cursor.getColumnIndex("avatarfull_url")),
                     cursor.getString(cursor.getColumnIndex("avatarmed_url")));
+            Log.d("SQLM", cursor.getString(cursor.getColumnIndex("account_id")) + "");
+
             cursor.close();
             return p;
         } else {
@@ -492,6 +496,35 @@ public class SQLManager extends SQLiteOpenHelper {
             res.moveToNext();
         }
         return list;
+    }
+
+    public ArrayList<Player> getPlayersInMatch(long matchid){
+        ArrayList<Player> players = new ArrayList<>();
+
+        db = this.getReadableDatabase();
+        String query = "Select * from Match_has_Player WHERE Match_match_id =" + matchid;
+        Cursor res = db.rawQuery(query, null);
+        res.moveToFirst();
+
+        if(res.getCount() > 0) {
+            for (int i = 0; i < res.getCount(); i++) {
+                players.add(getPlayer(res.getLong(res.getColumnIndex("Player_account_id"))));
+
+
+                /*try {
+                    players.add(getPlayer(res.getLong(res.getColumnIndex("Player_account_id"))));
+                } catch (Exception e) {
+                    Log.e("SQLM", "Error adding a player to getAllPlayers list.");
+                }*/
+                res.moveToNext();
+            }
+
+            return players;
+        } else {
+            Log.e("SQLM", "getPlayersInMatch Cursor is empty!");
+            res.close();
+            return null;
+        }
     }
 
     public Cursor getMatch(long matchid){

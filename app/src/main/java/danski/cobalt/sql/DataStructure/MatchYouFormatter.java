@@ -1,10 +1,11 @@
-package danski.cobalt.sql;
+package danski.cobalt.sql.DataStructure;
 
 import android.database.Cursor;
 import android.util.Log;
 
 import danski.cobalt.Defines;
 import danski.cobalt.MatchTools;
+import danski.cobalt.sql.SQLManager;
 
 /**
  * Created by danny on 26-9-2016.

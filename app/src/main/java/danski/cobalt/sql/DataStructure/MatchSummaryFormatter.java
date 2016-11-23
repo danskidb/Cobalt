@@ -1,4 +1,4 @@
-package danski.cobalt.sql;
+package danski.cobalt.sql.DataStructure;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +10,8 @@ import java.util.Date;
 import danski.cobalt.Defines;
 import danski.cobalt.Match.MatchSummaryRecord;
 import danski.cobalt.MatchTools;
+import danski.cobalt.sql.SQLManager;
+import danski.cobalt.sql.SteamprofileRetreiver;
 
 /**
  * Created by Danny on 21/08/2016.
@@ -25,6 +27,9 @@ public class MatchSummaryFormatter {
     public MatchSummaryRecord assists;
     public MatchSummaryRecord last_hits;
     public MatchSummaryRecord denies;
+    public MatchSummaryRecord herodamage;
+    public MatchSummaryRecord herohealing;
+    public MatchSummaryRecord towerdamage;
 
     public MatchSummaryFormatter(){
         if(SQLManager.instance == null) new SQLManager(Defines.CurrentContext);
@@ -71,6 +76,18 @@ public class MatchSummaryFormatter {
 
         record = SQLManager.instance.getRecordPlayer(matchid, "denies");
         denies = new MatchSummaryRecord(record.getInt(record.getColumnIndex("denies")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "hero_damage");
+        herodamage = new MatchSummaryRecord(record.getInt(record.getColumnIndex("hero_damage")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "tower_damage");
+        towerdamage = new MatchSummaryRecord(record.getInt(record.getColumnIndex("tower_damage")), record);
+        record.close();
+
+        record = SQLManager.instance.getRecordPlayer(matchid, "hero_healing");
+        herohealing = new MatchSummaryRecord(record.getInt(record.getColumnIndex("hero_healing")), record);
         record.close();
 
     }

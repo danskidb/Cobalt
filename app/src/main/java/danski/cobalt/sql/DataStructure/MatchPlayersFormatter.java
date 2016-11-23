@@ -1,4 +1,4 @@
-package danski.cobalt.sql;
+package danski.cobalt.sql.DataStructure;
 
 /**
  * Created by danny on 7-11-2016.

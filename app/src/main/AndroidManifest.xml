@@ -12,7 +12,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Setup.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,16 +23,21 @@
         <activity
             android:name=".Home.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Setup.SetupWizard"
             android:label="@string/title_activity_setup_wizard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Setup.LoginActivity"
             android:label="@string/title_login"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".Match.MatchActivity">
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Match.MatchActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

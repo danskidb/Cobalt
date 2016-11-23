@@ -6,17 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import danski.cobalt.R;
-import danski.cobalt.sql.MatchPlayersFormatter;
-import danski.cobalt.sql.MatchYouFormatter;
+import danski.cobalt.sql.DataStructure.MatchPlayersFormatter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import danski.cobalt.R;
-import danski.cobalt.sql.MatchSummaryFormatter;
+import danski.cobalt.sql.DataStructure.MatchSummaryFormatter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
@@ -55,7 +55,7 @@ public class match_summary extends Fragment {
 
         //Cards
         ArrayList<Card> cards = new ArrayList<>();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 9; i++){
             if(i == 0){
                 SummaryCard card = new SummaryCard(getContext(), msf);
                 card.setType(0);
@@ -79,6 +79,15 @@ public class match_summary extends Fragment {
                         break;
                     case 5:
                         card = new AchievementCard(getContext(), msf.denies, "Most Denies");
+                        break;
+                    case 6:
+                        card = new AchievementCard(getContext(), msf.herodamage, "Most Hero Damage");
+                        break;
+                    case 7:
+                        card = new AchievementCard(getContext(), msf.herohealing, "Most Hero Healing");
+                        break;
+                    case 8:
+                        card = new AchievementCard(getContext(), msf.towerdamage, "Most Tower Damage");
                         break;
                     default:
                         card = new AchievementCard(getContext());

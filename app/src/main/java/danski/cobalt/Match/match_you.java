@@ -3,7 +3,6 @@ package danski.cobalt.Match;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -17,15 +16,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import danski.cobalt.Defines;
 import danski.cobalt.MatchTools;
 import danski.cobalt.R;
-import danski.cobalt.sql.MatchYouFormatter;
+import danski.cobalt.sql.DataStructure.MatchYouFormatter;
 import danski.cobalt.sql.SQLManager;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
@@ -238,8 +235,8 @@ public class match_you extends Fragment {
                     stat1.setText(myf.heroheal + "");
                     title2.setText("Tower Damage");
                     stat2.setText(myf.towerdmg + "");
-                    row3.setVisibility(View.INVISIBLE);
-                    row4.setVisibility(View.INVISIBLE);
+                    row3.setVisibility(View.GONE);
+                    row4.setVisibility(View.GONE);
                     break;
                 default:
                     break;
